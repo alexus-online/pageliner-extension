@@ -1,0 +1,102 @@
+{
+   "GLOBAL_APP_DESCRIPTION": {
+      "description": "Extension description.",
+      "message": "Креирајте линије за навођење на wеб сајту, како бисте, на пример, проверили поравнање."
+   },
+   "GLOBAL_APP_NAME": {
+      "description": "Extension name.",
+      "message": "PageLiner"
+   },
+   "POPUP_ALL_HELPLINES_HEADING": {
+      "description": "Popup table head.",
+      "message": "Све помоћне линије"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_COLOR": {
+      "description": "Popup table colors.",
+      "message": "Боје"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_POSITION": {
+      "description": "Popup table positions.",
+      "message": "Позиције"
+   },
+   "POPUP_CLEAR_ALL_HELPLINES": {
+      "description": "Popup action.",
+      "message": "обриши све помоћне линије"
+   },
+   "POPUP_DONATE": {
+      "description": "Donate link.",
+      "message": "Пошаљи нам мали бакшиш"
+   },
+   "POPUP_NEW_HELPLINE_X": {
+      "description": "Popup action.",
+      "message": "вертикална"
+   },
+   "POPUP_NEW_HELPLINE_Y": {
+      "description": "Popup action.",
+      "message": "хоризонтална"
+   },
+   "POPUP_TOGGLE_HELPLINES": {
+      "description": "Popup action.",
+      "message": "прикажи/сакриј помоћне линије"
+   },
+   "POPUP_TOGGLE_RULERS": {
+      "description": "Popup action.",
+      "message": "прикажи/сакриј лењире"
+   },
+   "SHORTCUT_ADD_H_LINE": {
+      "description": "Shortcut description for Alt+H.",
+      "message": "додаје хоризонталну помоћну линију."
+   },
+   "SHORTCUT_ADD_LINES": {
+      "description": "Shortcut description for Alt+A.",
+      "message": "додаје хоризонталне и вертикалне помоћне линије."
+   },
+   "SHORTCUT_ADD_V_LINE": {
+      "description": "Shortcut description for Alt+V.",
+      "message": "додаје вертикалну помоћну линију."
+   },
+   "SHORTCUT_DELETE_LINE": {
+      "description": "Shortcut description for Del.",
+      "message": "брише селектовану линију."
+   },
+   "SHORTCUT_DESELECT_LINE": {
+      "description": "Shortcut description for Esc.",
+      "message": "поништи одабир линије."
+   },
+   "SHORTCUT_MEASURE_DISTANCE": {
+      "description": "Shortcut description for Ctrl.",
+      "message": "мери раздаљину до линије на којој је курсор."
+   },
+   "SHORTCUT_MOVE_H_10PX": {
+      "description": "Shortcut description for Shift+▲/▼.",
+      "message": "помера селектовану линију хоризонтално 10px."
+   },
+   "SHORTCUT_MOVE_H_1PX": {
+      "description": "Shortcut description for ▲/▼.",
+      "message": "помера селектовану линију хоризонтално 1px."
+   },
+   "SHORTCUT_MOVE_V_10PX": {
+      "description": "Shortcut description for Shift+◄/►.",
+      "message": "помера селектовану линију вертикално 10px."
+   },
+   "SHORTCUT_MOVE_V_1PX": {
+      "description": "Shortcut description for ◄/►.",
+      "message": "помера селектовану линију вертикално 1px."
+   },
+   "SHORTCUT_TOGGLE_LINES": {
+      "description": "Shortcut description for Alt+G.",
+      "message": "укључи или искључи приказ линија."
+   },
+   "SHORTCUT_TOGGLE_RULERS": {
+      "description": "Shortcut description for Alt+R.",
+      "message": "укључи или искључи приказ лењира."
+   },
+   "SHOW_HOME": {
+      "description": "Show home/default view link title.",
+      "message": "Почетак"
+   },
+   "SHOW_SHORTCUTS": {
+      "description": "Show shortcuts view link title.",
+      "message": "Пречице"
+   }
+}

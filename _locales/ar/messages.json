@@ -1,0 +1,102 @@
+{
+   "GLOBAL_APP_DESCRIPTION": {
+      "description": "Extension description.",
+      "message": "ضع خطوطًا إضافية على مواقع الويب ، على سبيل المثال للتحقق من المحاذاة."
+   },
+   "GLOBAL_APP_NAME": {
+      "description": "Extension name.",
+      "message": "PageLiner"
+   },
+   "POPUP_ALL_HELPLINES_HEADING": {
+      "description": "Popup table head.",
+      "message": "جميع الإرشادات"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_COLOR": {
+      "description": "Popup table colors.",
+      "message": "لون"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_POSITION": {
+      "description": "Popup table positions.",
+      "message": "الموقع"
+   },
+   "POPUP_CLEAR_ALL_HELPLINES": {
+      "description": "Popup action.",
+      "message": "حذف جميع الإرشادات"
+   },
+   "POPUP_DONATE": {
+      "description": "Donate link.",
+      "message": "أرسل إكرامية صغيرة"
+   },
+   "POPUP_NEW_HELPLINE_X": {
+      "description": "Popup action.",
+      "message": "عمودي"
+   },
+   "POPUP_NEW_HELPLINE_Y": {
+      "description": "Popup action.",
+      "message": "أفقي"
+   },
+   "POPUP_TOGGLE_HELPLINES": {
+      "description": "Popup action.",
+      "message": "إظهار / إخفاء الإرشادات"
+   },
+   "POPUP_TOGGLE_RULERS": {
+      "description": "Popup action.",
+      "message": "إظهار / إخفاء المساطر"
+   },
+   "SHORTCUT_ADD_H_LINE": {
+      "description": "Shortcut description for Alt+H.",
+      "message": "يضيف إرشادات أفقية."
+   },
+   "SHORTCUT_ADD_LINES": {
+      "description": "Shortcut description for Alt+A.",
+      "message": "يضيف إرشادات أفقية وعمودية."
+   },
+   "SHORTCUT_ADD_V_LINE": {
+      "description": "Shortcut description for Alt+V.",
+      "message": "يضيف إرشادات عمودية."
+   },
+   "SHORTCUT_DELETE_LINE": {
+      "description": "Shortcut description for Del.",
+      "message": "حذف الإرشادات المحددة."
+   },
+   "SHORTCUT_DESELECT_LINE": {
+      "description": "Shortcut description for Esc.",
+      "message": "إلغاء تحديد الإرشادات المحددة."
+   },
+   "SHORTCUT_MEASURE_DISTANCE": {
+      "description": "Shortcut description for Ctrl.",
+      "message": "قياس المسافة إلى الإرشاد المحدد."
+   },
+   "SHORTCUT_MOVE_H_10PX": {
+      "description": "Shortcut description for Shift+▲/▼.",
+      "message": "تحريك الإرشاد المحدد أفقيا بمقدار 10 بكسل."
+   },
+   "SHORTCUT_MOVE_H_1PX": {
+      "description": "Shortcut description for ▲/▼.",
+      "message": "تحريك الإرشاد المحدد أفقيا بمقدار 1 بكسل."
+   },
+   "SHORTCUT_MOVE_V_10PX": {
+      "description": "Shortcut description for Shift+◄/►.",
+      "message": "تحريك الإرشاد المحدد عموديا بمقدار 10 بكسل."
+   },
+   "SHORTCUT_MOVE_V_1PX": {
+      "description": "Shortcut description for ◄/►.",
+      "message": "تحريك الإرشاد المحدد عموديا بمقدار 1 بكسل."
+   },
+   "SHORTCUT_TOGGLE_LINES": {
+      "description": "Shortcut description for Alt+G.",
+      "message": "تبديل رؤية الإرشادات."
+   },
+   "SHORTCUT_TOGGLE_RULERS": {
+      "description": "Shortcut description for Alt+R.",
+      "message": "تبديل رؤية الخطوط."
+   },
+   "SHOW_HOME": {
+      "description": "Show home/default view link title.",
+      "message": "الصفحة الرئيسية"
+   },
+   "SHOW_SHORTCUTS": {
+      "description": "Show shortcuts view link title.",
+      "message": "الاختصارات"
+   }
+}

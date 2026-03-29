@@ -1,0 +1,18 @@
+This project is a modified distribution based on "PageLiner".
+
+Original work:
+- Project: PageLiner
+- Original author: Kai Neuwerth
+- Original site: https://pageliner.com
+
+License:
+- Apache License 2.0 (see LICENSE)
+
+Modifications:
+- Updated and adapted for current use and distribution by Alexander Kaiser.
+- Includes changes to manifest/versioning, popup UI/i18n, background behavior,
+  feature extensions, and changelog links.
+
+Trademark notice:
+- "PageLiner" and related names may be trademarks of their respective owners.
+- This modified distribution is not an official release of the original author.

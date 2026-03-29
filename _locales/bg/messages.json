@@ -1,0 +1,102 @@
+{
+   "GLOBAL_APP_DESCRIPTION": {
+      "description": "Extension description.",
+      "message": "Създавай навигационни линии в уеб страници и провери тяхното подравняване."
+   },
+   "GLOBAL_APP_NAME": {
+      "description": "Extension name.",
+      "message": "PageLiner"
+   },
+   "POPUP_ALL_HELPLINES_HEADING": {
+      "description": "Popup table head.",
+      "message": "Всички направляващи линии"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_COLOR": {
+      "description": "Popup table colors.",
+      "message": "Цвят"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_POSITION": {
+      "description": "Popup table positions.",
+      "message": "Позиция"
+   },
+   "POPUP_CLEAR_ALL_HELPLINES": {
+      "description": "Popup action.",
+      "message": "Изтрии всички направляващи линии"
+   },
+   "POPUP_DONATE": {
+      "description": "Donate link.",
+      "message": "Изпрати дарение"
+   },
+   "POPUP_NEW_HELPLINE_X": {
+      "description": "Popup action.",
+      "message": "Вертикална линия"
+   },
+   "POPUP_NEW_HELPLINE_Y": {
+      "description": "Popup action.",
+      "message": "Хоризонтална линия"
+   },
+   "POPUP_TOGGLE_HELPLINES": {
+      "description": "Popup action.",
+      "message": "Покажи/Скрий направляващи линии"
+   },
+   "POPUP_TOGGLE_RULERS": {
+      "description": "Popup action.",
+      "message": "Покажи/Скрий линеали"
+   },
+   "SHORTCUT_ADD_H_LINE": {
+      "description": "Shortcut description for Alt+H.",
+      "message": "Добавя хоризонтална направляваща линия."
+   },
+   "SHORTCUT_ADD_LINES": {
+      "description": "Shortcut description for Alt+A.",
+      "message": "Добавя хоризонтални и вертикални направляващи линии."
+   },
+   "SHORTCUT_ADD_V_LINE": {
+      "description": "Shortcut description for Alt+V.",
+      "message": "Добавя вертикална направляваща линия."
+   },
+   "SHORTCUT_DELETE_LINE": {
+      "description": "Shortcut description for Del.",
+      "message": "Изтрива избраната направляваща линия."
+   },
+   "SHORTCUT_DESELECT_LINE": {
+      "description": "Shortcut description for Esc.",
+      "message": "Демаркира избраната направляваща линия."
+   },
+   "SHORTCUT_MEASURE_DISTANCE": {
+      "description": "Shortcut description for Ctrl.",
+      "message": "Измерва дистанцията до посочената (с мишка) направляваща линия."
+   },
+   "SHORTCUT_MOVE_H_10PX": {
+      "description": "Shortcut description for Shift+▲/▼.",
+      "message": "Премества избраната направляваща линия хоризонтално с 10 пиксела."
+   },
+   "SHORTCUT_MOVE_H_1PX": {
+      "description": "Shortcut description for ▲/▼.",
+      "message": "Премества избраната направляваща линия хоризонтално с 1 пиксел."
+   },
+   "SHORTCUT_MOVE_V_10PX": {
+      "description": "Shortcut description for Shift+◄/►.",
+      "message": "Премества избраната направляваща линия вертикално с 10 пиксела."
+   },
+   "SHORTCUT_MOVE_V_1PX": {
+      "description": "Shortcut description for ◄/►.",
+      "message": "Премества избраната направляваща линия вертикално с 1 пиксел."
+   },
+   "SHORTCUT_TOGGLE_LINES": {
+      "description": "Shortcut description for Alt+G.",
+      "message": "Показва/Скрива направляващите линии."
+   },
+   "SHORTCUT_TOGGLE_RULERS": {
+      "description": "Shortcut description for Alt+R.",
+      "message": "Показва/Скрива линеалите."
+   },
+   "SHOW_HOME": {
+      "description": "Show home/default view link title.",
+      "message": "Начало"
+   },
+   "SHOW_SHORTCUTS": {
+      "description": "Show shortcuts view link title.",
+      "message": "Преки пътища"
+   }
+}

@@ -1,0 +1,102 @@
+{
+   "GLOBAL_APP_DESCRIPTION": {
+      "description": "Extension description.",
+      "message": "Vytvoří na webových stránkách vodící linky, s kterými lze například zkontrolovat zarovnání."
+   },
+   "GLOBAL_APP_NAME": {
+      "description": "Extension name.",
+      "message": "PageLiner"
+   },
+   "POPUP_ALL_HELPLINES_HEADING": {
+      "description": "Popup table head.",
+      "message": "Všechna vodítka"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_COLOR": {
+      "description": "Popup table colors.",
+      "message": "Barva"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_POSITION": {
+      "description": "Popup table positions.",
+      "message": "Pozice"
+   },
+   "POPUP_CLEAR_ALL_HELPLINES": {
+      "description": "Popup action.",
+      "message": "smazat všechna vodítka"
+   },
+   "POPUP_DONATE": {
+      "description": "Donate link.",
+      "message": "Poslat malou odměnu"
+   },
+   "POPUP_NEW_HELPLINE_X": {
+      "description": "Popup action.",
+      "message": "vertikální"
+   },
+   "POPUP_NEW_HELPLINE_Y": {
+      "description": "Popup action.",
+      "message": "horizontální"
+   },
+   "POPUP_TOGGLE_HELPLINES": {
+      "description": "Popup action.",
+      "message": "zobrazit/skrýt vodítka"
+   },
+   "POPUP_TOGGLE_RULERS": {
+      "description": "Popup action.",
+      "message": "zobrazit/skrýt pravítka"
+   },
+   "SHORTCUT_ADD_H_LINE": {
+      "description": "Shortcut description for Alt+H.",
+      "message": "přidá horizontální vodící linku."
+   },
+   "SHORTCUT_ADD_LINES": {
+      "description": "Shortcut description for Alt+A.",
+      "message": "přidá horizontální a vertikální vodící linku."
+   },
+   "SHORTCUT_ADD_V_LINE": {
+      "description": "Shortcut description for Alt+V.",
+      "message": "přidá vertikální vodící linku."
+   },
+   "SHORTCUT_DELETE_LINE": {
+      "description": "Shortcut description for Del.",
+      "message": "vymaže vybrané vodící linky."
+   },
+   "SHORTCUT_DESELECT_LINE": {
+      "description": "Shortcut description for Esc.",
+      "message": "zruší výběr vodící linky."
+   },
+   "SHORTCUT_MEASURE_DISTANCE": {
+      "description": "Shortcut description for Ctrl.",
+      "message": "změří vzdálenost k vodící lince, na kterou najedete myší."
+   },
+   "SHORTCUT_MOVE_H_10PX": {
+      "description": "Shortcut description for Shift+▲/▼.",
+      "message": "posune vybranou vodící linku horizontálně o 10px."
+   },
+   "SHORTCUT_MOVE_H_1PX": {
+      "description": "Shortcut description for ▲/▼.",
+      "message": "posune vybranou vodící linku horizontálně o 1px."
+   },
+   "SHORTCUT_MOVE_V_10PX": {
+      "description": "Shortcut description for Shift+◄/►.",
+      "message": "posune vybranou vodící linku vertikálně o 10px."
+   },
+   "SHORTCUT_MOVE_V_1PX": {
+      "description": "Shortcut description for ◄/►.",
+      "message": "posune vybranou vodící linku vertikálně o 1px."
+   },
+   "SHORTCUT_TOGGLE_LINES": {
+      "description": "Shortcut description for Alt+G.",
+      "message": "přepne viditelnost vodících linek."
+   },
+   "SHORTCUT_TOGGLE_RULERS": {
+      "description": "Shortcut description for Alt+R.",
+      "message": "přepne viditelnost pravítek."
+   },
+   "SHOW_HOME": {
+      "description": "Show home/default view link title.",
+      "message": "Home"
+   },
+   "SHOW_SHORTCUTS": {
+      "description": "Show shortcuts view link title.",
+      "message": "Klávesové zkratky"
+   }
+}

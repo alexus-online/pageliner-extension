@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Browser Ruler Extension",
+  "version": "1.1.0",
+  "description": "Add rulers and lines to your browser window.",
+  "author": "Alexander Kaiser (modified from PageLiner by Kai Neuwerth)",
+  "default_locale": "en",
+  "permissions": ["storage", "activeTab", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "src/bg/background.js"
+  },
+  "action": {
+    "default_icon": "icons/icon_pl_16x16.png",
+    "default_popup": "src/page_action/page_action.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "js/jquery/jquery.min.js",
+        "js/jquery/jquery-ui.min.js",
+        "src/inject/inject.js"
+      ],
+      "css": ["src/inject/inject.css"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon_pl_16x16.png",
+    "48": "icons/icon_pl_48x48.png",
+    "128": "icons/icon_pl_128x128.png"
+  }
+}

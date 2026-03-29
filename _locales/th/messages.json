@@ -1,0 +1,102 @@
+{
+   "GLOBAL_APP_DESCRIPTION": {
+      "description": "Extension description.",
+      "message": "สร้างแนวปฏิบัติเกี่ยวกับเว็บไซต์เพื่อตรวจสอบการจัดตำแหน่งตัวอย่างเช่น"
+   },
+   "GLOBAL_APP_NAME": {
+      "description": "Extension name.",
+      "message": "PageLiner"
+   },
+   "POPUP_ALL_HELPLINES_HEADING": {
+      "description": "Popup table head.",
+      "message": "ทั้งหมดมัคคุเทศก์"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_COLOR": {
+      "description": "Popup table colors.",
+      "message": "สี"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_POSITION": {
+      "description": "Popup table positions.",
+      "message": "ตำแหน่ง"
+   },
+   "POPUP_CLEAR_ALL_HELPLINES": {
+      "description": "Popup action.",
+      "message": "ลบทั้งหมดมัคคุเทศก์"
+   },
+   "POPUP_DONATE": {
+      "description": "Donate link.",
+      "message": "ส่งทิปเล็กๆ"
+   },
+   "POPUP_NEW_HELPLINE_X": {
+      "description": "Popup action.",
+      "message": "แนวตั้ง"
+   },
+   "POPUP_NEW_HELPLINE_Y": {
+      "description": "Popup action.",
+      "message": "แนวนอน"
+   },
+   "POPUP_TOGGLE_HELPLINES": {
+      "description": "Popup action.",
+      "message": "แสดง/ซ่อนไกด์"
+   },
+   "POPUP_TOGGLE_RULERS": {
+      "description": "Popup action.",
+      "message": "แสดง/ซ่อนไม้บรรทัด"
+   },
+   "SHORTCUT_ADD_H_LINE": {
+      "description": "Shortcut description for Alt+H.",
+      "message": "เพิ่มแนวปฏิบัติแนวนอน"
+   },
+   "SHORTCUT_ADD_LINES": {
+      "description": "Shortcut description for Alt+A.",
+      "message": "เพิ่มแนวทางแนวนอนและแนวตั้ง"
+   },
+   "SHORTCUT_ADD_V_LINE": {
+      "description": "Shortcut description for Alt+V.",
+      "message": "เพิ่มแนวปฏิบัติแนวตั้ง"
+   },
+   "SHORTCUT_DELETE_LINE": {
+      "description": "Shortcut description for Del.",
+      "message": "ลบแนวทางที่เลือก"
+   },
+   "SHORTCUT_DESELECT_LINE": {
+      "description": "Shortcut description for Esc.",
+      "message": "ยกเลิกการเลือกแนวทางที่เลือก"
+   },
+   "SHORTCUT_MEASURE_DISTANCE": {
+      "description": "Shortcut description for Ctrl.",
+      "message": "วัดระยะทางถึงแนวปฏิบัติที่โฮเวอร์"
+   },
+   "SHORTCUT_MOVE_H_10PX": {
+      "description": "Shortcut description for Shift+▲/▼.",
+      "message": "ย้ายแนวทางที่เลือกในแนวนอน 10px"
+   },
+   "SHORTCUT_MOVE_H_1PX": {
+      "description": "Shortcut description for ▲/▼.",
+      "message": "ย้ายแนวทางที่เลือกในแนวนอน 1px"
+   },
+   "SHORTCUT_MOVE_V_10PX": {
+      "description": "Shortcut description for Shift+◄/►.",
+      "message": "ย้ายแนวทางที่เลือกในแนวตั้ง 10px"
+   },
+   "SHORTCUT_MOVE_V_1PX": {
+      "description": "Shortcut description for ◄/►.",
+      "message": "ย้ายแนวทางที่เลือกในแนวตั้ง 1px"
+   },
+   "SHORTCUT_TOGGLE_LINES": {
+      "description": "Shortcut description for Alt+G.",
+      "message": "สลับการมองเห็นแนวทางปฏิบัติ"
+   },
+   "SHORTCUT_TOGGLE_RULERS": {
+      "description": "Shortcut description for Alt+R.",
+      "message": "สลับการมองเห็นไม้บรรทัด"
+   },
+   "SHOW_HOME": {
+      "description": "Show home/default view link title.",
+      "message": "บ้าน"
+   },
+   "SHOW_SHORTCUTS": {
+      "description": "Show shortcuts view link title.",
+      "message": "ทางลัด"
+   }
+}

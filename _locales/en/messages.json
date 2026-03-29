@@ -1,0 +1,262 @@
+{
+   "GLOBAL_APP_DESCRIPTION": {
+      "description": "Extension description.",
+      "message": "Create guidelines on websites to check alignment for example."
+   },
+   "GLOBAL_APP_NAME": {
+      "description": "Extension name.",
+      "message": "PageLiner"
+   },
+   "POPUP_ALL_HELPLINES_HEADING": {
+      "description": "Popup table head.",
+      "message": "All guides"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_COLOR": {
+      "description": "Popup table colors.",
+      "message": "Color"
+   },
+   "POPUP_ALL_HELPLINES_TABLE_POSITION": {
+      "description": "Popup table positions.",
+      "message": "Position"
+   },
+   "POPUP_CLEAR_ALL_HELPLINES": {
+      "description": "Popup action.",
+      "message": "delete all guides"
+   },
+   "POPUP_DONATE": {
+      "description": "Donate link.",
+      "message": "Send a small tip"
+   },
+   "POPUP_NEW_HELPLINE_X": {
+      "description": "Popup action.",
+      "message": "vertical"
+   },
+   "POPUP_NEW_HELPLINE_Y": {
+      "description": "Popup action.",
+      "message": "horizontal"
+   },
+   "POPUP_TOGGLE_HELPLINES": {
+      "description": "Popup action.",
+      "message": "show/hide guides"
+   },
+   "POPUP_TOGGLE_RULERS": {
+      "description": "Popup action.",
+      "message": "show/hide rulers"
+   },
+   "SHORTCUT_ADD_H_LINE": {
+      "description": "Shortcut description for Alt+H.",
+      "message": "adds a horizontal guideline."
+   },
+   "SHORTCUT_ADD_LINES": {
+      "description": "Shortcut description for Alt+A.",
+      "message": "adds horizontal and vertical guidelines."
+   },
+   "SHORTCUT_ADD_V_LINE": {
+      "description": "Shortcut description for Alt+V.",
+      "message": "adds a vertical guideline."
+   },
+   "SHORTCUT_DELETE_LINE": {
+      "description": "Shortcut description for Del.",
+      "message": "deletes selected guideline."
+   },
+   "SHORTCUT_DESELECT_LINE": {
+      "description": "Shortcut description for Esc.",
+      "message": "deselects selected guideline."
+   },
+   "SHORTCUT_MEASURE_DISTANCE": {
+      "description": "Shortcut description for Ctrl.",
+      "message": "measures distance to hovered guideline."
+   },
+   "SHORTCUT_MOVE_H_10PX": {
+      "description": "Shortcut description for Shift+▲/▼.",
+      "message": "moves selected guideline horizontally 10px."
+   },
+   "SHORTCUT_MOVE_H_1PX": {
+      "description": "Shortcut description for ▲/▼.",
+      "message": "moves selected guideline horizontally 1px."
+   },
+   "SHORTCUT_MOVE_V_10PX": {
+      "description": "Shortcut description for Shift+◄/►.",
+      "message": "moves selected guideline vertically 10px."
+   },
+   "SHORTCUT_MOVE_V_1PX": {
+      "description": "Shortcut description for ◄/►.",
+      "message": "moves selected guideline vertically 1px."
+   },
+   "SHORTCUT_TOGGLE_LINES": {
+      "description": "Shortcut description for Alt+G.",
+      "message": "toggles visibility of guidelines."
+   },
+   "SHORTCUT_TOGGLE_RULERS": {
+      "description": "Shortcut description for Alt+R.",
+      "message": "toggles visibility of rulers."
+   },
+   "SHOW_HOME": {
+      "description": "Show home/default view link title.",
+      "message": "Home"
+   },
+   "SHOW_SHORTCUTS": {
+      "description": "Show shortcuts view link title.",
+      "message": "Shortcuts"
+   },
+   "POPUP_CENTER_LINES": {
+      "description": "Center lines button label.",
+      "message": "Center"
+   },
+   "POPUP_SCREENSHOT": {
+      "description": "Screenshot action label.",
+      "message": "Screenshot"
+   },
+   "POPUP_GRID_GENERATOR": {
+      "description": "Grid generator section heading.",
+      "message": "Grid Generator"
+   },
+   "POPUP_GRID_SYSTEM_PRESETS": {
+      "description": "Grid section heading for system presets.",
+      "message": "System presets"
+   },
+   "POPUP_GRID_WIDTH": {
+      "description": "Grid width label.",
+      "message": "Width"
+   },
+   "POPUP_GRID_COLUMNS": {
+      "description": "Grid columns label.",
+      "message": "Columns"
+   },
+   "POPUP_GRID_COLUMN_GAP": {
+      "description": "Grid column gap label.",
+      "message": "Column gap"
+   },
+   "POPUP_GRID_ROWS": {
+      "description": "Grid rows label.",
+      "message": "Rows"
+   },
+   "POPUP_GRID_LINE_COLOR": {
+      "description": "Grid line color label.",
+      "message": "Line color"
+   },
+   "POPUP_GRID_OVERLAY_COLOR": {
+      "description": "Grid overlay color label.",
+      "message": "Overlay color"
+   },
+   "POPUP_GRID_SHOW_OVERLAY": {
+      "description": "Grid show overlay checkbox label.",
+      "message": "Show column overlay"
+   },
+   "POPUP_GRID_GENERATE": {
+      "description": "Generate grid button label.",
+      "message": "Generate grid"
+   },
+   "POPUP_GRID_CLEAR_OVERLAYS": {
+      "description": "Clear overlays button label.",
+      "message": "Clear"
+   },
+   "POPUP_GRID_CLEAR_OVERLAYS_TITLE": {
+      "description": "Clear overlays button tooltip.",
+      "message": "Remove column overlay"
+   },
+   "POPUP_GRID_USER_TEMPLATES": {
+      "description": "Grid section heading for user templates.",
+      "message": "My templates"
+   },
+   "POPUP_GRID_TEMPLATE_NAME_PLACEHOLDER": {
+      "description": "Grid template name input placeholder.",
+      "message": "Name..."
+   },
+   "POPUP_GRID_TEMPLATE_SAVE": {
+      "description": "Save grid template button label.",
+      "message": "Save"
+   },
+   "POPUP_PRESETS_PROFILES": {
+      "description": "Presets section heading.",
+      "message": "Presets / Profiles"
+   },
+   "POPUP_PRESET_NAME_PLACEHOLDER": {
+      "description": "Preset name input placeholder.",
+      "message": "Preset name..."
+   },
+   "POPUP_PRESET_SAVE": {
+      "description": "Save preset button label.",
+      "message": "Save"
+   },
+   "POPUP_EXPORT_JSON": {
+      "description": "Export JSON button label.",
+      "message": "Export JSON"
+   },
+   "POPUP_IMPORT_JSON": {
+      "description": "Import JSON button label.",
+      "message": "Import JSON"
+   },
+   "POPUP_SETTINGS": {
+      "description": "Settings section heading.",
+      "message": "Settings"
+   },
+   "POPUP_SYNC_TABS": {
+      "description": "Sync tabs setting label.",
+      "message": "Sync guides across tabs"
+   },
+   "POPUP_SHOW_LABELS": {
+      "description": "Always show labels setting label.",
+      "message": "Always show labels"
+   },
+   "POPUP_CHANGELOG": {
+      "description": "Changelog link label.",
+      "message": "Changelog"
+   },
+   "POPUP_GRID_CALC_PERCENT_VIEWPORT": {
+      "description": "Grid calc text fragment for viewport width.",
+      "message": "of viewport width"
+   },
+   "POPUP_GRID_CALC_PERCENT_COLUMNS": {
+      "description": "Grid calc text fragment for columns.",
+      "message": "columns"
+   },
+   "POPUP_GRID_CALC_PERCENT_GAP": {
+      "description": "Grid calc text fragment for gap.",
+      "message": "gap"
+   },
+   "POPUP_GRID_CALC_COL_WIDTH": {
+      "description": "Grid calc prefix for calculated column width.",
+      "message": "Column width"
+   },
+   "POPUP_GRID_NO_TEMPLATES": {
+      "description": "Empty state for grid templates.",
+      "message": "No templates saved"
+   },
+   "POPUP_DELETE": {
+      "description": "Generic delete tooltip label.",
+      "message": "Delete"
+   },
+   "POPUP_LABEL_PLACEHOLDER": {
+      "description": "Helpline label input placeholder.",
+      "message": "Label..."
+   },
+   "POPUP_POSITION_TITLE": {
+      "description": "Helpline position input title prefix.",
+      "message": "Position"
+   },
+   "POPUP_OPACITY_TITLE": {
+      "description": "Helpline opacity input title prefix.",
+      "message": "Opacity"
+   },
+   "POPUP_STYLE_SOLID": {
+      "description": "Helpline style option solid.",
+      "message": "Solid"
+   },
+   "POPUP_STYLE_DASHED": {
+      "description": "Helpline style option dashed.",
+      "message": "Dashed"
+   },
+   "POPUP_STYLE_DOTTED": {
+      "description": "Helpline style option dotted.",
+      "message": "Dotted"
+   },
+   "POPUP_IMPORT_INVALID_JSON": {
+      "description": "Import error for invalid schema.",
+      "message": "Invalid JSON: expected an array."
+   },
+   "POPUP_IMPORT_PARSE_ERROR_PREFIX": {
+      "description": "Import error prefix for parse failures.",
+      "message": "Could not parse JSON"
+   }
+}

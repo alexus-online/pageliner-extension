@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- Modified distribution by Alexander Kaiser (Apache-2.0); see NOTICE -->
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../../css/colorpicker.css"/>
+        <link rel="stylesheet" href="page_action.css"/>
+    </head>
+    <body>
+        <div id="wrapper">
+            <h1 class="page_action_headbar">
+                <span data-i18n="GLOBAL_APP_NAME"></span>
+            </h1>
+
+            <ul id="page-actions" class="nav nav-pills nav-stacked page-actions">
+
+                <!-- Toggle buttons -->
+                <li>
+                    <a href="#" class="toggle-ruler" id="toggle-ruler">
+                        <i class="glyphicon glyphicon-eye-open"></i> <span data-i18n="POPUP_TOGGLE_RULERS"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="toggle-helpline" id="toggle-helpline">
+                        <i class="glyphicon glyphicon-eye-open"></i> <span data-i18n="POPUP_TOGGLE_HELPLINES"></span>
+                    </a>
+                </li>
+
+                <!-- Add helplines row + center + screenshot -->
+                <li>
+                    <a href="#" class="add-helpline">
+                        <div class="btn-group btn-group-xs add-helpline-group">
+                            <button type="button" class="btn btn-primary" id="add-helpline-x" title="__MSG_POPUP_NEW_HELPLINE_X__">
+                                | <span data-i18n="POPUP_NEW_HELPLINE_X"></span>
+                            </button>
+                            <button type="button" class="btn btn-primary" id="add-helpline-y" title="__MSG_POPUP_NEW_HELPLINE_Y__">
+                                &mdash; <span data-i18n="POPUP_NEW_HELPLINE_Y"></span>
+                            </button>
+                            <button type="button" class="btn btn-default" id="add-center-lines" title="__MSG_POPUP_CENTER_LINES__">
+                                &#x2295; <span data-i18n="POPUP_CENTER_LINES"></span>
+                            </button>
+                            <button type="button" class="btn btn-default" id="btn-screenshot" title="__MSG_POPUP_SCREENSHOT__">
+                                &#x1F4F7;
+                            </button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+
+                <!-- Clear all -->
+                <li>
+                    <a href="#" class="remove-helplines" id="remove-helplines">
+                        <i class="glyphicon glyphicon-remove"></i> <span data-i18n="POPUP_CLEAR_ALL_HELPLINES"></span>
+                    </a>
+                </li>
+
+                <!-- Grid Generator (collapsible) -->
+                <li class="section-li">
+                    <div class="section-toggle" id="grid-toggle">
+                        <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_GRID_GENERATOR"></span>
+                    </div>
+                    <div class="section-body" id="grid-body" style="display:none;">
+                        <div class="grid-form">
+
+                            <!-- System presets -->
+                            <div class="grid-section-label" data-i18n="POPUP_GRID_SYSTEM_PRESETS"></div>
+                            <div id="grid-system-presets" class="grid-sys-preset-list"></div>
+
+                            <div class="grid-divider"></div>
+
+                            <!-- Width + unit toggle -->
+                            <div class="grid-row">
+                                <label class="grid-label"><span data-i18n="POPUP_GRID_WIDTH"></span>
+                                    <div class="grid-input-unit">
+                                        <input type="number" id="grid-maxwidth" min="1" max="10000" value="1500" class="form-control input-sm grid-input">
+                                        <div class="btn-group btn-group-xs">
+                                            <button type="button" class="btn btn-default active" id="grid-unit-px">px</button>
+                                            <button type="button" class="btn btn-default" id="grid-unit-pct">%</button>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="grid-label"><span data-i18n="POPUP_GRID_COLUMNS"></span>
+                                    <input type="number" id="grid-cols" min="1" max="100" value="12" class="form-control input-sm grid-input">
+                                </label>
+                            </div>
+                            <div class="grid-row">
+                                <label class="grid-label"><span data-i18n="POPUP_GRID_COLUMN_GAP"></span>
+                                    <div class="grid-input-unit">
+                                        <input type="number" id="grid-gap" min="0" max="500" value="30" class="form-control input-sm grid-input">
+                                        <span class="grid-unit">px</span>
+                                    </div>
+                                </label>
+                                <label class="grid-label"><span data-i18n="POPUP_GRID_ROWS"></span>
+                                    <input type="number" id="grid-rows" min="0" max="100" value="0" class="form-control input-sm grid-input">
+                                </label>
+                            </div>
+                            <!-- Colors -->
+                            <div class="grid-row">
+                                <label class="grid-label"><span data-i18n="POPUP_GRID_LINE_COLOR"></span>
+                                    <input type="color" id="grid-line-color" value="#0055ff" class="grid-color-input">
+                                </label>
+                                <label class="grid-label"><span data-i18n="POPUP_GRID_OVERLAY_COLOR"></span>
+                                    <div class="grid-input-unit">
+                                        <input type="color" id="grid-overlay-color" value="#0055ff" class="grid-color-input">
+                                        <input type="number" id="grid-overlay-opacity" min="0" max="100" value="10" class="form-control input-sm grid-input">
+                                        <span class="grid-unit">%</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="grid-row">
+                                <label class="grid-show-cols">
+                                    <input type="checkbox" id="grid-show-cols" checked> <span data-i18n="POPUP_GRID_SHOW_OVERLAY"></span>
+                                </label>
+                            </div>
+
+                            <div class="grid-calc-info" id="grid-calc-info"></div>
+                            <div class="grid-row grid-action-row">
+                                <button type="button" class="btn btn-primary btn-xs" id="btn-generate-grid" style="flex:1" data-i18n="POPUP_GRID_GENERATE"></button>
+                                <button type="button" class="btn btn-default btn-xs" id="btn-clear-overlays" title="__MSG_POPUP_GRID_CLEAR_OVERLAYS_TITLE__">&#x25A1; <span data-i18n="POPUP_GRID_CLEAR_OVERLAYS"></span></button>
+                            </div>
+
+                            <div class="grid-divider"></div>
+
+                            <!-- User templates -->
+                            <div class="grid-section-label" data-i18n="POPUP_GRID_USER_TEMPLATES"></div>
+                            <div class="grid-template-row">
+                                <input type="text" id="grid-template-name" class="form-control input-sm" data-i18n-placeholder="POPUP_GRID_TEMPLATE_NAME_PLACEHOLDER" placeholder="">
+                                <button type="button" class="btn btn-default btn-xs" id="btn-save-grid-template" data-i18n="POPUP_GRID_TEMPLATE_SAVE"></button>
+                            </div>
+                            <div id="grid-template-list" class="preset-tag-container"></div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Helpline List -->
+                <li id="helpline-actions-divider" class="nav-divider hidden"></li>
+                <li id="helpline-actions" class="hidden">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <strong>
+                                <span data-i18n="POPUP_ALL_HELPLINES_HEADING"></span>
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="listing"></div>
+                </li>
+
+                <!-- Presets (collapsible) -->
+                <li class="section-li">
+                    <div class="section-toggle" id="presets-toggle">
+                        <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_PRESETS_PROFILES"></span>
+                    </div>
+                    <div class="section-body" id="presets-body" style="display:none;">
+                        <div class="preset-save-row">
+                            <input type="text" id="preset-name" class="form-control input-sm" data-i18n-placeholder="POPUP_PRESET_NAME_PLACEHOLDER" placeholder="">
+                            <button type="button" class="btn btn-primary btn-xs" id="btn-save-preset" data-i18n="POPUP_PRESET_SAVE"></button>
+                        </div>
+                        <div id="preset-list" class="preset-tag-container"></div>
+                    </div>
+                </li>
+
+                <!-- Export / Import -->
+                <li class="section-li">
+                    <div class="export-import-row">
+                        <button type="button" class="btn btn-default btn-xs" id="btn-export">&#x2B07; <span data-i18n="POPUP_EXPORT_JSON"></span></button>
+                        <button type="button" class="btn btn-default btn-xs" id="btn-import">&#x2B06; <span data-i18n="POPUP_IMPORT_JSON"></span></button>
+                        <input type="file" id="import-file-input" accept=".json,application/json" style="display:none;">
+                    </div>
+                </li>
+
+                <!-- Settings (collapsible) -->
+                <li class="section-li">
+                    <div class="section-toggle" id="settings-toggle">
+                        <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_SETTINGS"></span>
+                    </div>
+                    <div class="section-body" id="settings-body" style="display:none;">
+                        <div class="setting-row">
+                            <label>
+                                <input type="checkbox" id="sync-tabs"> <span data-i18n="POPUP_SYNC_TABS"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <label>
+                                <input type="checkbox" id="show-labels"> <span data-i18n="POPUP_SHOW_LABELS"></span>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+
+            <ul id="shortcuts" class="nav nav-pills nav-stacked" style="display: none;">
+                <li><kbd>Alt</kbd>+<kbd>H</kbd> <span data-i18n="SHORTCUT_ADD_H_LINE"></span></li>
+                <li><kbd>Alt</kbd>+<kbd>V</kbd> <span data-i18n="SHORTCUT_ADD_V_LINE"></span></li>
+                <li><kbd>Alt</kbd>+<kbd>A</kbd> <span data-i18n="SHORTCUT_ADD_LINES"></span></li>
+                <li><kbd>▲</kbd>/<kbd>▼</kbd> <span data-i18n="SHORTCUT_MOVE_H_1PX"></span></li>
+                <li><kbd>◄</kbd>/<kbd>►</kbd> <span data-i18n="SHORTCUT_MOVE_V_1PX"></span></li>
+                <li><kbd>Shift</kbd>+<kbd>▲</kbd>/<kbd>▼</kbd> <span data-i18n="SHORTCUT_MOVE_H_10PX"></span></li>
+                <li><kbd>Shift</kbd>+<kbd>◄</kbd>/<kbd>►</kbd> <span data-i18n="SHORTCUT_MOVE_V_10PX"></span></li>
+                <li><kbd>Del</kbd> <span data-i18n="SHORTCUT_DELETE_LINE"></span></li>
+                <li><kbd>Esc</kbd> <span data-i18n="SHORTCUT_DESELECT_LINE"></span></li>
+                <li><kbd>Ctrl</kbd> <span data-i18n="SHORTCUT_MEASURE_DISTANCE"></span></li>
+                <li><kbd>Alt</kbd>+<kbd>G</kbd> <span data-i18n="SHORTCUT_TOGGLE_LINES"></span></li>
+                <li><kbd>Alt</kbd>+<kbd>R</kbd> <span data-i18n="SHORTCUT_TOGGLE_RULERS"></span></li>
+            </ul>
+
+            <footer>
+                <div class="footer-left">
+                    <div class="bounce">
+                        <a href="https://pageliner.com/donate.html" target="_blank" class="donate" data-i18n="POPUP_DONATE"></a> 🥰️
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <a id="toggle-view" href="#" class="changelog" data-i18n="SHOW_SHORTCUTS"></a>
+                    <span class="spacer">&middot;</span>
+                    <a href="https://kaiser-alexander.de/pageliner-changelog/" target="_blank" class="changelog" data-i18n="POPUP_CHANGELOG"></a>
+                    <span class="spacer">&middot;</span>
+                    <span>v<span data-i18n="VERSION"></span></span>
+                </div>
+            </footer>
+        </div>
+
+        <script src="../../js/jquery/jquery.min.js"></script>
+        <script src="../../js/colorpicker.js"></script>
+        <script src="page_action.js"></script>
+    </body>
+</html>
