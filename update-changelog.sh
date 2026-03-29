@@ -32,7 +32,8 @@ if [[ -z "${WP_APP_PASSWORD:-}" ]]; then
   export WP_APP_PASSWORD
 fi
 
-NEW_ENTRY="<h2>Version ${VERSION} (${TODAY})</h2><ul><li>MV3 hardening and permission cleanup</li><li>i18n improvements (EN/DE)</li><li>Updated changelog link and release workflow</li></ul><h3>Fixes</h3><ul><li>Removed dead external changelog URL</li><li>Stability fixes in extension scripts</li></ul>"
+NEW_BODY="<ul><li>MV3 hardening and permission cleanup</li><li>i18n improvements (EN/DE)</li><li>Updated changelog link and release workflow</li></ul><h3>Fixes</h3><ul><li>Removed dead external changelog URL</li><li>Stability fixes in extension scripts</li></ul>"
+NEW_ENTRY="<h2>Version ${VERSION} (${TODAY})</h2>${NEW_BODY}"
 ATTRIBUTION_HTML="<p><em>${ATTRIBUTION_TEXT}</em></p>"
 
 json_escape() {
@@ -54,6 +55,13 @@ EXISTING_CONTENT="$(printf "%s" "$CURRENT_PAGE_JSON" | perl -MJSON::PP -e 'local
 
 if [[ "$EXISTING_CONTENT" == *"Version ${VERSION}"* ]]; then
   echo "Version ${VERSION} already exists on the changelog page. Nothing to do."
+  exit 0
+fi
+
+# Avoid noisy version bumps: if the exact change body already exists,
+# skip creating another entry with only a different version number/date.
+if [[ "$EXISTING_CONTENT" == *"$NEW_BODY"* ]]; then
+  echo "No content change detected (same changelog body already present). Skipping new entry."
   exit 0
 fi
 
