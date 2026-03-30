@@ -57,6 +57,8 @@ $(function () {
         var msg = chrome.i18n.getMessage(key);
         return msg && msg.length ? msg : (fallback || key);
     };
+    // Backward-compat alias for any leftover calls.
+    var t = i18n;
 
     /*
      * i18n translator
