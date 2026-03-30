@@ -203,6 +203,8 @@ $(function () {
 
     // px / % unit toggle
     var sGridWidthUnit = 'px';
+    var blGridHasBeenGenerated = false;
+    var iGridAutoRegenerateTimer = null;
 
     $('#grid-unit-px').on('click', function () {
         if (sGridWidthUnit === '%') {
@@ -213,6 +215,7 @@ $(function () {
         $(this).addClass('active');
         $('#grid-unit-pct').removeClass('active');
         updateGridCalcInfo();
+        scheduleAutoGridRegenerate();
     });
 
     $('#grid-unit-pct').on('click', function () {
@@ -224,6 +227,7 @@ $(function () {
             $('#grid-maxwidth').val(100);
         }
         updateGridCalcInfo();
+        scheduleAutoGridRegenerate();
     });
 
     function getGridParams() {
@@ -238,6 +242,20 @@ $(function () {
             overlayOpacity: parseInt($('#grid-overlay-opacity').val()) || 10,
             showOverlay:    $('#grid-show-cols').is(':checked')
         };
+    }
+
+    function generateGrid(p, blSync) {
+        sendToActiveTab('addGrid', p, function () {
+            toggleRulerButton(true);
+            toggleHelplineButton(true);
+            refreshHelpLineListing();
+        });
+
+        if (blSync) {
+            syncToAllTabs('addGrid', p);
+        }
+
+        blGridHasBeenGenerated = true;
     }
 
     function updateGridCalcInfo() {
@@ -262,13 +280,24 @@ $(function () {
 
     $('#btn-generate-grid').click(function () {
         var p = getGridParams();
-        sendToActiveTab('addGrid', p, function () {
-            toggleRulerButton(true);
-            toggleHelplineButton(true);
-            refreshHelpLineListing();
-        });
-        syncToAllTabs('addGrid', p);
+        generateGrid(p, true);
     });
+
+    function scheduleAutoGridRegenerate() {
+        if (!blGridHasBeenGenerated) return;
+
+        if (iGridAutoRegenerateTimer) {
+            clearTimeout(iGridAutoRegenerateTimer);
+        }
+
+        iGridAutoRegenerateTimer = setTimeout(function () {
+            var p = getGridParams();
+            generateGrid(p, true);
+        }, 180);
+    }
+
+    $('#grid-maxwidth, #grid-cols, #grid-gap, #grid-rows, #grid-line-color, #grid-overlay-color, #grid-overlay-opacity, #grid-show-cols')
+        .on('input change', scheduleAutoGridRegenerate);
 
     $('#btn-clear-overlays').click(function () {
         sendToActiveTab('clearGridOverlays');
@@ -314,12 +343,7 @@ $(function () {
                     $('#grid-gap').val(tpl.colGap);
                     $('#grid-rows').val(tpl.rows || 0);
                     updateGridCalcInfo();
-                    sendToActiveTab('addGrid', tpl, function () {
-                        toggleRulerButton(true);
-                        toggleHelplineButton(true);
-                        refreshHelpLineListing();
-                    });
-                    syncToAllTabs('addGrid', tpl);
+                    generateGrid(tpl, true);
                 });
 
                 // Click × → delete template

@@ -271,7 +271,10 @@ oPageLiner.addHelpLineToLocalStorage = function (posX, posY, sColor, iHelplineIn
         iThickness: opts.iThickness !== undefined && opts.iThickness !== null ? opts.iThickness : (oExisting.iThickness !== undefined ? oExisting.iThickness : 1),
         iOpacity:   opts.iOpacity   !== undefined && opts.iOpacity   !== null ? opts.iOpacity   : (oExisting.iOpacity   !== undefined ? oExisting.iOpacity   : 100),
         sStyle:     opts.sStyle     !== undefined && opts.sStyle     !== null ? opts.sStyle     : (oExisting.sStyle     !== undefined ? oExisting.sStyle     : 'solid'),
-        sLabel:     opts.sLabel     !== undefined && opts.sLabel     !== null ? opts.sLabel     : (oExisting.sLabel     !== undefined ? oExisting.sLabel     : '')
+        sLabel:     opts.sLabel     !== undefined && opts.sLabel     !== null ? opts.sLabel     : (oExisting.sLabel     !== undefined ? oExisting.sLabel     : ''),
+        blIsGridLine: opts.blIsGridLine !== undefined && opts.blIsGridLine !== null
+            ? !!opts.blIsGridLine
+            : (oExisting.blIsGridLine !== undefined ? !!oExisting.blIsGridLine : false)
     };
 
     // If updating an existing helpline
@@ -579,6 +582,22 @@ oPageLiner.removeAllHelpLines = function () {
     this.updatePopUp();
 };
 
+oPageLiner.clearGeneratedGrid = function () {
+    var aHelpLines = this.getAllHelpLines() || [];
+    var aFiltered = aHelpLines.filter(function (oLine) {
+        return !oLine.blIsGridLine;
+    });
+
+    if (aFiltered.length !== aHelpLines.length) {
+        this.setAllHelpLines(aFiltered);
+    }
+
+    $('.pglnr-ext-grid-overlay').remove();
+    $('.pglnr-ext-helpline').remove();
+    this.init();
+    this.updatePopUp();
+};
+
 /**
  * Grid generator
  *
@@ -615,17 +634,20 @@ oPageLiner.addGrid = function (maxWidth, cols, colGap, rows, opts) {
     // Center the grid horizontally in the viewport
     var offset = Math.max(0, Math.round((window.innerWidth - maxWidth) / 2));
 
+    // Replace previous generated grid before drawing a new one
+    this.clearGeneratedGrid();
+
     // Left and right container borders
-    this.addHelpLine(offset, 0, sLineColor);
-    this.addHelpLine(offset + maxWidth, 0, sLineColor);
+    this.addHelpLine(offset, 0, sLineColor, {blIsGridLine: true});
+    this.addHelpLine(offset + maxWidth, 0, sLineColor, {blIsGridLine: true});
 
     // Column separators: two lines per gap (right edge of col, left edge of next col)
     for (var c = 1; c < cols; c++) {
         var rightEdgeOfCol = Math.round(offset + c * colWidth + (c - 1) * colGap);
-        this.addHelpLine(rightEdgeOfCol, 0, sLineColor);
+        this.addHelpLine(rightEdgeOfCol, 0, sLineColor, {blIsGridLine: true});
         if (colGap > 0) {
             var leftEdgeOfNextCol = Math.round(offset + c * colWidth + c * colGap);
-            this.addHelpLine(leftEdgeOfNextCol, 0, sLineColor);
+            this.addHelpLine(leftEdgeOfNextCol, 0, sLineColor, {blIsGridLine: true});
         }
     }
 
@@ -633,7 +655,7 @@ oPageLiner.addGrid = function (maxWidth, cols, colGap, rows, opts) {
     if (rows > 1) {
         var rowHeight = Math.round(window.innerHeight / rows);
         for (var r = 1; r < rows; r++) {
-            this.addHelpLine(0, r * rowHeight + window.pageYOffset, sLineColor);
+            this.addHelpLine(0, r * rowHeight + window.pageYOffset, sLineColor, {blIsGridLine: true});
         }
     }
 
