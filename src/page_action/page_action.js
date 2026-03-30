@@ -639,9 +639,9 @@ $(function () {
 
                     // Feature 3: Thickness select
                     var $oThicknessSelect = $('<select class="hl-thickness"></select>');
-                    for (var t = 1; t <= 5; t++) {
-                        var $tOpt = $('<option value="' + t + '">' + t + 'px</option>');
-                        if (t === iThickness) $tOpt.prop('selected', true);
+                    for (var iThicknessValue = 1; iThicknessValue <= 5; iThicknessValue++) {
+                        var $tOpt = $('<option value="' + iThicknessValue + '">' + iThicknessValue + 'px</option>');
+                        if (iThicknessValue === iThickness) $tOpt.prop('selected', true);
                         $oThicknessSelect.append($tOpt);
                     }
                     $oThicknessSelect.on('change', (function (idx) {
