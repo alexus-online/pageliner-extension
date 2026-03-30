@@ -53,7 +53,7 @@ function syncToAllTabs(action, params) {
 
 $(function () {
     var shortcutsViewVisible = false;
-    var t = function (key, fallback) {
+    var i18n = function (key, fallback) {
         var msg = chrome.i18n.getMessage(key);
         return msg && msg.length ? msg : (fallback || key);
     };
@@ -262,15 +262,15 @@ $(function () {
         var p = getGridParams();
         if (p.widthType === '%') {
             $('#grid-calc-info').text(
-                p.maxWidth + '% ' + t('POPUP_GRID_CALC_PERCENT_VIEWPORT') + ' · ' +
-                p.cols + ' ' + t('POPUP_GRID_CALC_PERCENT_COLUMNS') + ' · ' +
-                p.colGap + 'px ' + t('POPUP_GRID_CALC_PERCENT_GAP')
+                p.maxWidth + '% ' + i18n('POPUP_GRID_CALC_PERCENT_VIEWPORT') + ' · ' +
+                p.cols + ' ' + i18n('POPUP_GRID_CALC_PERCENT_COLUMNS') + ' · ' +
+                p.colGap + 'px ' + i18n('POPUP_GRID_CALC_PERCENT_GAP')
             );
         } else {
             var totalGaps = p.colGap * (p.cols - 1);
             var colWidth  = (p.maxWidth - totalGaps) / p.cols;
             $('#grid-calc-info').text(
-                t('POPUP_GRID_CALC_COL_WIDTH') + ': ' + Math.round(colWidth * 10) / 10 + 'px'
+                i18n('POPUP_GRID_CALC_COL_WIDTH') + ': ' + Math.round(colWidth * 10) / 10 + 'px'
             );
         }
     }
@@ -328,11 +328,11 @@ $(function () {
             Object.keys(oTemplates).forEach(function (sName) {
                 var tpl = oTemplates[sName];
                 var $oTag = $('<span class="preset-tag" title="' +
-                    tpl.maxWidth + 'px · ' + tpl.cols + ' ' + t('POPUP_GRID_CALC_PERCENT_COLUMNS') + ' · ' +
-                    tpl.colGap + 'px ' + t('POPUP_GRID_CALC_PERCENT_GAP') + '"></span>');
+                    tpl.maxWidth + 'px · ' + tpl.cols + ' ' + i18n('POPUP_GRID_CALC_PERCENT_COLUMNS') + ' · ' +
+                    tpl.colGap + 'px ' + i18n('POPUP_GRID_CALC_PERCENT_GAP') + '"></span>');
                 $oTag.append(document.createTextNode(sName));
 
-                var $oDel = $('<span class="preset-tag-del" title="' + t('POPUP_DELETE') + '">&times;</span>');
+                var $oDel = $('<span class="preset-tag-del" title="' + i18n('POPUP_DELETE') + '">&times;</span>');
                 $oTag.append($oDel);
 
                 // Click tag → load template into form and generate
@@ -360,7 +360,7 @@ $(function () {
             });
 
             if (Object.keys(oTemplates).length === 0) {
-                $oContainer.html('<em style="color:#999;font-size:10px">' + t('POPUP_GRID_NO_TEMPLATES') + '</em>');
+                $oContainer.html('<em style="color:#999;font-size:10px">' + i18n('POPUP_GRID_NO_TEMPLATES') + '</em>');
             }
         });
     }
@@ -426,7 +426,7 @@ $(function () {
             try {
                 var aHelpLines = JSON.parse(e.target.result);
                 if (!Array.isArray(aHelpLines)) {
-                    alert(t('POPUP_IMPORT_INVALID_JSON'));
+                    alert(i18n('POPUP_IMPORT_INVALID_JSON'));
                     return;
                 }
                 sendToActiveTab('importHelpLines', {aHelpLines: aHelpLines}, function () {
@@ -435,7 +435,7 @@ $(function () {
                     refreshHelpLineListing();
                 });
             } catch (err) {
-                alert(t('POPUP_IMPORT_PARSE_ERROR_PREFIX') + ': ' + err.message);
+                alert(i18n('POPUP_IMPORT_PARSE_ERROR_PREFIX') + ': ' + err.message);
             }
         };
         oReader.readAsText(oFile);
@@ -491,7 +491,7 @@ $(function () {
                 var $oTag = $('<span class="preset-tag"></span>');
                 $oTag.append(document.createTextNode(sName));
 
-                var $oDel = $('<span class="preset-tag-del" title="' + t('POPUP_DELETE') + '">&times;</span>');
+                var $oDel = $('<span class="preset-tag-del" title="' + i18n('POPUP_DELETE') + '">&times;</span>');
                 $oTag.append($oDel);
 
                 // Click on tag name area → load preset
@@ -553,7 +553,7 @@ $(function () {
 
                     var $oNum = $('<span class="hl-num">#' + (x + 1) + '</span>');
 
-                    var $oLabelInput = $('<input type="text" class="hl-label form-control input-sm" placeholder="' + t('POPUP_LABEL_PLACEHOLDER') + '" value="' + $('<div>').text(sLabel).html() + '">');
+                    var $oLabelInput = $('<input type="text" class="hl-label form-control input-sm" placeholder="' + i18n('POPUP_LABEL_PLACEHOLDER') + '" value="' + $('<div>').text(sLabel).html() + '">');
                     $oLabelInput.on('change', (function (idx) {
                         return function () {
                             var sVal = $(this).val();
@@ -586,7 +586,7 @@ $(function () {
                         });
                     });
 
-                    var $oDelete = $('<span class="hl-delete" title="' + t('POPUP_DELETE') + '">&times;</span>');
+                    var $oDelete = $('<span class="hl-delete" title="' + i18n('POPUP_DELETE') + '">&times;</span>');
                     $oDelete.attr('data-id', x);
                     $oDelete.on('click', (function (idx) {
                         return function () {
@@ -603,7 +603,7 @@ $(function () {
                     var $oControls = $('<div class="hl-controls"></div>');
 
                     // Feature 1: Exact position input
-                    var $oPosInput = $('<input type="number" class="hl-pos" min="1" title="' + t('POPUP_POSITION_TITLE') + ' (' + sAxis + '-axis)" value="' + Math.round(posVal) + '">');
+                    var $oPosInput = $('<input type="number" class="hl-pos" min="1" title="' + i18n('POPUP_POSITION_TITLE') + ' (' + sAxis + '-axis)" value="' + Math.round(posVal) + '">');
                     $oPosInput.append($('<span style="font-size:10px;color:#888;">' + sAxis + '</span>'));
                     $oPosInput.on('change', (function (idx, axis) {
                         return function () {
@@ -625,7 +625,7 @@ $(function () {
                     // Feature 11: Line style select
                     var $oStyleSelect = $('<select class="hl-style"></select>');
                     ['solid', 'dashed', 'dotted'].forEach(function (s) {
-                        var $opt = $('<option value="' + s + '">' + t('POPUP_STYLE_' + s.toUpperCase()) + '</option>');
+                        var $opt = $('<option value="' + s + '">' + i18n('POPUP_STYLE_' + s.toUpperCase()) + '</option>');
                         if (s === sStyle) $opt.prop('selected', true);
                         $oStyleSelect.append($opt);
                     });
@@ -653,7 +653,7 @@ $(function () {
                     }(x)));
 
                     // Feature 5: Opacity input
-                    var $oOpacityInput = $('<input type="number" class="hl-opacity" min="0" max="100" title="' + t('POPUP_OPACITY_TITLE') + ' (%)" value="' + iOpacity + '">');
+                    var $oOpacityInput = $('<input type="number" class="hl-opacity" min="0" max="100" title="' + i18n('POPUP_OPACITY_TITLE') + ' (%)" value="' + iOpacity + '">');
                     var $oOpacityLabel = $('<span style="font-size:10px;color:#888;">%</span>');
                     $oOpacityInput.on('change', (function (idx) {
                         return function () {
