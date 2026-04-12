@@ -177,6 +177,62 @@ $(function () {
 
     $('#btn-spiral-rotate').click(function () {
         sendToActiveTab('rotateGoldenSpiral', {step: 90});
+        setRotationFields((parseInt($('#spiral-rotation').val(), 10) || 0) + 90);
+    });
+
+    $('#btn-spiral-clear').click(function () {
+        sendToActiveTab('clearGoldenSpiral');
+    });
+
+    function normalizeRotation(iDeg) {
+        var i = parseInt(iDeg, 10);
+        if (isNaN(i)) i = 0;
+        i = i % 360;
+        if (i < 0) i += 360;
+        return i;
+    }
+
+    function setRotationFields(iDeg) {
+        var iNorm = normalizeRotation(iDeg);
+        $('#spiral-rotation').val(iNorm);
+        $('#spiral-rotation-range').val(iNorm);
+        return iNorm;
+    }
+
+    function getSpiralStyleParams() {
+        return {
+            color: $('#spiral-color').val() || '#f2b200',
+            strokeWidth: parseInt($('#spiral-stroke').val(), 10) || 2
+        };
+    }
+
+    function applySpiralStyle() {
+        sendToActiveTab('setGoldenSpiralStyle', getSpiralStyleParams());
+    }
+
+    function applySpiralRotation(iDeg) {
+        var iNorm = setRotationFields(iDeg);
+        sendToActiveTab('setGoldenSpiralRotation', {rotation: iNorm});
+    }
+
+    $('#spiral-color, #spiral-stroke').on('input change', applySpiralStyle);
+
+    $('#spiral-rotation').on('input change', function () {
+        applySpiralRotation($(this).val());
+    });
+
+    $('#spiral-rotation-range').on('input change', function () {
+        applySpiralRotation($(this).val());
+    });
+
+    $('#btn-spiral-rotate-left').click(function () {
+        var iCurrent = parseInt($('#spiral-rotation').val(), 10) || 0;
+        applySpiralRotation(iCurrent - 15);
+    });
+
+    $('#btn-spiral-rotate-right').click(function () {
+        var iCurrent = parseInt($('#spiral-rotation').val(), 10) || 0;
+        applySpiralRotation(iCurrent + 15);
     });
 
     // Feature 6: Grid Generator

@@ -61,7 +61,24 @@
                         <div class="spiral-action-row">
                             <button type="button" class="btn btn-default btn-xs" id="btn-spiral-element" title="Spirale auf angeklicktem DIV platzieren">🌀 DIV</button>
                             <button type="button" class="btn btn-default btn-xs" id="btn-spiral-area" title="Bereich aufziehen und Spirale platzieren">🌀 Fläche</button>
-                            <button type="button" class="btn btn-primary btn-xs" id="btn-spiral-rotate" title="Spirale um 90° drehen">⟳</button>
+                            <button type="button" class="btn btn-primary btn-xs" id="btn-spiral-rotate" title="Spirale um 90° drehen">+90°</button>
+                            <button type="button" class="btn btn-default btn-xs" id="btn-spiral-clear" title="Spirale entfernen">✕</button>
+                        </div>
+                        <div class="spiral-control-row">
+                            <label class="spiral-label">Farbe
+                                <input type="color" id="spiral-color" value="#f2b200" class="grid-color-input">
+                            </label>
+                            <label class="spiral-label">Linie
+                                <input type="number" id="spiral-stroke" min="1" max="12" value="2" class="form-control input-sm spiral-input-sm">
+                            </label>
+                        </div>
+                        <div class="spiral-control-row">
+                            <label class="spiral-label">Rotation
+                                <input type="range" id="spiral-rotation-range" min="0" max="359" value="0" class="spiral-range">
+                            </label>
+                            <input type="number" id="spiral-rotation" min="0" max="359" value="0" class="form-control input-sm spiral-input-sm">
+                            <button type="button" class="btn btn-default btn-xs" id="btn-spiral-rotate-left" title="-15°">-15°</button>
+                            <button type="button" class="btn btn-default btn-xs" id="btn-spiral-rotate-right" title="+15°">+15°</button>
                         </div>
                     </div>
                 </li>

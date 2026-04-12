@@ -17,7 +17,9 @@ var oPageLiner = {
     goldenSpiral: {
         mode: null,
         rotation: 0,
-        rect: null
+        rect: null,
+        color: '#f2b200',
+        strokeWidth: 2
     }
 };
 
@@ -114,6 +116,17 @@ chrome.runtime.onMessage.addListener(
                 break;
             case 'rotateGoldenSpiral':
                 oPageLiner.rotateGoldenSpiral(request.step || 90);
+                sendResponse({});
+                break;
+            case 'setGoldenSpiralStyle':
+                oPageLiner.setGoldenSpiralStyle({
+                    color: request.color,
+                    strokeWidth: request.strokeWidth
+                });
+                sendResponse({});
+                break;
+            case 'setGoldenSpiralRotation':
+                oPageLiner.setGoldenSpiralRotation(request.rotation);
                 sendResponse({});
                 break;
             case 'clearGoldenSpiral':
@@ -649,6 +662,37 @@ oPageLiner.clearGoldenSpiral = function () {
     this.goldenSpiral.rotation = 0;
 };
 
+oPageLiner.setGoldenSpiralStyle = function (oStyle) {
+    oStyle = oStyle || {};
+
+    if (typeof oStyle.color === 'string' && oStyle.color.length) {
+        this.goldenSpiral.color = oStyle.color;
+    }
+
+    if (oStyle.strokeWidth !== undefined && oStyle.strokeWidth !== null) {
+        var iStroke = parseInt(oStyle.strokeWidth, 10);
+        if (!isNaN(iStroke)) {
+            this.goldenSpiral.strokeWidth = Math.max(1, Math.min(12, iStroke));
+        }
+    }
+
+    if (this.goldenSpiral.rect) {
+        this.drawGoldenSpiral(this.goldenSpiral.rect, this.goldenSpiral.rotation || 0);
+    }
+};
+
+oPageLiner.setGoldenSpiralRotation = function (iRotationDeg) {
+    var iRot = parseInt(iRotationDeg, 10);
+    if (isNaN(iRot)) iRot = 0;
+    iRot = iRot % 360;
+    if (iRot < 0) iRot += 360;
+
+    this.goldenSpiral.rotation = iRot;
+    if (this.goldenSpiral.rect) {
+        this.drawGoldenSpiral(this.goldenSpiral.rect, iRot);
+    }
+};
+
 oPageLiner.startGoldenSpiralElementMode = function () {
     var self = this;
     self.cancelGoldenSpiralMode();
@@ -828,6 +872,8 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
 
     var oPath = document.createElementNS(sSvgNS, 'path');
     oPath.setAttribute('class', 'pglnr-ext-golden-spiral-path');
+    oPath.style.stroke = this.goldenSpiral.color || '#f2b200';
+    oPath.style.strokeWidth = (this.goldenSpiral.strokeWidth || 2) + 'px';
     oPath.setAttribute('d', this.getGoldenSpiralPath(iWidth, iHeight, iRotation));
     oSvg.appendChild(oPath);
     oWrap.appendChild(oSvg);

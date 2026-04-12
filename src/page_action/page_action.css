@@ -479,11 +479,40 @@ kbd {
     display: flex;
     gap: 5px;
     align-items: center;
+    margin-bottom: 6px;
 }
 
 .spiral-action-row .btn {
     font-size: 11px;
     line-height: 1.2;
+}
+
+.spiral-control-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-top: 4px;
+}
+
+.spiral-label {
+    margin: 0;
+    font-size: 10px;
+    color: #666;
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.spiral-range {
+    width: 100px;
+}
+
+.spiral-input-sm {
+    width: 56px !important;
+    height: 24px;
+    padding: 2px 4px;
+    font-size: 11px;
 }
 
 /* =========================================================
