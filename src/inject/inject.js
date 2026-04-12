@@ -13,6 +13,11 @@ var oPageLiner = {
     mousePosition: {
         x: 0,
         y: 0
+    },
+    goldenSpiral: {
+        mode: null,
+        rotation: 0,
+        rect: null
     }
 };
 
@@ -97,6 +102,22 @@ chrome.runtime.onMessage.addListener(
                     overlayOpacity: request.overlayOpacity,
                     showOverlay:    request.showOverlay
                 });
+                sendResponse({});
+                break;
+            case 'startGoldenSpiralElementMode':
+                oPageLiner.startGoldenSpiralElementMode();
+                sendResponse({});
+                break;
+            case 'startGoldenSpiralAreaMode':
+                oPageLiner.startGoldenSpiralAreaMode();
+                sendResponse({});
+                break;
+            case 'rotateGoldenSpiral':
+                oPageLiner.rotateGoldenSpiral(request.step || 90);
+                sendResponse({});
+                break;
+            case 'clearGoldenSpiral':
+                oPageLiner.clearGoldenSpiral();
                 sendResponse({});
                 break;
             case 'removeAllHelpLines':
@@ -575,6 +596,7 @@ oPageLiner.toggleHelplines = function (blForceState) {
 oPageLiner.removeAllHelpLines = function () {
     $('.pglnr-ext-helpline').remove();
     $('.pglnr-ext-grid-overlay').remove();
+    this.clearGoldenSpiral();
     this.toggleRulers(false);
     this.toggleHelplines(false);
     localStorage.setItem('pglnr-ext-aHelpLines', "[]");
@@ -596,6 +618,229 @@ oPageLiner.clearGeneratedGrid = function () {
     $('.pglnr-ext-helpline').remove();
     this.init();
     this.updatePopUp();
+};
+
+oPageLiner.normalizeDragRect = function (x1, y1, x2, y2) {
+    var iLeft = Math.min(x1, x2);
+    var iTop = Math.min(y1, y2);
+    var iWidth = Math.abs(x2 - x1);
+    var iHeight = Math.abs(y2 - y1);
+
+    return {
+        left: Math.round(iLeft),
+        top: Math.round(iTop),
+        width: Math.round(iWidth),
+        height: Math.round(iHeight)
+    };
+};
+
+oPageLiner.cancelGoldenSpiralMode = function () {
+    $('body').removeClass('pglnr-ext-spiral-mode-active');
+    $(document).off('.pglnrSpiralMode');
+    $(document).off('.pglnrSpiralArea');
+    $('.pglnr-ext-spiral-selection').remove();
+    this.goldenSpiral.mode = null;
+};
+
+oPageLiner.clearGoldenSpiral = function () {
+    this.cancelGoldenSpiralMode();
+    $('.pglnr-ext-golden-spiral').remove();
+    this.goldenSpiral.rect = null;
+    this.goldenSpiral.rotation = 0;
+};
+
+oPageLiner.startGoldenSpiralElementMode = function () {
+    var self = this;
+    self.cancelGoldenSpiralMode();
+    self.goldenSpiral.mode = 'element';
+    $('body').addClass('pglnr-ext-spiral-mode-active');
+
+    $(document).on('keydown.pglnrSpiralMode', function (e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            self.cancelGoldenSpiralMode();
+        }
+    });
+
+    $(document).on('click.pglnrSpiralMode', function (e) {
+        if ($(e.target).closest('.pglnr-ext-golden-spiral').length > 0) {
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        var oTargetDiv = $(e.target).closest('div')[0];
+        var oTarget = oTargetDiv || e.target;
+        if (!oTarget || !oTarget.getBoundingClientRect) {
+            self.cancelGoldenSpiralMode();
+            return;
+        }
+
+        var oBox = oTarget.getBoundingClientRect();
+        if (oBox.width < 12 || oBox.height < 12) {
+            self.cancelGoldenSpiralMode();
+            return;
+        }
+
+        self.drawGoldenSpiral({
+            left: oBox.left + window.pageXOffset,
+            top: oBox.top + window.pageYOffset,
+            width: oBox.width,
+            height: oBox.height
+        }, self.goldenSpiral.rotation || 0);
+
+        self.cancelGoldenSpiralMode();
+    });
+};
+
+oPageLiner.startGoldenSpiralAreaMode = function () {
+    var self = this;
+    var oStart = null;
+    var oSelection = null;
+
+    self.cancelGoldenSpiralMode();
+    self.goldenSpiral.mode = 'area';
+    $('body').addClass('pglnr-ext-spiral-mode-active');
+
+    $(document).on('keydown.pglnrSpiralMode', function (e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            self.cancelGoldenSpiralMode();
+        }
+    });
+
+    $(document).on('mousedown.pglnrSpiralMode', function (e) {
+        if (e.button !== 0) return;
+        if ($(e.target).closest('.pglnr-ext-golden-spiral').length > 0) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        oStart = {x: e.pageX, y: e.pageY};
+        oSelection = document.createElement('div');
+        oSelection.className = 'pglnr-ext-spiral-selection';
+        document.body.appendChild(oSelection);
+
+        $(document).on('mousemove.pglnrSpiralArea', function (ev) {
+            var oRect = self.normalizeDragRect(oStart.x, oStart.y, ev.pageX, ev.pageY);
+            oSelection.style.left = oRect.left + 'px';
+            oSelection.style.top = oRect.top + 'px';
+            oSelection.style.width = oRect.width + 'px';
+            oSelection.style.height = oRect.height + 'px';
+        });
+
+        $(document).on('mouseup.pglnrSpiralArea', function (ev) {
+            $(document).off('.pglnrSpiralArea');
+
+            var oRect = self.normalizeDragRect(oStart.x, oStart.y, ev.pageX, ev.pageY);
+            $('.pglnr-ext-spiral-selection').remove();
+            oSelection = null;
+
+            if (oRect.width >= 12 && oRect.height >= 12) {
+                self.drawGoldenSpiral(oRect, self.goldenSpiral.rotation || 0);
+            }
+
+            self.cancelGoldenSpiralMode();
+        });
+    });
+};
+
+oPageLiner.rotateGoldenSpiral = function (iStepDeg) {
+    if (!this.goldenSpiral.rect) return;
+
+    var iStep = parseInt(iStepDeg, 10) || 90;
+    var iNextRotation = ((this.goldenSpiral.rotation || 0) + iStep) % 360;
+    if (iNextRotation < 0) iNextRotation += 360;
+
+    this.drawGoldenSpiral(this.goldenSpiral.rect, iNextRotation);
+};
+
+oPageLiner.getGoldenSpiralPath = function (iWidth, iHeight, iRotationDeg) {
+    var iMinSide = Math.min(iWidth, iHeight);
+    if (iMinSide < 8) return '';
+
+    var iPadding = 4;
+    var iCenterX = iWidth / 2;
+    var iCenterY = iHeight / 2;
+    var iMinRadius = Math.max(2, iMinSide * 0.02);
+    var iMaxRadius = Math.max(iMinRadius + 1, (iMinSide / 2) - iPadding);
+
+    var dPhi = 1.61803398875;
+    var dB = Math.log(dPhi) / (Math.PI / 2);
+    var dThetaMax = Math.log(iMaxRadius / iMinRadius) / dB;
+    var iSteps = 160;
+    var dRotation = ((parseInt(iRotationDeg, 10) || 0) - 90) * Math.PI / 180;
+    var aPoints = [];
+
+    for (var i = 0; i <= iSteps; i++) {
+        var dTheta = dThetaMax * (i / iSteps);
+        var dRadius = iMinRadius * Math.exp(dB * dTheta);
+        var dAngle = dTheta + dRotation;
+        var dX = iCenterX + dRadius * Math.cos(dAngle);
+        var dY = iCenterY + dRadius * Math.sin(dAngle);
+
+        aPoints.push({
+            x: Math.max(0, Math.min(iWidth, dX)),
+            y: Math.max(0, Math.min(iHeight, dY))
+        });
+    }
+
+    if (!aPoints.length) return '';
+
+    var sPath = 'M ' + aPoints[0].x.toFixed(2) + ' ' + aPoints[0].y.toFixed(2);
+    for (var j = 1; j < aPoints.length; j++) {
+        sPath += ' L ' + aPoints[j].x.toFixed(2) + ' ' + aPoints[j].y.toFixed(2);
+    }
+
+    return sPath;
+};
+
+oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
+    if (!oRect) return;
+
+    var iWidth = Math.max(1, Math.round(oRect.width));
+    var iHeight = Math.max(1, Math.round(oRect.height));
+    var iLeft = Math.round(oRect.left);
+    var iTop = Math.round(oRect.top);
+    var iRotation = parseInt(iRotationDeg, 10) || 0;
+
+    $('.pglnr-ext-golden-spiral').remove();
+
+    var oWrap = document.createElement('div');
+    oWrap.className = 'pglnr-ext-golden-spiral';
+    oWrap.style.left = iLeft + 'px';
+    oWrap.style.top = iTop + 'px';
+    oWrap.style.width = iWidth + 'px';
+    oWrap.style.height = iHeight + 'px';
+
+    var oFrame = document.createElement('div');
+    oFrame.className = 'pglnr-ext-golden-spiral-frame';
+    oWrap.appendChild(oFrame);
+
+    var oHint = document.createElement('div');
+    oHint.className = 'pglnr-ext-golden-spiral-hint';
+    oHint.innerText = 'Goldene Spirale · ' + iRotation + '°';
+    oWrap.appendChild(oHint);
+
+    var sSvgNS = 'http://www.w3.org/2000/svg';
+    var oSvg = document.createElementNS(sSvgNS, 'svg');
+    oSvg.setAttribute('class', 'pglnr-ext-golden-spiral-svg');
+    oSvg.setAttribute('viewBox', '0 0 ' + iWidth + ' ' + iHeight);
+
+    var oPath = document.createElementNS(sSvgNS, 'path');
+    oPath.setAttribute('class', 'pglnr-ext-golden-spiral-path');
+    oPath.setAttribute('d', this.getGoldenSpiralPath(iWidth, iHeight, iRotation));
+    oSvg.appendChild(oPath);
+    oWrap.appendChild(oSvg);
+
+    document.body.appendChild(oWrap);
+
+    this.goldenSpiral.rect = {
+        left: iLeft,
+        top: iTop,
+        width: iWidth,
+        height: iHeight
+    };
+    this.goldenSpiral.rotation = iRotation;
 };
 
 /**

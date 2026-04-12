@@ -475,6 +475,17 @@ kbd {
     white-space: nowrap;
 }
 
+.spiral-action-row {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.spiral-action-row .btn {
+    font-size: 11px;
+    line-height: 1.2;
+}
+
 /* =========================================================
    Presets
    ========================================================= */

@@ -166,6 +166,19 @@ $(function () {
         syncToAllTabs('removeAllHelpLines');
     });
 
+    // Golden Spiral: element mode / area mode / rotate
+    $('#btn-spiral-element').click(function () {
+        sendToActiveTab('startGoldenSpiralElementMode');
+    });
+
+    $('#btn-spiral-area').click(function () {
+        sendToActiveTab('startGoldenSpiralAreaMode');
+    });
+
+    $('#btn-spiral-rotate').click(function () {
+        sendToActiveTab('rotateGoldenSpiral', {step: 90});
+    });
+
     // Feature 6: Grid Generator
     $('#grid-toggle').click(function () {
         $(this).toggleClass('open');
