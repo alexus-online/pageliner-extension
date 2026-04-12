@@ -28,17 +28,17 @@
                 </div>
             </div>
 
-            <div class="hero-strip">
-                <div class="hero-chip hero-chip-accent"><span class="hero-chip-icon">#</span><span>Grid</span></div>
-                <div class="hero-chip"><span class="hero-chip-icon">@</span><span>Spiral</span></div>
-                <div class="hero-chip"><span class="hero-chip-icon">+</span><span>Guides</span></div>
-                <div class="hero-chip"><span class="hero-chip-icon">*</span><span>Presets</span></div>
+            <div class="hero-strip" role="tablist" aria-label="Popup sections">
+                <button type="button" class="hero-chip hero-chip-accent is-active" data-tab-target="grid-section" role="tab" aria-selected="true"><span class="hero-chip-icon">#</span><span>Grid</span></button>
+                <button type="button" class="hero-chip" data-tab-target="spiral-section" role="tab" aria-selected="false"><span class="hero-chip-icon">@</span><span>Spiral</span></button>
+                <button type="button" class="hero-chip" data-tab-target="guides-section" role="tab" aria-selected="false"><span class="hero-chip-icon">+</span><span>Guides</span></button>
+                <button type="button" class="hero-chip" data-tab-target="presets-section" role="tab" aria-selected="false"><span class="hero-chip-icon">*</span><span>Presets</span></button>
             </div>
 
             <ul id="page-actions" class="nav nav-pills nav-stacked page-actions">
 
                 <!-- Toggle buttons -->
-                <li class="top-action-row">
+                <li class="top-action-row" id="guides-section">
                     <a href="#" class="toggle-ruler" id="toggle-ruler">
                         <span class="action-icon-wrap"><i class="glyphicon glyphicon-eye-open"></i></span>
                         <span class="action-copy">
@@ -94,7 +94,7 @@
                 </li>
 
                 <!-- Golden spiral -->
-                <li class="section-li surface-card featured-card">
+                <li class="section-li surface-card featured-card" id="spiral-section">
                     <div class="section-body">
                         <div class="card-title-row">
                             <div>
@@ -128,7 +128,7 @@
                 </li>
 
                 <!-- Grid Generator (collapsible) -->
-                <li class="section-li surface-card">
+                <li class="section-li surface-card" id="grid-section">
                     <div class="section-toggle" id="grid-toggle">
                         <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_GRID_GENERATOR"></span>
                     </div>
@@ -219,7 +219,7 @@
                 </li>
 
                 <!-- Presets (collapsible) -->
-                <li class="section-li surface-card">
+                <li class="section-li surface-card" id="presets-section">
                     <div class="section-toggle" id="presets-toggle">
                         <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_PRESETS_PROFILES"></span>
                     </div>

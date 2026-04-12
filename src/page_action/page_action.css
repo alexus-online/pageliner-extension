@@ -806,6 +806,8 @@ body.pageliner-popup.theme-dark {
 }
 
 .hero-chip {
+    appearance: none;
+    -webkit-appearance: none;
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -818,6 +820,21 @@ body.pageliner-popup.theme-dark {
     font-weight: 700;
     letter-spacing: 0.03em;
     box-shadow: 0 4px 12px rgba(29, 51, 39, 0.06);
+    cursor: pointer;
+    transition: transform 0.14s ease, box-shadow 0.14s ease, background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+}
+
+.hero-chip:hover,
+.hero-chip:focus {
+    transform: translateY(-1px);
+    outline: none;
+}
+
+.hero-chip.is-active {
+    color: var(--pl-primary-strong);
+    background: rgba(255, 245, 216, 0.95);
+    border-color: rgba(241, 170, 21, 0.35);
+    box-shadow: 0 8px 18px rgba(85, 65, 17, 0.10);
 }
 
 .hero-chip-icon {
@@ -1209,6 +1226,12 @@ body.pageliner-popup.theme-dark .hero-chip {
     background: rgba(27, 39, 32, 0.92);
 }
 
+body.pageliner-popup.theme-dark .hero-chip.is-active {
+    background: rgba(44, 59, 50, 0.96);
+    border-color: rgba(244, 191, 73, 0.35);
+    color: #fff1c5;
+}
+
 body.pageliner-popup.theme-dark .hero-chip-icon {
     background: rgba(94, 209, 148, 0.14);
     color: #9be4bf;
@@ -1236,6 +1259,11 @@ body.pageliner-popup.theme-dark .featured-card {
 body.pageliner-popup.theme-dark .theme-switcher {
     background: rgba(8, 12, 10, 0.24);
     border-color: rgba(255,255,255,0.10);
+}
+
+.section-tab-highlight {
+    box-shadow: 0 0 0 2px rgba(241, 170, 21, 0.22), var(--pl-card-shadow) !important;
+    transition: box-shadow 0.2s ease;
 }
 
 #helpline-actions {

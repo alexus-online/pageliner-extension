@@ -187,6 +187,55 @@ $(function () {
         shortcutsViewVisible = !shortcutsViewVisible;
     });
 
+    function setHeroTabState(sTargetId) {
+        $('.hero-chip').each(function () {
+            var blActive = $(this).data('tabTarget') === sTargetId;
+            $(this)
+                .toggleClass('is-active', blActive)
+                .toggleClass('hero-chip-accent', blActive)
+                .attr('aria-selected', blActive ? 'true' : 'false');
+        });
+    }
+
+    function ensureSectionOpen(sTargetId) {
+        if (sTargetId === 'grid-section') {
+            $('#grid-toggle').addClass('open');
+            $('#grid-body').show();
+        }
+        else if (sTargetId === 'presets-section') {
+            $('#presets-toggle').addClass('open');
+            $('#presets-body').show();
+        }
+        else if (sTargetId === 'settings-section') {
+            $('#settings-toggle').addClass('open');
+            $('#settings-body').show();
+        }
+    }
+
+    function jumpToSection(sTargetId) {
+        var $oTarget = $('#' + sTargetId);
+        if (!$oTarget.length) return;
+
+        ensureSectionOpen(sTargetId);
+        setHeroTabState(sTargetId);
+
+        $('.section-tab-highlight').removeClass('section-tab-highlight');
+        $oTarget.addClass('section-tab-highlight');
+        setTimeout(function () {
+            $oTarget.removeClass('section-tab-highlight');
+        }, 850);
+
+        var $oWrapper = $('#wrapper');
+        var iTargetScroll = $oWrapper.scrollTop() + $oTarget.position().top - 8;
+        $oWrapper.stop(true).animate({scrollTop: Math.max(0, iTargetScroll)}, 180);
+    }
+
+    $('.hero-chip').click(function () {
+        var sTargetId = $(this).data('tabTarget');
+        if (!sTargetId) return;
+        jumpToSection(sTargetId);
+    });
+
     function getResolvedTheme(sMode) {
         if (sMode === 'dark') return 'dark';
         if (sMode === 'light') return 'light';
@@ -1062,6 +1111,7 @@ $(function () {
     // Initialize
     setActionCardState('#toggle-ruler', true);
     setActionCardState('#toggle-helpline', true);
+    setHeroTabState('grid-section');
     refreshHelpLineListing();
     getGuiStatus();
     refreshPresetList();
