@@ -25,14 +25,15 @@ test('popup hero chips switch real tab panels', async () => {
 
     const page = await openPopupPage(context);
 
-    await expect(page.locator('#grid-section')).toBeVisible();
+    await expect(page.locator('#guides-section')).toBeVisible();
+    await expect(page.locator('#grid-section')).toBeHidden();
     await expect(page.locator('#spiral-section')).toBeHidden();
-    await expect(page.locator('#guides-section')).toBeHidden();
     await expect(page.locator('#presets-section')).toBeHidden();
 
     await page.click('#tab-spiral-section');
     await expect(page.locator('#spiral-section')).toBeVisible();
     await expect(page.locator('#grid-section')).toBeHidden();
+    await expect(page.locator('#guides-section')).toBeHidden();
 
     await page.click('#tab-guides-section');
     await expect(page.locator('#guides-section')).toBeVisible();

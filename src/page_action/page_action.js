@@ -1136,7 +1136,7 @@ $(function () {
     // Initialize
     setActionCardState('#toggle-ruler', true);
     setActionCardState('#toggle-helpline', true);
-    showPopupTab('grid-section');
+    showPopupTab('guides-section');
     refreshHelpLineListing();
     getGuiStatus();
     refreshPresetList();
