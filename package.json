@@ -4,8 +4,12 @@
   "version": "1.2.1",
   "description": "UI smoke tests for PageLiner extension",
   "scripts": {
-    "test:ui": "playwright test --config=playwright.config.js",
-    "test:ui:headed": "playwright test --config=playwright.config.js --headed"
+    "test:ui": "npm run test:ui:smoke",
+    "test:ui:headed": "playwright test tests/ui/extension-smoke.spec.js --config=playwright.config.js --headed",
+    "test:ui:smoke": "playwright test tests/ui/extension-smoke.spec.js --config=playwright.config.js",
+    "test:ui:rotation": "playwright test tests/ui/spiral-rotation.spec.js --config=playwright.config.js",
+    "test:ui:all": "npm run test:ui:smoke && npm run test:ui:rotation",
+    "test:ui:full": "npm run test:ui:all"
   },
   "devDependencies": {
     "@playwright/test": "^1.54.2"

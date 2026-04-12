@@ -12,6 +12,5 @@ if [[ ! -d "node_modules/@playwright/test" ]]; then
 fi
 
 echo "Running UI smoke test..."
-npx playwright test tests/ui/extension-smoke.spec.js --config=playwright.config.js
+npm run test:ui:smoke
 echo "UI smoke passed."
-

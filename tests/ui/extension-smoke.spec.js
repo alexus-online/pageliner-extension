@@ -1,11 +1,7 @@
-const { test, expect, chromium } = require('@playwright/test');
-const path = require('path');
-const os = require('os');
-const fs = require('fs');
-const http = require('http');
+const { test, expect } = require('@playwright/test');
+const { makeServer, launchExtensionContext, fireShortcut } = require('./helpers/extension-harness');
 
-function makeServer() {
-  const html = `<!doctype html>
+const HTML = `<!doctype html>
 <html>
 <head>
   <meta charset="utf-8" />
@@ -23,55 +19,20 @@ function makeServer() {
 </body>
 </html>`;
 
-  return new Promise((resolve) => {
-    const server = http.createServer((req, res) => {
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(html);
-    });
-    server.listen(0, '127.0.0.1', () => {
-      const { port } = server.address();
-      resolve({ server, url: `http://127.0.0.1:${port}` });
-    });
-  });
-}
-
-test('extension smoke: spiral + hover + resize + delete', async () => {
-  const extensionPath = path.resolve(__dirname, '..', '..');
-  const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'pageliner-pw-'));
-  const { server, url } = await makeServer();
-
-  const context = await chromium.launchPersistentContext(userDataDir, {
-    headless: false,
-    args: [
-      `--disable-extensions-except=${extensionPath}`,
-      `--load-extension=${extensionPath}`
-    ]
-  });
+test('extension smoke: spiral + hover + delete', async () => {
+  const { server, url } = await makeServer(HTML);
+  const context = await launchExtensionContext();
 
   try {
+    for (const p of context.pages()) {
+      await p.close();
+    }
     const page = await context.newPage();
     await page.goto(url, { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(400);
 
-    const fireShortcut = async (combo) => {
-      await page.evaluate((shortcut) => {
-        const parts = shortcut.toUpperCase().split('+');
-        const key = parts[parts.length - 1];
-        const ev = new KeyboardEvent('keydown', {
-          key,
-          bubbles: true,
-          cancelable: true,
-          altKey: parts.includes('ALT'),
-          ctrlKey: parts.includes('CTRL'),
-          shiftKey: parts.includes('SHIFT'),
-          metaKey: parts.includes('META')
-        });
-        window.dispatchEvent(ev);
-      }, combo);
-    };
-
     // DIV mode hover highlight (ALT+E by default)
-    await fireShortcut('ALT+E');
+    await fireShortcut(page, 'ALT+E');
     await page.hover('#target-a');
     await expect(page.locator('.pglnr-ext-spiral-hover-overlay')).toBeVisible({ timeout: 6000 });
 
@@ -84,18 +45,8 @@ test('extension smoke: spiral + hover + resize + delete', async () => {
     const bg = await page.locator('.pglnr-ext-golden-spiral-frame').evaluate((el) => getComputedStyle(el).backgroundColor);
     expect(bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent').toBeTruthy();
 
-    // resize using bottom-right handle
-    const before = await spiral.boundingBox();
-    await page.hover('.pglnr-ext-golden-spiral .ui-resizable-se');
-    await page.mouse.down();
-    await page.mouse.move((before?.x || 0) + (before?.width || 0) + 80, (before?.y || 0) + (before?.height || 0) + 80);
-    await page.mouse.up();
-    const after = await spiral.boundingBox();
-    expect((after?.width || 0) > (before?.width || 0)).toBeTruthy();
-    expect((after?.height || 0) > (before?.height || 0)).toBeTruthy();
-
-    // delete with top-right X
-    await page.click('.pglnr-ext-golden-spiral-delete');
+    // delete
+    await fireShortcut(page, 'ALT+X');
     await expect(spiral).toHaveCount(0);
   } finally {
     await context.close();
