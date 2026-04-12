@@ -1079,6 +1079,18 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
         oFrame.className = 'pglnr-ext-golden-spiral-frame';
         oWrap.appendChild(oFrame);
 
+        var oDeleteBtn = document.createElement('button');
+        oDeleteBtn.className = 'pglnr-ext-golden-spiral-delete';
+        oDeleteBtn.setAttribute('type', 'button');
+        oDeleteBtn.setAttribute('title', 'Spirale löschen');
+        oDeleteBtn.innerText = '×';
+        oDeleteBtn.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            oPageLiner.clearGoldenSpiral();
+        });
+        oWrap.appendChild(oDeleteBtn);
+
         oHint = document.createElement('div');
         oHint.className = 'pglnr-ext-golden-spiral-hint';
         oWrap.appendChild(oHint);
