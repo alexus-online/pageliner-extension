@@ -261,11 +261,15 @@
    },
    "POPUP_BRAND_SUBTITLE": {
       "description": "Popup brand subtitle.",
-      "message": "Präzise Overlays für Layout, Rhythmus und Komposition"
+      "message": "Overlays für Layout, Rhythmus und Komposition"
    },
    "POPUP_THEME_AUTO": {
       "description": "Auto theme mode label.",
       "message": "Auto"
+   },
+   "POPUP_THEME_LABEL": {
+      "description": "Theme switcher label.",
+      "message": "Darstellung"
    },
    "POPUP_THEME_AUTO_TITLE": {
       "description": "Auto theme mode tooltip.",
