@@ -17,15 +17,22 @@
                         <h1 class="brand-title"><span data-i18n="GLOBAL_APP_NAME"></span></h1>
                         <div class="brand-subtitle">Precision overlays for layout, rhythm and composition</div>
                     </div>
-                    <div class="brand-version">v<span data-i18n="VERSION"></span></div>
+                    <div class="headbar-meta">
+                        <div class="brand-version">v<span data-i18n="VERSION"></span></div>
+                        <div class="theme-switcher" id="theme-switcher">
+                            <button type="button" class="theme-switch-btn" data-theme-mode="auto" title="Automatisch">Auto</button>
+                            <button type="button" class="theme-switch-btn" data-theme-mode="light" title="Hell">Light</button>
+                            <button type="button" class="theme-switch-btn" data-theme-mode="dark" title="Dunkel">Dark</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="hero-strip">
-                <div class="hero-chip hero-chip-accent">Grid</div>
-                <div class="hero-chip">Spiral</div>
-                <div class="hero-chip">Guides</div>
-                <div class="hero-chip">Presets</div>
+                <div class="hero-chip hero-chip-accent"><span class="hero-chip-icon">#</span><span>Grid</span></div>
+                <div class="hero-chip"><span class="hero-chip-icon">@</span><span>Spiral</span></div>
+                <div class="hero-chip"><span class="hero-chip-icon">+</span><span>Guides</span></div>
+                <div class="hero-chip"><span class="hero-chip-icon">*</span><span>Presets</span></div>
             </div>
 
             <ul id="page-actions" class="nav nav-pills nav-stacked page-actions">

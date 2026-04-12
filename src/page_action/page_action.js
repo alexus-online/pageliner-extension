@@ -104,6 +104,8 @@ function syncToAllTabs(action, params) {
 
 $(function () {
     var shortcutsViewVisible = false;
+    var oThemeMediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    var sPopupThemeMode = 'auto';
     var i18n = function (key, fallback) {
         var msg = chrome.i18n.getMessage(key);
         return msg && msg.length ? msg : (fallback || key);
@@ -184,6 +186,51 @@ $(function () {
         $('#toggle-view').text(chrome.i18n.getMessage(shortcutsViewVisible ? 'SHOW_SHORTCUTS' : 'SHOW_HOME'));
         shortcutsViewVisible = !shortcutsViewVisible;
     });
+
+    function getResolvedTheme(sMode) {
+        if (sMode === 'dark') return 'dark';
+        if (sMode === 'light') return 'light';
+        return (oThemeMediaQuery && oThemeMediaQuery.matches) ? 'dark' : 'light';
+    }
+
+    function renderThemeSwitcherState() {
+        $('#theme-switcher .theme-switch-btn').each(function () {
+            $(this).toggleClass('is-active', $(this).data('themeMode') === sPopupThemeMode);
+        });
+    }
+
+    function applyPopupTheme(sMode) {
+        sPopupThemeMode = sMode || 'auto';
+        var sResolvedTheme = getResolvedTheme(sPopupThemeMode);
+        $('body')
+            .removeClass('theme-light theme-dark')
+            .addClass('theme-' + sResolvedTheme);
+        renderThemeSwitcherState();
+    }
+
+    function savePopupTheme(sMode) {
+        chrome.storage.local.set({'pglnr-popupThemeMode': sMode});
+    }
+
+    $('#theme-switcher .theme-switch-btn').click(function () {
+        var sMode = $(this).data('themeMode') || 'auto';
+        applyPopupTheme(sMode);
+        savePopupTheme(sMode);
+    });
+
+    if (oThemeMediaQuery) {
+        var fnThemeListener = function () {
+            if (sPopupThemeMode === 'auto') {
+                applyPopupTheme('auto');
+            }
+        };
+
+        if (typeof oThemeMediaQuery.addEventListener === 'function') {
+            oThemeMediaQuery.addEventListener('change', fnThemeListener);
+        } else if (typeof oThemeMediaQuery.addListener === 'function') {
+            oThemeMediaQuery.addListener(fnThemeListener);
+        }
+    }
 
     $('#toggle-ruler').click(function () {
         toggleRulerButton();
@@ -1019,6 +1066,10 @@ $(function () {
     getGuiStatus();
     refreshPresetList();
     initShortcutManager();
+
+    chrome.storage.local.get('pglnr-popupThemeMode', function (data) {
+        applyPopupTheme(data['pglnr-popupThemeMode'] || 'auto');
+    });
 
     // Feature 10: restore sync checkbox
     chrome.storage.local.get('pglnr-syncAcrossTabs', function (data) {
