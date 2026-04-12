@@ -212,28 +212,35 @@ $(function () {
         }
     }
 
-    function jumpToSection(sTargetId) {
-        var $oTarget = $('#' + sTargetId);
-        if (!$oTarget.length) return;
+    function showPopupTab(sTargetId) {
+        var $oPanels = $('[data-tab-panel]');
+        var $oPrimaryTarget = $('#' + sTargetId);
+
+        if (!$oPrimaryTarget.length) {
+            return;
+        }
 
         ensureSectionOpen(sTargetId);
         setHeroTabState(sTargetId);
 
-        $('.section-tab-highlight').removeClass('section-tab-highlight');
-        $oTarget.addClass('section-tab-highlight');
-        setTimeout(function () {
-            $oTarget.removeClass('section-tab-highlight');
-        }, 850);
+        $oPanels.each(function () {
+            var blMatches = $(this).attr('data-tab-panel') === sTargetId;
+            $(this).prop('hidden', !blMatches);
+        });
 
-        var $oWrapper = $('#wrapper');
-        var iTargetScroll = $oWrapper.scrollTop() + $oTarget.position().top - 8;
-        $oWrapper.stop(true).animate({scrollTop: Math.max(0, iTargetScroll)}, 180);
+        $('.section-tab-highlight').removeClass('section-tab-highlight');
+        $oPrimaryTarget.addClass('section-tab-highlight');
+        setTimeout(function () {
+            $oPrimaryTarget.removeClass('section-tab-highlight');
+        }, 550);
+
+        $('#wrapper').scrollTop(0);
     }
 
     $('.hero-chip').click(function () {
         var sTargetId = $(this).data('tabTarget');
         if (!sTargetId) return;
-        jumpToSection(sTargetId);
+        showPopupTab(sTargetId);
     });
 
     function getResolvedTheme(sMode) {
@@ -1111,7 +1118,7 @@ $(function () {
     // Initialize
     setActionCardState('#toggle-ruler', true);
     setActionCardState('#toggle-helpline', true);
-    setHeroTabState('grid-section');
+    showPopupTab('grid-section');
     refreshHelpLineListing();
     getGuiStatus();
     refreshPresetList();

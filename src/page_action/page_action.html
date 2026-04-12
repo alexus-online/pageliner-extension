@@ -29,16 +29,16 @@
             </div>
 
             <div class="hero-strip" role="tablist" aria-label="Popup sections">
-                <button type="button" class="hero-chip hero-chip-accent is-active" data-tab-target="grid-section" role="tab" aria-selected="true"><span class="hero-chip-icon">#</span><span>Grid</span></button>
-                <button type="button" class="hero-chip" data-tab-target="spiral-section" role="tab" aria-selected="false"><span class="hero-chip-icon">@</span><span>Spiral</span></button>
-                <button type="button" class="hero-chip" data-tab-target="guides-section" role="tab" aria-selected="false"><span class="hero-chip-icon">+</span><span>Guides</span></button>
-                <button type="button" class="hero-chip" data-tab-target="presets-section" role="tab" aria-selected="false"><span class="hero-chip-icon">*</span><span>Presets</span></button>
+                <button type="button" class="hero-chip hero-chip-accent is-active" id="tab-grid-section" data-tab-target="grid-section" role="tab" aria-selected="true"><span class="hero-chip-icon">#</span><span>Grid</span></button>
+                <button type="button" class="hero-chip" id="tab-spiral-section" data-tab-target="spiral-section" role="tab" aria-selected="false"><span class="hero-chip-icon">@</span><span>Spiral</span></button>
+                <button type="button" class="hero-chip" id="tab-guides-section" data-tab-target="guides-section" role="tab" aria-selected="false"><span class="hero-chip-icon">+</span><span>Guides</span></button>
+                <button type="button" class="hero-chip" id="tab-presets-section" data-tab-target="presets-section" role="tab" aria-selected="false"><span class="hero-chip-icon">*</span><span>Presets</span></button>
             </div>
 
             <ul id="page-actions" class="nav nav-pills nav-stacked page-actions">
 
                 <!-- Toggle buttons -->
-                <li class="top-action-row" id="guides-section">
+                <li class="top-action-row" id="guides-section" data-tab-panel="guides-section" role="tabpanel" aria-labelledby="tab-guides-section" hidden>
                     <a href="#" class="toggle-ruler" id="toggle-ruler">
                         <span class="action-icon-wrap"><i class="glyphicon glyphicon-eye-open"></i></span>
                         <span class="action-copy">
@@ -56,7 +56,7 @@
                 </li>
 
                 <!-- Add helplines row + center + screenshot -->
-                <li class="surface-card quick-tools-card">
+                <li class="surface-card quick-tools-card" data-tab-panel="guides-section" role="tabpanel" aria-labelledby="tab-guides-section" hidden>
                     <a href="#" class="add-helpline">
                         <div class="card-title-row">
                             <div>
@@ -83,7 +83,7 @@
                 </li>
 
                 <!-- Clear all -->
-                <li class="surface-card danger-card">
+                <li class="surface-card danger-card" data-tab-panel="guides-section" role="tabpanel" aria-labelledby="tab-guides-section" hidden>
                     <a href="#" class="remove-helplines" id="remove-helplines">
                         <span class="action-icon-wrap"><i class="glyphicon glyphicon-remove"></i></span>
                         <span class="action-copy">
@@ -94,7 +94,7 @@
                 </li>
 
                 <!-- Golden spiral -->
-                <li class="section-li surface-card featured-card" id="spiral-section">
+                <li class="section-li surface-card featured-card" id="spiral-section" data-tab-panel="spiral-section" role="tabpanel" aria-labelledby="tab-spiral-section" hidden>
                     <div class="section-body">
                         <div class="card-title-row">
                             <div>
@@ -128,7 +128,7 @@
                 </li>
 
                 <!-- Grid Generator (collapsible) -->
-                <li class="section-li surface-card" id="grid-section">
+                <li class="section-li surface-card" id="grid-section" data-tab-panel="grid-section" role="tabpanel" aria-labelledby="tab-grid-section">
                     <div class="section-toggle" id="grid-toggle">
                         <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_GRID_GENERATOR"></span>
                     </div>
@@ -206,8 +206,8 @@
                 </li>
 
                 <!-- Helpline List -->
-                <li id="helpline-actions-divider" class="nav-divider hidden"></li>
-                <li id="helpline-actions" class="hidden">
+                <li id="helpline-actions-divider" class="nav-divider hidden" data-tab-panel="guides-section" role="tabpanel" aria-labelledby="tab-guides-section" hidden></li>
+                <li id="helpline-actions" class="hidden" data-tab-panel="guides-section" role="tabpanel" aria-labelledby="tab-guides-section" hidden>
                     <div class="row">
                         <div class="col-xs-12">
                             <strong>
@@ -219,7 +219,7 @@
                 </li>
 
                 <!-- Presets (collapsible) -->
-                <li class="section-li surface-card" id="presets-section">
+                <li class="section-li surface-card" id="presets-section" data-tab-panel="presets-section" role="tabpanel" aria-labelledby="tab-presets-section" hidden>
                     <div class="section-toggle" id="presets-toggle">
                         <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_PRESETS_PROFILES"></span>
                     </div>
@@ -233,7 +233,7 @@
                 </li>
 
                 <!-- Export / Import -->
-                <li class="section-li surface-card export-card">
+                <li class="section-li surface-card export-card" data-tab-panel="presets-section" role="tabpanel" aria-labelledby="tab-presets-section" hidden>
                     <div class="export-import-row">
                         <button type="button" class="btn btn-default btn-xs" id="btn-export">&#x2B07; <span data-i18n="POPUP_EXPORT_JSON"></span></button>
                         <button type="button" class="btn btn-default btn-xs" id="btn-import">&#x2B06; <span data-i18n="POPUP_IMPORT_JSON"></span></button>
@@ -242,7 +242,7 @@
                 </li>
 
                 <!-- Settings (collapsible) -->
-                <li class="section-li surface-card">
+                <li class="section-li surface-card" data-tab-panel="presets-section" role="tabpanel" aria-labelledby="tab-presets-section" hidden>
                     <div class="section-toggle" id="settings-toggle">
                         <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_SETTINGS"></span>
                     </div>

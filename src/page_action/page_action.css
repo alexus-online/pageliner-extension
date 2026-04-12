@@ -891,6 +891,29 @@ body.pageliner-popup.theme-dark {
     border-color: rgba(241, 170, 21, 0.35);
 }
 
+.page-actions > li[hidden] {
+    display: none !important;
+}
+
+.section-tab-highlight {
+    animation: sectionPulse 0.55s ease;
+}
+
+@keyframes sectionPulse {
+    0% {
+        transform: translateY(0);
+        box-shadow: var(--pl-card-shadow);
+    }
+    50% {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 34px rgba(41, 66, 53, 0.16);
+    }
+    100% {
+        transform: translateY(0);
+        box-shadow: var(--pl-card-shadow);
+    }
+}
+
 .page-actions {
     margin: 0;
     display: flex;
