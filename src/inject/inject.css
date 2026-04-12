@@ -300,7 +300,9 @@ body.pglnr-ext-spiral-mode-active {
 }
 
 .pglnr-ext-golden-spiral-delete,
-.pglnr-ext-golden-spiral-rotate {
+.pglnr-ext-golden-spiral-rotate,
+.pglnr-ext-golden-spiral-mirror-x,
+.pglnr-ext-golden-spiral-mirror-y {
     all: unset;
     width: 32px;
     height: 32px;
@@ -330,6 +332,24 @@ body.pglnr-ext-spiral-mode-active {
 .pglnr-ext-golden-spiral-rotate:hover {
     background: linear-gradient(180deg, rgba(61, 181, 106, 1) 0%, rgba(35, 147, 82, 1) 100%);
     transform: translateY(-1px);
+}
+
+.pglnr-ext-golden-spiral-mirror-x,
+.pglnr-ext-golden-spiral-mirror-y {
+    background: linear-gradient(180deg, rgba(52, 121, 214, 0.98) 0%, rgba(35, 94, 177, 0.98) 100%);
+    box-shadow: 0 2px 6px rgba(24, 63, 120, 0.45);
+}
+
+.pglnr-ext-golden-spiral-mirror-x:hover,
+.pglnr-ext-golden-spiral-mirror-y:hover {
+    background: linear-gradient(180deg, rgba(68, 138, 231, 1) 0%, rgba(45, 108, 196, 1) 100%);
+    transform: translateY(-1px);
+}
+
+.pglnr-ext-golden-spiral-mirror-x.is-active,
+.pglnr-ext-golden-spiral-mirror-y.is-active {
+    border-color: rgba(255, 235, 130, 0.95);
+    box-shadow: 0 0 0 2px rgba(255, 211, 62, 0.35), 0 2px 6px rgba(24, 63, 120, 0.55);
 }
 
 .pglnr-ext-golden-spiral-delete {

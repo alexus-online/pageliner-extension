@@ -17,6 +17,8 @@ var oPageLiner = {
     goldenSpiral: {
         mode: null,
         rotation: 0,
+        flipX: false,
+        flipY: false,
         rect: null,
         color: '#f2b200',
         strokeWidth: 2,
@@ -841,6 +843,8 @@ oPageLiner.clearGoldenSpiral = function () {
     $('.pglnr-ext-golden-spiral').remove();
     this.goldenSpiral.rect = null;
     this.goldenSpiral.rotation = 0;
+    this.goldenSpiral.flipX = false;
+    this.goldenSpiral.flipY = false;
 };
 
 oPageLiner.setGoldenSpiralStyle = function (oStyle) {
@@ -1004,6 +1008,19 @@ oPageLiner.rotateGoldenSpiral = function (iStepDeg) {
     this.drawGoldenSpiral(this.goldenSpiral.rect, iNextRotation);
 };
 
+oPageLiner.toggleGoldenSpiralMirror = function (sAxis) {
+    if (!this.goldenSpiral.rect) return;
+
+    if (sAxis === 'x') {
+        this.goldenSpiral.flipX = !this.goldenSpiral.flipX;
+    }
+    else if (sAxis === 'y') {
+        this.goldenSpiral.flipY = !this.goldenSpiral.flipY;
+    }
+
+    this.drawGoldenSpiral(this.goldenSpiral.rect, this.goldenSpiral.rotation || 0);
+};
+
 oPageLiner.getGoldenSpiralQuarterArcPath = function (cx, cy, r, aStart, aEnd) {
     var iSteps = 18;
     var aPoints = [];
@@ -1152,6 +1169,28 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
             oPageLiner.rotateGoldenSpiral(90);
         });
 
+        var oMirrorXBtn = document.createElement('button');
+        oMirrorXBtn.className = 'pglnr-ext-golden-spiral-mirror-x';
+        oMirrorXBtn.setAttribute('type', 'button');
+        oMirrorXBtn.setAttribute('title', 'Horizontal spiegeln');
+        oMirrorXBtn.innerText = '↔';
+        oMirrorXBtn.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            oPageLiner.toggleGoldenSpiralMirror('x');
+        });
+
+        var oMirrorYBtn = document.createElement('button');
+        oMirrorYBtn.className = 'pglnr-ext-golden-spiral-mirror-y';
+        oMirrorYBtn.setAttribute('type', 'button');
+        oMirrorYBtn.setAttribute('title', 'Vertikal spiegeln');
+        oMirrorYBtn.innerText = '↕';
+        oMirrorYBtn.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            oPageLiner.toggleGoldenSpiralMirror('y');
+        });
+
         var oDeleteBtn = document.createElement('button');
         oDeleteBtn.className = 'pglnr-ext-golden-spiral-delete';
         oDeleteBtn.setAttribute('type', 'button');
@@ -1170,6 +1209,8 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
         });
 
         oControls.appendChild(oRotateBtn);
+        oControls.appendChild(oMirrorXBtn);
+        oControls.appendChild(oMirrorYBtn);
         oControls.appendChild(oDeleteBtn);
         oWrap.appendChild(oControls);
 
@@ -1210,40 +1251,55 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
     oWrap.style.top = iTop + 'px';
     oWrap.style.width = iWidth + 'px';
     oWrap.style.height = iHeight + 'px';
-    oHint.innerText = 'Goldene Spirale · ' + iRotation + '°';
+    var blFlipX = !!this.goldenSpiral.flipX;
+    var blFlipY = !!this.goldenSpiral.flipY;
+    var sFlipHint = (blFlipX ? ' ↔' : '') + (blFlipY ? ' ↕' : '');
+    oHint.innerText = 'Goldene Spirale · ' + iRotation + '°' + sFlipHint;
 
     oSvg.setAttribute('viewBox', '0 0 ' + iWidth + ' ' + iHeight);
     var iNormRotation = ((iRotation % 360) + 360) % 360;
     var blQuarterTurn = iNormRotation % 90 === 0;
-    var iQuarter = blQuarterTurn ? (iNormRotation / 90) : -1;
+    var cx = iWidth / 2;
+    var cy = iHeight / 2;
+    var sBaseTransform = '';
 
-    var iModelWidth = iWidth;
-    var iModelHeight = iHeight;
-    var sTransform = '';
-
-    if (iQuarter === 1) {
-        // 90°: build on swapped dimensions, then rotate into target box.
-        iModelWidth = iHeight;
-        iModelHeight = iWidth;
-        sTransform = 'translate(' + iWidth + ' 0) rotate(90)';
-    } else if (iQuarter === 2) {
-        sTransform = 'translate(' + iWidth + ' ' + iHeight + ') rotate(180)';
-    } else if (iQuarter === 3) {
-        // 270°: build on swapped dimensions, then rotate into target box.
-        iModelWidth = iHeight;
-        iModelHeight = iWidth;
-        sTransform = 'translate(0 ' + iHeight + ') rotate(-90)';
-    } else if (!blQuarterTurn) {
-        sTransform = 'rotate(' + iRotation + ' ' + (iWidth / 2).toFixed(2) + ' ' + (iHeight / 2).toFixed(2) + ')';
+    if (blQuarterTurn && (iNormRotation === 90 || iNormRotation === 270)) {
+        // Keep the same box for 90/270 by fitting rotated geometry back into
+        // the original rectangle dimensions.
+        var sx = iWidth / Math.max(1, iHeight);
+        var sy = iHeight / Math.max(1, iWidth);
+        sBaseTransform =
+            'translate(' + cx.toFixed(2) + ' ' + cy.toFixed(2) + ') ' +
+            'scale(' + sx.toFixed(6) + ' ' + sy.toFixed(6) + ') ' +
+            'rotate(' + iNormRotation + ') ' +
+            'translate(' + (-cx).toFixed(2) + ' ' + (-cy).toFixed(2) + ')';
+    } else if (iNormRotation !== 0) {
+        sBaseTransform = 'rotate(' + iNormRotation + ' ' + cx.toFixed(2) + ' ' + cy.toFixed(2) + ')';
     }
 
+    var sMirrorTransform = '';
+    if (blFlipX || blFlipY) {
+        var sxMirror = blFlipX ? -1 : 1;
+        var syMirror = blFlipY ? -1 : 1;
+        sMirrorTransform =
+            'translate(' + cx.toFixed(2) + ' ' + cy.toFixed(2) + ') ' +
+            'scale(' + sxMirror + ' ' + syMirror + ') ' +
+            'translate(' + (-cx).toFixed(2) + ' ' + (-cy).toFixed(2) + ')';
+    }
+
+    var sTransform = [sMirrorTransform, sBaseTransform].filter(function (s) { return !!s; }).join(' ');
     oGroup.setAttribute('transform', sTransform);
+
+    var oMirrorXBtnState = oWrap.querySelector('.pglnr-ext-golden-spiral-mirror-x');
+    var oMirrorYBtnState = oWrap.querySelector('.pglnr-ext-golden-spiral-mirror-y');
+    if (oMirrorXBtnState) oMirrorXBtnState.classList.toggle('is-active', blFlipX);
+    if (oMirrorYBtnState) oMirrorYBtnState.classList.toggle('is-active', blFlipY);
 
     while (oGuideGroup.firstChild) {
         oGuideGroup.removeChild(oGuideGroup.firstChild);
     }
 
-    var oModel = this.buildGoldenSpiralModel(iModelWidth, iModelHeight);
+    var oModel = this.buildGoldenSpiralModel(iWidth, iHeight);
     oModel.squares.forEach(function (sq) {
         var oRectSvg = document.createElementNS(sSvgNS, 'rect');
         oRectSvg.setAttribute('class', 'pglnr-ext-golden-guide');
