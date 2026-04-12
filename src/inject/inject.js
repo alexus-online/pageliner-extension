@@ -996,10 +996,23 @@ oPageLiner.rotateGoldenSpiral = function (iStepDeg) {
     if (!this.goldenSpiral.rect) return;
 
     var iStep = parseInt(iStepDeg, 10) || 90;
+    var oRect = Object.assign({}, this.goldenSpiral.rect);
     var iNextRotation = ((this.goldenSpiral.rotation || 0) + iStep) % 360;
     if (iNextRotation < 0) iNextRotation += 360;
 
-    this.drawGoldenSpiral(this.goldenSpiral.rect, iNextRotation);
+    // For quarter turns (90°/270°), swap width/height and keep center point.
+    // This avoids clipped-looking results on non-square areas.
+    var iQuarterTurns = Math.round(Math.abs(iStep) / 90);
+    if (iStep % 90 === 0 && (iQuarterTurns % 2 === 1)) {
+        var iNewWidth = oRect.height;
+        var iNewHeight = oRect.width;
+        oRect.left = Math.round(oRect.left + (oRect.width - iNewWidth) / 2);
+        oRect.top = Math.round(oRect.top + (oRect.height - iNewHeight) / 2);
+        oRect.width = iNewWidth;
+        oRect.height = iNewHeight;
+    }
+
+    this.drawGoldenSpiral(oRect, iNextRotation);
 };
 
 oPageLiner.getGoldenSpiralQuarterArcPath = function (cx, cy, r, aStart, aEnd) {
