@@ -945,33 +945,15 @@ oPageLiner.rotateGoldenSpiral = function (iStepDeg) {
     this.drawGoldenSpiral(this.goldenSpiral.rect, iNextRotation);
 };
 
-oPageLiner.getGoldenSpiralPath = function (iWidth, iHeight, iRotationDeg) {
-    var iMinSide = Math.min(iWidth, iHeight);
-    if (iMinSide < 8) return '';
-
-    var iPadding = 4;
-    var iCenterX = iWidth / 2;
-    var iCenterY = iHeight / 2;
-    var iMinRadius = Math.max(2, iMinSide * 0.02);
-    var iMaxRadius = Math.max(iMinRadius + 1, (iMinSide / 2) - iPadding);
-
-    var dPhi = 1.61803398875;
-    var dB = Math.log(dPhi) / (Math.PI / 2);
-    var dThetaMax = Math.log(iMaxRadius / iMinRadius) / dB;
-    var iSteps = 160;
-    var dRotation = ((parseInt(iRotationDeg, 10) || 0) - 90) * Math.PI / 180;
+oPageLiner.getGoldenSpiralQuarterArcPath = function (cx, cy, r, aStart, aEnd) {
+    var iSteps = 18;
     var aPoints = [];
-
     for (var i = 0; i <= iSteps; i++) {
-        var dTheta = dThetaMax * (i / iSteps);
-        var dRadius = iMinRadius * Math.exp(dB * dTheta);
-        var dAngle = dTheta + dRotation;
-        var dX = iCenterX + dRadius * Math.cos(dAngle);
-        var dY = iCenterY + dRadius * Math.sin(dAngle);
-
+        var t = i / iSteps;
+        var a = aStart + (aEnd - aStart) * t;
         aPoints.push({
-            x: Math.max(0, Math.min(iWidth, dX)),
-            y: Math.max(0, Math.min(iHeight, dY))
+            x: cx + r * Math.cos(a),
+            y: cy + r * Math.sin(a)
         });
     }
 
@@ -981,8 +963,100 @@ oPageLiner.getGoldenSpiralPath = function (iWidth, iHeight, iRotationDeg) {
     for (var j = 1; j < aPoints.length; j++) {
         sPath += ' L ' + aPoints[j].x.toFixed(2) + ' ' + aPoints[j].y.toFixed(2);
     }
-
     return sPath;
+};
+
+oPageLiner.buildGoldenSpiralModel = function (iWidth, iHeight) {
+    var oRect = {x: 0, y: 0, w: iWidth, h: iHeight};
+    var aSides = ['left', 'top', 'right', 'bottom'];
+    var aSquares = [];
+    var aArcParts = [];
+
+    for (var i = 0; i < 28; i++) {
+        if (oRect.w < 6 || oRect.h < 6) break;
+
+        var sSide = aSides[i % 4];
+        var s = Math.min(oRect.w, oRect.h);
+        var sx = oRect.x;
+        var sy = oRect.y;
+        var cx, cy, aStart, aEnd;
+
+        if (sSide === 'left') {
+            sx = oRect.x;
+            sy = oRect.y;
+            oRect.x += s;
+            oRect.w -= s;
+            cx = sx + s;
+            cy = sy + s;
+            aStart = Math.PI;
+            aEnd = 1.5 * Math.PI;
+        } else if (sSide === 'top') {
+            sx = oRect.x + Math.max(0, oRect.w - s);
+            sy = oRect.y;
+            oRect.y += s;
+            oRect.h -= s;
+            cx = sx;
+            cy = sy + s;
+            aStart = 1.5 * Math.PI;
+            aEnd = 2 * Math.PI;
+        } else if (sSide === 'right') {
+            sx = oRect.x + Math.max(0, oRect.w - s);
+            sy = oRect.y + Math.max(0, oRect.h - s);
+            oRect.w -= s;
+            cx = sx;
+            cy = sy;
+            aStart = 0;
+            aEnd = 0.5 * Math.PI;
+        } else {
+            sx = oRect.x;
+            sy = oRect.y + Math.max(0, oRect.h - s);
+            oRect.h -= s;
+            cx = sx + s;
+            cy = sy;
+            aStart = 0.5 * Math.PI;
+            aEnd = Math.PI;
+        }
+
+        aSquares.push({x: sx, y: sy, size: s});
+        aArcParts.push(this.getGoldenSpiralQuarterArcPath(cx, cy, s, aStart, aEnd));
+
+        if (oRect.w < 1 || oRect.h < 1) break;
+    }
+
+    return {
+        squares: aSquares,
+        spiralPath: aArcParts.join(' ')
+    };
+};
+
+oPageLiner.bindGoldenSpiralInteractions = function ($oWrap) {
+    if (!$oWrap || !$oWrap.length) return;
+
+    var self = this;
+
+    $oWrap.draggable({
+        containment: 'document',
+        cancel: '.ui-resizable-handle',
+        drag: function (event, ui) {
+            self.goldenSpiral.rect.left = Math.round(ui.position.left);
+            self.goldenSpiral.rect.top = Math.round(ui.position.top);
+        }
+    });
+
+    $oWrap.resizable({
+        handles: 'n,e,s,w,ne,nw,se,sw',
+        minWidth: 24,
+        minHeight: 24,
+        resize: function (event, ui) {
+            self.goldenSpiral.rect = {
+                left: Math.round(ui.position.left),
+                top: Math.round(ui.position.top),
+                width: Math.round(ui.size.width),
+                height: Math.round(ui.size.height)
+            };
+            self.drawGoldenSpiral(self.goldenSpiral.rect, self.goldenSpiral.rotation || 0);
+        }
+    });
 };
 
 oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
@@ -993,39 +1067,78 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
     var iLeft = Math.round(oRect.left);
     var iTop = Math.round(oRect.top);
     var iRotation = parseInt(iRotationDeg, 10) || 0;
+    var sSvgNS = 'http://www.w3.org/2000/svg';
+    var $oWrap = $('.pglnr-ext-golden-spiral');
+    var oWrap, oSvg, oHint, oGroup, oGuideGroup, oSpiralPath;
 
-    $('.pglnr-ext-golden-spiral').remove();
+    if (!$oWrap.length) {
+        oWrap = document.createElement('div');
+        oWrap.className = 'pglnr-ext-golden-spiral';
 
-    var oWrap = document.createElement('div');
-    oWrap.className = 'pglnr-ext-golden-spiral';
+        var oFrame = document.createElement('div');
+        oFrame.className = 'pglnr-ext-golden-spiral-frame';
+        oWrap.appendChild(oFrame);
+
+        oHint = document.createElement('div');
+        oHint.className = 'pglnr-ext-golden-spiral-hint';
+        oWrap.appendChild(oHint);
+
+        oSvg = document.createElementNS(sSvgNS, 'svg');
+        oSvg.setAttribute('class', 'pglnr-ext-golden-spiral-svg');
+
+        oGroup = document.createElementNS(sSvgNS, 'g');
+        oGroup.setAttribute('class', 'pglnr-ext-golden-spiral-group');
+
+        oGuideGroup = document.createElementNS(sSvgNS, 'g');
+        oGuideGroup.setAttribute('class', 'pglnr-ext-golden-guide-group');
+        oGroup.appendChild(oGuideGroup);
+
+        oSpiralPath = document.createElementNS(sSvgNS, 'path');
+        oSpiralPath.setAttribute('class', 'pglnr-ext-golden-spiral-path');
+        oGroup.appendChild(oSpiralPath);
+
+        oSvg.appendChild(oGroup);
+        oWrap.appendChild(oSvg);
+        document.body.appendChild(oWrap);
+
+        $oWrap = $(oWrap);
+        this.bindGoldenSpiralInteractions($oWrap);
+    } else {
+        oWrap = $oWrap[0];
+        oSvg = oWrap.querySelector('.pglnr-ext-golden-spiral-svg');
+        oHint = oWrap.querySelector('.pglnr-ext-golden-spiral-hint');
+        oGroup = oWrap.querySelector('.pglnr-ext-golden-spiral-group');
+        oGuideGroup = oWrap.querySelector('.pglnr-ext-golden-guide-group');
+        oSpiralPath = oWrap.querySelector('.pglnr-ext-golden-spiral-path');
+    }
+
     oWrap.style.left = iLeft + 'px';
     oWrap.style.top = iTop + 'px';
     oWrap.style.width = iWidth + 'px';
     oWrap.style.height = iHeight + 'px';
-
-    var oFrame = document.createElement('div');
-    oFrame.className = 'pglnr-ext-golden-spiral-frame';
-    oWrap.appendChild(oFrame);
-
-    var oHint = document.createElement('div');
-    oHint.className = 'pglnr-ext-golden-spiral-hint';
     oHint.innerText = 'Goldene Spirale · ' + iRotation + '°';
-    oWrap.appendChild(oHint);
 
-    var sSvgNS = 'http://www.w3.org/2000/svg';
-    var oSvg = document.createElementNS(sSvgNS, 'svg');
-    oSvg.setAttribute('class', 'pglnr-ext-golden-spiral-svg');
     oSvg.setAttribute('viewBox', '0 0 ' + iWidth + ' ' + iHeight);
+    oGroup.setAttribute('transform', 'rotate(' + iRotation + ' ' + (iWidth / 2).toFixed(2) + ' ' + (iHeight / 2).toFixed(2) + ')');
 
-    var oPath = document.createElementNS(sSvgNS, 'path');
-    oPath.setAttribute('class', 'pglnr-ext-golden-spiral-path');
-    oPath.style.stroke = this.goldenSpiral.color || '#f2b200';
-    oPath.style.strokeWidth = (this.goldenSpiral.strokeWidth || 2) + 'px';
-    oPath.setAttribute('d', this.getGoldenSpiralPath(iWidth, iHeight, iRotation));
-    oSvg.appendChild(oPath);
-    oWrap.appendChild(oSvg);
+    while (oGuideGroup.firstChild) {
+        oGuideGroup.removeChild(oGuideGroup.firstChild);
+    }
 
-    document.body.appendChild(oWrap);
+    var oModel = this.buildGoldenSpiralModel(iWidth, iHeight);
+    oModel.squares.forEach(function (sq) {
+        var oRectSvg = document.createElementNS(sSvgNS, 'rect');
+        oRectSvg.setAttribute('class', 'pglnr-ext-golden-guide');
+        oRectSvg.setAttribute('x', sq.x.toFixed(2));
+        oRectSvg.setAttribute('y', sq.y.toFixed(2));
+        oRectSvg.setAttribute('width', sq.size.toFixed(2));
+        oRectSvg.setAttribute('height', sq.size.toFixed(2));
+        oGuideGroup.appendChild(oRectSvg);
+    });
+
+    oSpiralPath.style.stroke = this.goldenSpiral.color || '#f2b200';
+    oSpiralPath.style.strokeWidth = (this.goldenSpiral.strokeWidth || 2) + 'px';
+    oSpiralPath.setAttribute('d', oModel.spiralPath || '');
 
     this.goldenSpiral.rect = {
         left: iLeft,
