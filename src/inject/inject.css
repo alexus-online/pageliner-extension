@@ -217,6 +217,11 @@ body.pglnr-ext-spiral-mode-active {
     cursor: crosshair !important;
 }
 
+.pglnr-ext-spiral-hover-target {
+    outline: 2px dashed rgba(242, 178, 0, 0.95) !important;
+    outline-offset: -1px !important;
+}
+
 .pglnr-ext-golden-spiral {
     position: absolute;
     z-index: 2147483501;

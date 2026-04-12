@@ -19,7 +19,8 @@ var oPageLiner = {
         rotation: 0,
         rect: null,
         color: '#f2b200',
-        strokeWidth: 2
+        strokeWidth: 2,
+        hoverTarget: null
     },
     shortcutMap: null
 };
@@ -799,6 +800,10 @@ oPageLiner.cancelGoldenSpiralMode = function () {
     $(document).off('.pglnrSpiralMode');
     $(document).off('.pglnrSpiralArea');
     $('.pglnr-ext-spiral-selection').remove();
+    if (this.goldenSpiral.hoverTarget) {
+        $(this.goldenSpiral.hoverTarget).removeClass('pglnr-ext-spiral-hover-target');
+    }
+    this.goldenSpiral.hoverTarget = null;
     this.goldenSpiral.mode = null;
 };
 
@@ -852,6 +857,23 @@ oPageLiner.startGoldenSpiralElementMode = function () {
         }
     });
 
+    $(document).on('mousemove.pglnrSpiralMode', function (e) {
+        var $oCurrent = $(e.target).closest('.pglnr-ext-golden-spiral, .ui-resizable-handle, .pglnr-ext-golden-spiral-delete');
+        if ($oCurrent.length) return;
+
+        var oTargetDiv = $(e.target).closest('div')[0];
+        var oTarget = oTargetDiv || e.target;
+        if (!oTarget || !oTarget.getBoundingClientRect) return;
+
+        if (self.goldenSpiral.hoverTarget !== oTarget) {
+            if (self.goldenSpiral.hoverTarget) {
+                $(self.goldenSpiral.hoverTarget).removeClass('pglnr-ext-spiral-hover-target');
+            }
+            self.goldenSpiral.hoverTarget = oTarget;
+            $(oTarget).addClass('pglnr-ext-spiral-hover-target');
+        }
+    });
+
     $(document).on('click.pglnrSpiralMode', function (e) {
         if ($(e.target).closest('.pglnr-ext-golden-spiral').length > 0) {
             return;
@@ -860,8 +882,11 @@ oPageLiner.startGoldenSpiralElementMode = function () {
         e.preventDefault();
         e.stopPropagation();
 
-        var oTargetDiv = $(e.target).closest('div')[0];
-        var oTarget = oTargetDiv || e.target;
+        var oTarget = self.goldenSpiral.hoverTarget;
+        if (!oTarget) {
+            var oTargetDiv = $(e.target).closest('div')[0];
+            oTarget = oTargetDiv || e.target;
+        }
         if (!oTarget || !oTarget.getBoundingClientRect) {
             self.cancelGoldenSpiralMode();
             return;
