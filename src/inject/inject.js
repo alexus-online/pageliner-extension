@@ -1136,11 +1136,25 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
         oFrame.className = 'pglnr-ext-golden-spiral-frame';
         oWrap.appendChild(oFrame);
 
+        var oControls = document.createElement('div');
+        oControls.className = 'pglnr-ext-golden-spiral-controls';
+
+        var oRotateBtn = document.createElement('button');
+        oRotateBtn.className = 'pglnr-ext-golden-spiral-rotate';
+        oRotateBtn.setAttribute('type', 'button');
+        oRotateBtn.setAttribute('title', 'Spirale drehen');
+        oRotateBtn.innerText = '↻';
+        oRotateBtn.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            oPageLiner.rotateGoldenSpiral(90);
+        });
+
         var oDeleteBtn = document.createElement('button');
         oDeleteBtn.className = 'pglnr-ext-golden-spiral-delete';
         oDeleteBtn.setAttribute('type', 'button');
         oDeleteBtn.setAttribute('title', 'Spirale löschen');
-        oDeleteBtn.innerText = '×';
+        oDeleteBtn.innerText = '✕';
         oDeleteBtn.addEventListener('click', function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
@@ -1152,19 +1166,10 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
                 oPageLiner.startGoldenSpiralAreaMode();
             }
         });
-        oWrap.appendChild(oDeleteBtn);
 
-        var oRotateBtn = document.createElement('button');
-        oRotateBtn.className = 'pglnr-ext-golden-spiral-rotate';
-        oRotateBtn.setAttribute('type', 'button');
-        oRotateBtn.setAttribute('title', 'Spirale drehen');
-        oRotateBtn.innerText = '⟳';
-        oRotateBtn.addEventListener('click', function (ev) {
-            ev.preventDefault();
-            ev.stopPropagation();
-            oPageLiner.rotateGoldenSpiral(90);
-        });
-        oWrap.appendChild(oRotateBtn);
+        oControls.appendChild(oRotateBtn);
+        oControls.appendChild(oDeleteBtn);
+        oWrap.appendChild(oControls);
 
         oHint = document.createElement('div');
         oHint.className = 'pglnr-ext-golden-spiral-hint';
