@@ -996,23 +996,12 @@ oPageLiner.rotateGoldenSpiral = function (iStepDeg) {
     if (!this.goldenSpiral.rect) return;
 
     var iStep = parseInt(iStepDeg, 10) || 90;
-    var oRect = Object.assign({}, this.goldenSpiral.rect);
     var iNextRotation = ((this.goldenSpiral.rotation || 0) + iStep) % 360;
     if (iNextRotation < 0) iNextRotation += 360;
 
-    // For quarter turns (90°/270°), swap width/height and keep center point.
-    // This avoids clipped-looking results on non-square areas.
-    var iQuarterTurns = Math.round(Math.abs(iStep) / 90);
-    if (iStep % 90 === 0 && (iQuarterTurns % 2 === 1)) {
-        var iNewWidth = oRect.height;
-        var iNewHeight = oRect.width;
-        oRect.left = Math.round(oRect.left + (oRect.width - iNewWidth) / 2);
-        oRect.top = Math.round(oRect.top + (oRect.height - iNewHeight) / 2);
-        oRect.width = iNewWidth;
-        oRect.height = iNewHeight;
-    }
-
-    this.drawGoldenSpiral(oRect, iNextRotation);
+    // Keep the same container rect (especially for DIV-based placement).
+    // Only the spiral orientation should change.
+    this.drawGoldenSpiral(this.goldenSpiral.rect, iNextRotation);
 };
 
 oPageLiner.getGoldenSpiralQuarterArcPath = function (cx, cy, r, aStart, aEnd) {
@@ -1036,16 +1025,18 @@ oPageLiner.getGoldenSpiralQuarterArcPath = function (cx, cy, r, aStart, aEnd) {
     return sPath;
 };
 
-oPageLiner.buildGoldenSpiralModel = function (iWidth, iHeight) {
+oPageLiner.buildGoldenSpiralModel = function (iWidth, iHeight, iRotationDeg) {
     var oRect = {x: 0, y: 0, w: iWidth, h: iHeight};
     var aSides = ['left', 'top', 'right', 'bottom'];
+    var iRot = ((parseInt(iRotationDeg, 10) || 0) % 360 + 360) % 360;
+    var iShift = (iRot % 90 === 0) ? (iRot / 90) : 0;
     var aSquares = [];
     var aArcParts = [];
 
     for (var i = 0; i < 28; i++) {
         if (oRect.w < 6 || oRect.h < 6) break;
 
-        var sSide = aSides[i % 4];
+        var sSide = aSides[(i + iShift) % 4];
         var s = Math.min(oRect.w, oRect.h);
         var sx = oRect.x;
         var sy = oRect.y;
@@ -1224,13 +1215,17 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
     oHint.innerText = 'Goldene Spirale · ' + iRotation + '°';
 
     oSvg.setAttribute('viewBox', '0 0 ' + iWidth + ' ' + iHeight);
-    oGroup.setAttribute('transform', 'rotate(' + iRotation + ' ' + (iWidth / 2).toFixed(2) + ' ' + (iHeight / 2).toFixed(2) + ')');
+    var blQuarterTurn = iRotation % 90 === 0;
+    oGroup.setAttribute(
+        'transform',
+        blQuarterTurn ? '' : ('rotate(' + iRotation + ' ' + (iWidth / 2).toFixed(2) + ' ' + (iHeight / 2).toFixed(2) + ')')
+    );
 
     while (oGuideGroup.firstChild) {
         oGuideGroup.removeChild(oGuideGroup.firstChild);
     }
 
-    var oModel = this.buildGoldenSpiralModel(iWidth, iHeight);
+    var oModel = this.buildGoldenSpiralModel(iWidth, iHeight, blQuarterTurn ? iRotation : 0);
     oModel.squares.forEach(function (sq) {
         var oRectSvg = document.createElementNS(sSvgNS, 'rect');
         oRectSvg.setAttribute('class', 'pglnr-ext-golden-guide');
