@@ -20,7 +20,8 @@ var oPageLiner = {
         rect: null,
         color: '#f2b200',
         strokeWidth: 2,
-        hoverTarget: null
+        hoverTarget: null,
+        lastPlacementMode: null
     },
     shortcutMap: null
 };
@@ -877,6 +878,7 @@ oPageLiner.startGoldenSpiralElementMode = function () {
     var self = this;
     self.cancelGoldenSpiralMode();
     self.goldenSpiral.mode = 'element';
+    self.goldenSpiral.lastPlacementMode = 'element';
     $('body').addClass('pglnr-ext-spiral-mode-active');
 
     $(document).on('keydown.pglnrSpiralMode', function (e) {
@@ -945,6 +947,7 @@ oPageLiner.startGoldenSpiralAreaMode = function () {
 
     self.cancelGoldenSpiralMode();
     self.goldenSpiral.mode = 'area';
+    self.goldenSpiral.lastPlacementMode = 'area';
     $('body').addClass('pglnr-ext-spiral-mode-active');
 
     $(document).on('keydown.pglnrSpiralMode', function (e) {
@@ -1141,7 +1144,13 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
         oDeleteBtn.addEventListener('click', function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
+            var sMode = oPageLiner.goldenSpiral.lastPlacementMode;
             oPageLiner.clearGoldenSpiral();
+            if (sMode === 'element') {
+                oPageLiner.startGoldenSpiralElementMode();
+            } else if (sMode === 'area') {
+                oPageLiner.startGoldenSpiralAreaMode();
+            }
         });
         oWrap.appendChild(oDeleteBtn);
 
