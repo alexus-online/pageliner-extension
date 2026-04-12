@@ -1,0 +1,13 @@
+{
+  "name": "pageliner-extension",
+  "private": true,
+  "version": "1.2.1",
+  "description": "UI smoke tests for PageLiner extension",
+  "scripts": {
+    "test:ui": "playwright test --config=playwright.config.js",
+    "test:ui:headed": "playwright test --config=playwright.config.js --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.2"
+  }
+}

@@ -42,6 +42,17 @@ if [[ -n "$(git status --porcelain)" ]]; then
   exit 1
 fi
 
+if [[ "${SKIP_UI_TESTS:-0}" != "1" ]]; then
+  if [[ ! -x "./run-ui-smoke.sh" ]]; then
+    echo "Error: ./run-ui-smoke.sh missing or not executable."
+    exit 1
+  fi
+  echo "Running UI smoke checks before release..."
+  ./run-ui-smoke.sh
+else
+  echo "SKIP_UI_TESTS=1 set: skipping UI smoke checks."
+fi
+
 sed -i '' "s/\"version\": \"$CURRENT_VERSION\"/\"version\": \"$VERSION\"/" "$MANIFEST"
 
 git add "$MANIFEST"
