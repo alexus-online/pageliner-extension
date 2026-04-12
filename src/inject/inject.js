@@ -1043,7 +1043,23 @@ oPageLiner.getGoldenSpiralQuarterArcPath = function (cx, cy, r, aStart, aEnd) {
 };
 
 oPageLiner.buildGoldenSpiralModel = function (iWidth, iHeight) {
-    var oRect = {x: 0, y: 0, w: iWidth, h: iHeight};
+    var PHI = (1 + Math.sqrt(5)) / 2;
+    var iGoldenWidth = iWidth;
+    var iGoldenHeight = iHeight;
+    var iOffsetX = 0;
+    var iOffsetY = 0;
+
+    // Fit the largest real golden rectangle into the selected area.
+    // This keeps the user-selected bounds, but draws the spiral correctly inside them.
+    if (iWidth / Math.max(1, iHeight) > PHI) {
+        iGoldenWidth = iHeight * PHI;
+        iOffsetX = (iWidth - iGoldenWidth) / 2;
+    } else {
+        iGoldenHeight = iWidth / PHI;
+        iOffsetY = (iHeight - iGoldenHeight) / 2;
+    }
+
+    var oRect = {x: iOffsetX, y: iOffsetY, w: iGoldenWidth, h: iGoldenHeight};
     var aSides = ['left', 'top', 'right', 'bottom'];
     var aSquares = [];
     var aArcParts = [];
@@ -1100,6 +1116,12 @@ oPageLiner.buildGoldenSpiralModel = function (iWidth, iHeight) {
     }
 
     return {
+        bounds: {
+            x: iOffsetX,
+            y: iOffsetY,
+            width: iGoldenWidth,
+            height: iGoldenHeight
+        },
         squares: aSquares,
         spiralPath: aArcParts.join(' ')
     };
