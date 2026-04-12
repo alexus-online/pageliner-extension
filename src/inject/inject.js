@@ -160,7 +160,7 @@ chrome.runtime.onMessage.addListener(
                 sendResponse(oPageLiner.getAllHelpLines());
                 break;
             case 'clearGridOverlays':
-                $('.pglnr-ext-grid-overlay').remove();
+                oPageLiner.clearGeneratedGrid();
                 sendResponse({});
                 break;
             case 'setLabelVisibility':

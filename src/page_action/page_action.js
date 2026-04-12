@@ -371,8 +371,15 @@ $(function () {
         .on('input change', scheduleAutoGridRegenerate);
 
     $('#btn-clear-overlays').click(function () {
-        sendToActiveTab('clearGridOverlays');
+        sendToActiveTab('clearGridOverlays', {}, function () {
+            refreshHelpLineListing();
+        });
         syncToAllTabs('clearGridOverlays');
+        blGridHasBeenGenerated = false;
+        if (iGridAutoRegenerateTimer) {
+            clearTimeout(iGridAutoRegenerateTimer);
+            iGridAutoRegenerateTimer = null;
+        }
     });
 
     // Grid templates: Save
