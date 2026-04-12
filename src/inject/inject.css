@@ -306,6 +306,29 @@ body.pglnr-ext-spiral-mode-active {
     background: #c9302c;
 }
 
+.pglnr-ext-golden-spiral-rotate {
+    position: absolute;
+    right: 12px;
+    top: -10px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid #1e5e20;
+    background: #4cae4c;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 14px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 2;
+    padding: 0;
+}
+
+.pglnr-ext-golden-spiral-rotate:hover {
+    background: #449d44;
+}
+
 .pglnr-ext-spiral-selection {
     position: absolute;
     z-index: 2147483502;

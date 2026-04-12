@@ -1154,6 +1154,18 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
         });
         oWrap.appendChild(oDeleteBtn);
 
+        var oRotateBtn = document.createElement('button');
+        oRotateBtn.className = 'pglnr-ext-golden-spiral-rotate';
+        oRotateBtn.setAttribute('type', 'button');
+        oRotateBtn.setAttribute('title', 'Spirale drehen');
+        oRotateBtn.innerText = '⟳';
+        oRotateBtn.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            oPageLiner.rotateGoldenSpiral(90);
+        });
+        oWrap.appendChild(oRotateBtn);
+
         oHint = document.createElement('div');
         oHint.className = 'pglnr-ext-golden-spiral-hint';
         oWrap.appendChild(oHint);
