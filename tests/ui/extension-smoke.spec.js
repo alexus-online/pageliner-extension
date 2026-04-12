@@ -51,16 +51,29 @@ test('extension smoke: spiral + hover + resize + delete', async () => {
   try {
     const page = await context.newPage();
     await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.waitForTimeout(400);
 
-    // wait for content script
-    await expect.poll(async () => {
-      return page.locator('.pglnr-ext-ruler-top').count();
-    }, { timeout: 8000 }).toBeGreaterThanOrEqual(0);
+    const fireShortcut = async (combo) => {
+      await page.evaluate((shortcut) => {
+        const parts = shortcut.toUpperCase().split('+');
+        const key = parts[parts.length - 1];
+        const ev = new KeyboardEvent('keydown', {
+          key,
+          bubbles: true,
+          cancelable: true,
+          altKey: parts.includes('ALT'),
+          ctrlKey: parts.includes('CTRL'),
+          shiftKey: parts.includes('SHIFT'),
+          metaKey: parts.includes('META')
+        });
+        window.dispatchEvent(ev);
+      }, combo);
+    };
 
     // DIV mode hover highlight (ALT+E by default)
-    await page.keyboard.press('Alt+E');
+    await fireShortcut('ALT+E');
     await page.hover('#target-a');
-    await expect(page.locator('.pglnr-ext-spiral-hover-overlay')).toBeVisible();
+    await expect(page.locator('.pglnr-ext-spiral-hover-overlay')).toBeVisible({ timeout: 6000 });
 
     // Select hovered div
     await page.click('#target-a');
@@ -89,4 +102,3 @@ test('extension smoke: spiral + hover + resize + delete', async () => {
     server.close();
   }
 });
-

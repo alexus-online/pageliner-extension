@@ -15,22 +15,73 @@
  * @param {function} callback
  */
 function sendToActiveTab(action, params, callback) {
+    function send(tabId, onDone) {
+        chrome.tabs.sendMessage(
+            tabId,
+            Object.assign({sAction: action}, params || {}),
+            onDone
+        );
+    }
+
+    function injectContentScript(tabId, onInjected) {
+        if (!chrome.scripting) {
+            onInjected(false);
+            return;
+        }
+
+        chrome.scripting.insertCSS(
+            {
+                target: {tabId: tabId},
+                files: ['src/inject/inject.css']
+            },
+            function () {
+                // ignore CSS injection errors; try JS anyway
+                chrome.scripting.executeScript(
+                    {
+                        target: {tabId: tabId},
+                        files: [
+                            'js/jquery/jquery.min.js',
+                            'js/jquery/jquery-ui.min.js',
+                            'src/inject/inject.js'
+                        ]
+                    },
+                    function () {
+                        onInjected(!chrome.runtime.lastError);
+                    }
+                );
+            }
+        );
+    }
+
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         if (!tabs[0]) {
             if (callback) callback(null);
             return;
         }
-        chrome.tabs.sendMessage(
-            tabs[0].id,
-            Object.assign({sAction: action}, params || {}),
-            function (response) {
-                if (chrome.runtime.lastError) {
+
+        var tabId = tabs[0].id;
+        send(tabId, function (response) {
+            if (!chrome.runtime.lastError) {
+                if (callback) callback(response);
+                return;
+            }
+
+            // Common after extension reload: content script not present on current tab yet.
+            injectContentScript(tabId, function (ok) {
+                if (!ok) {
                     if (callback) callback(null);
                     return;
                 }
-                if (callback) callback(response);
-            }
-        );
+
+                send(tabId, function (response2) {
+                    if (chrome.runtime.lastError) {
+                        if (callback) callback(null);
+                        return;
+                    }
+                    if (callback) callback(response2);
+                });
+            });
+        });
     });
 }
 
