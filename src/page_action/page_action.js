@@ -59,6 +59,32 @@ $(function () {
     };
     // Backward-compat alias for any leftover calls.
     var t = i18n;
+    var aShortcutActions = [
+        {id: 'add_h_line', label: i18n('SHORTCUT_ADD_H_LINE')},
+        {id: 'add_v_line', label: i18n('SHORTCUT_ADD_V_LINE')},
+        {id: 'add_lines', label: i18n('SHORTCUT_ADD_LINES')},
+        {id: 'toggle_rulers', label: i18n('SHORTCUT_TOGGLE_RULERS')},
+        {id: 'toggle_lines', label: i18n('SHORTCUT_TOGGLE_LINES')},
+        {id: 'add_center_lines', label: i18n('POPUP_CENTER_LINES', 'Center Lines')},
+        {id: 'spiral_element', label: 'Spirale auf DIV'},
+        {id: 'spiral_area', label: 'Spirale auf Fläche'},
+        {id: 'spiral_rotate', label: 'Spirale drehen'},
+        {id: 'spiral_clear', label: 'Spirale löschen'},
+        {id: 'grid_clear', label: i18n('POPUP_GRID_CLEAR_OVERLAYS')}
+    ];
+    var oDefaultShortcuts = {
+        add_h_line: 'ALT+H',
+        add_v_line: 'ALT+V',
+        add_lines: 'ALT+A',
+        toggle_rulers: 'ALT+R',
+        toggle_lines: 'ALT+G',
+        add_center_lines: 'ALT+C',
+        spiral_element: 'ALT+E',
+        spiral_area: 'ALT+S',
+        spiral_rotate: 'ALT+Q',
+        spiral_clear: 'ALT+X',
+        grid_clear: 'ALT+K'
+    };
 
     /*
      * i18n translator
@@ -531,6 +557,147 @@ $(function () {
         syncToAllTabs('setLabelVisibility', {blShow: blShow});
     });
 
+    function normalizeShortcutCombo(sRaw) {
+        if (!sRaw || typeof sRaw !== 'string') return '';
+
+        var aTokens = sRaw.toUpperCase().replace(/\s+/g, '').split('+').filter(function (s) { return !!s; });
+        if (!aTokens.length) return '';
+
+        var oAlias = {
+            STRG: 'CTRL',
+            CONTROL: 'CTRL',
+            OPTION: 'ALT',
+            CMD: 'META',
+            COMMAND: 'META',
+            ESCAPE: 'ESC',
+            DEL: 'DELETE',
+            SPACEBAR: 'SPACE'
+        };
+
+        aTokens = aTokens.map(function (s) { return oAlias[s] || s; });
+
+        var aModOrder = ['CTRL', 'ALT', 'SHIFT', 'META'];
+        var oSeen = {};
+        var aMods = [];
+        aTokens.slice(0, -1).forEach(function (s) {
+            if (aModOrder.indexOf(s) >= 0 && !oSeen[s]) {
+                oSeen[s] = true;
+                aMods.push(s);
+            }
+        });
+        aMods.sort(function (a, b) { return aModOrder.indexOf(a) - aModOrder.indexOf(b); });
+
+        var sKey = aTokens[aTokens.length - 1];
+        if (!sKey || aModOrder.indexOf(sKey) >= 0) return '';
+        if (sKey.length === 1) sKey = sKey.toUpperCase();
+
+        return aMods.concat([sKey]).join('+');
+    }
+
+    function sanitizeShortcutMap(oMap) {
+        var oResult = {};
+        aShortcutActions.forEach(function (a) {
+            var sValue = (oMap && Object.prototype.hasOwnProperty.call(oMap, a.id))
+                ? oMap[a.id]
+                : oDefaultShortcuts[a.id];
+            oResult[a.id] = normalizeShortcutCombo(sValue);
+        });
+        return oResult;
+    }
+
+    function applyShortcutMapToTabs(oMap) {
+        sendToActiveTab('setShortcutMap', {shortcutMap: oMap});
+        chrome.runtime.sendMessage({
+            sAction: 'broadcastToAllTabs',
+            tabAction: 'setShortcutMap',
+            tabParams: {shortcutMap: oMap}
+        });
+    }
+
+    function saveShortcutMap(oMap) {
+        chrome.storage.local.set({'pglnr-shortcuts': oMap});
+        applyShortcutMapToTabs(oMap);
+    }
+
+    function collectShortcutMapFromUi() {
+        var oMap = {};
+        $('#shortcut-manager .shortcut-input').each(function () {
+            oMap[$(this).data('action')] = normalizeShortcutCombo($(this).val());
+        });
+        return sanitizeShortcutMap(oMap);
+    }
+
+    function renderShortcutValidation(oMap) {
+        var oUsage = {};
+        aShortcutActions.forEach(function (a) {
+            var sCombo = oMap[a.id] || '';
+            if (!sCombo) return;
+            if (!oUsage[sCombo]) oUsage[sCombo] = [];
+            oUsage[sCombo].push(a.id);
+        });
+
+        aShortcutActions.forEach(function (a) {
+            var sCombo = oMap[a.id] || '';
+            var $oStatus = $('#shortcut-status-' + a.id);
+            $oStatus.removeClass('ok conflict');
+
+            if (!sCombo) {
+                $oStatus.text('deaktiviert');
+                return;
+            }
+
+            var aUsers = oUsage[sCombo] || [];
+            if (aUsers.length > 1) {
+                var aOtherLabels = aUsers
+                    .filter(function (sId) { return sId !== a.id; })
+                    .map(function (sId) {
+                        var oAction = aShortcutActions.find(function (x) { return x.id === sId; });
+                        return oAction ? oAction.label : sId;
+                    });
+                $oStatus.addClass('conflict');
+                $oStatus.text('wird verwendet für: ' + aOtherLabels.join(', '));
+            } else {
+                $oStatus.addClass('ok');
+                $oStatus.text('OK');
+            }
+        });
+    }
+
+    function renderShortcutManager(oMap) {
+        var $oManager = $('#shortcut-manager');
+        $oManager.empty();
+
+        aShortcutActions.forEach(function (a) {
+            var $oRow = $('<div class="shortcut-row"></div>');
+            var $oLabel = $('<div class="shortcut-label"></div>').text(a.label);
+            var $oInput = $('<input type="text" class="form-control shortcut-input">')
+                .attr('data-action', a.id)
+                .val(oMap[a.id] || '');
+            var $oStatus = $('<div class="shortcut-status"></div>').attr('id', 'shortcut-status-' + a.id);
+
+            $oInput.on('blur change input', function () {
+                var sNormalized = normalizeShortcutCombo($(this).val());
+                $(this).val(sNormalized);
+                var oUiMap = collectShortcutMapFromUi();
+                renderShortcutValidation(oUiMap);
+                saveShortcutMap(oUiMap);
+            });
+
+            $oRow.append($oLabel, $oInput, $oStatus);
+            $oManager.append($oRow);
+        });
+
+        renderShortcutValidation(oMap);
+    }
+
+    function initShortcutManager() {
+        chrome.storage.local.get('pglnr-shortcuts', function (data) {
+            var oMap = sanitizeShortcutMap(data['pglnr-shortcuts'] || {});
+            renderShortcutManager(oMap);
+            saveShortcutMap(oMap);
+        });
+    }
+
     // -------------------------------------------------------
     // Helper: toggle ruler/helpline eye icons
     // -------------------------------------------------------
@@ -790,6 +957,7 @@ $(function () {
     refreshHelpLineListing();
     getGuiStatus();
     refreshPresetList();
+    initShortcutManager();
 
     // Feature 10: restore sync checkbox
     chrome.storage.local.get('pglnr-syncAcrossTabs', function (data) {

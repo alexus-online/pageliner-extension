@@ -20,7 +20,8 @@ var oPageLiner = {
         rect: null,
         color: '#f2b200',
         strokeWidth: 2
-    }
+    },
+    shortcutMap: null
 };
 
 function debug(sMsg) {
@@ -129,6 +130,10 @@ chrome.runtime.onMessage.addListener(
                 oPageLiner.setGoldenSpiralRotation(request.rotation);
                 sendResponse({});
                 break;
+            case 'setShortcutMap':
+                oPageLiner.setShortcutMap(request.shortcutMap || {});
+                sendResponse({});
+                break;
             case 'clearGoldenSpiral':
                 oPageLiner.clearGoldenSpiral();
                 sendResponse({});
@@ -228,6 +233,8 @@ oPageLiner.init = function () {
             debug('[PageLiner] No helplines to render.');
         }
     }
+
+    this.loadShortcutMap();
 
     $window.unbind('keydown', oPageLiner.handleKeyboardShortcuts);
     $window.on('keydown', oPageLiner.handleKeyboardShortcuts);
@@ -466,38 +473,178 @@ oPageLiner.addHelpLineToDOM = function (posX, posY, sColor, iHelplineIndex) {
     return oHelpLineElem;
 };
 
-oPageLiner.handleKeyboardShortcuts = function (e) {
-    if (!e.altKey || e.ctrlKey || e.shiftKey) {
-        return;
+oPageLiner.getDefaultShortcutMap = function () {
+    return {
+        add_h_line: 'ALT+H',
+        add_v_line: 'ALT+V',
+        add_lines: 'ALT+A',
+        toggle_rulers: 'ALT+R',
+        toggle_lines: 'ALT+G',
+        add_center_lines: 'ALT+C',
+        spiral_element: 'ALT+E',
+        spiral_area: 'ALT+S',
+        spiral_rotate: 'ALT+Q',
+        spiral_clear: 'ALT+X',
+        grid_clear: 'ALT+K'
+    };
+};
+
+oPageLiner.normalizeShortcutCombo = function (sRaw) {
+    if (!sRaw || typeof sRaw !== 'string') return '';
+
+    var aTokens = sRaw.toUpperCase().replace(/\s+/g, '').split('+').filter(function (s) { return !!s; });
+    if (!aTokens.length) return '';
+
+    var oAlias = {
+        STRG: 'CTRL',
+        CONTROL: 'CTRL',
+        OPTION: 'ALT',
+        CMD: 'META',
+        COMMAND: 'META',
+        ESCAPE: 'ESC',
+        DEL: 'DELETE',
+        SPACEBAR: 'SPACE'
+    };
+
+    aTokens = aTokens.map(function (s) { return oAlias[s] || s; });
+
+    var aMods = [];
+    var oSeen = {};
+    var aModOrder = ['CTRL', 'ALT', 'SHIFT', 'META'];
+
+    aTokens.slice(0, -1).forEach(function (s) {
+        if (aModOrder.indexOf(s) >= 0 && !oSeen[s]) {
+            oSeen[s] = true;
+            aMods.push(s);
+        }
+    });
+
+    aMods.sort(function (a, b) { return aModOrder.indexOf(a) - aModOrder.indexOf(b); });
+
+    var sKey = aTokens[aTokens.length - 1];
+    if (!sKey || aModOrder.indexOf(sKey) >= 0) return '';
+    if (sKey.length === 1) sKey = sKey.toUpperCase();
+
+    return aMods.concat([sKey]).join('+');
+};
+
+oPageLiner.setShortcutMap = function (oMap) {
+    var oDefaults = this.getDefaultShortcutMap();
+    var oMerged = {};
+    var self = this;
+
+    Object.keys(oDefaults).forEach(function (sAction) {
+        var sCandidate = (oMap && Object.prototype.hasOwnProperty.call(oMap, sAction))
+            ? oMap[sAction]
+            : oDefaults[sAction];
+        oMerged[sAction] = self.normalizeShortcutCombo(sCandidate || '');
+    });
+
+    this.shortcutMap = oMerged;
+};
+
+oPageLiner.loadShortcutMap = function () {
+    var self = this;
+    self.setShortcutMap({});
+
+    try {
+        chrome.storage.local.get('pglnr-shortcuts', function (data) {
+            self.setShortcutMap(data['pglnr-shortcuts'] || {});
+        });
+    } catch (err) {
+        self.setShortcutMap({});
+    }
+};
+
+oPageLiner.getEventShortcutCombo = function (e) {
+    var oTarget = e.target;
+    if (oTarget) {
+        var sTag = (oTarget.tagName || '').toLowerCase();
+        var blEditable = oTarget.isContentEditable || sTag === 'input' || sTag === 'textarea' || sTag === 'select';
+        if (blEditable) return '';
     }
 
+    var sKey = (e.key || '').toUpperCase();
+    if (!sKey) return '';
+
+    var oAlias = {
+        ESCAPE: 'ESC',
+        SPACEBAR: 'SPACE',
+        ' ': 'SPACE'
+    };
+    sKey = oAlias[sKey] || sKey;
+
+    if (sKey === 'CONTROL' || sKey === 'SHIFT' || sKey === 'ALT' || sKey === 'META') {
+        return '';
+    }
+
+    var aMods = [];
+    if (e.ctrlKey) aMods.push('CTRL');
+    if (e.altKey) aMods.push('ALT');
+    if (e.shiftKey) aMods.push('SHIFT');
+    if (e.metaKey) aMods.push('META');
+
+    return aMods.concat([sKey]).join('+');
+};
+
+oPageLiner.handleKeyboardShortcuts = function (e) {
+    var oShortcutMap = oPageLiner.shortcutMap || oPageLiner.getDefaultShortcutMap();
+    var sCombo = oPageLiner.getEventShortcutCombo(e);
+    if (!sCombo) return;
+
+    var sAction = null;
+    Object.keys(oShortcutMap).some(function (sActionKey) {
+        if (oShortcutMap[sActionKey] === sCombo) {
+            sAction = sActionKey;
+            return true;
+        }
+        return false;
+    });
+
+    if (!sAction) return;
+
+    e.preventDefault();
     var $oHelpLine = null;
 
-    // keyboard code `h`
-    if (e.keyCode === 72) {
+    if (sAction === 'add_h_line') {
         debug('add horizontal helpline');
         $oHelpLine = $(oPageLiner.addHelpLine(0, oPageLiner.mousePosition.y, '#33ffff'));
     }
-    // keyboard code `v`
-    else if (e.keyCode === 86) {
+    else if (sAction === 'add_v_line') {
         debug('add vertical helpline');
         $oHelpLine = $(oPageLiner.addHelpLine(oPageLiner.mousePosition.x, 0, '#33ffff'));
     }
-    // keyboard code `a`
-    else if (e.keyCode === 65) {
+    else if (sAction === 'add_lines') {
         debug('add horizontal and vertical helpline');
         $(oPageLiner.addHelpLine(0, oPageLiner.mousePosition.y, '#33ffff'));
         $(oPageLiner.addHelpLine(oPageLiner.mousePosition.x, 0, '#33ffff'));
     }
-    // keyboard code `r`
-    else if (e.keyCode === 82) {
+    else if (sAction === 'toggle_rulers') {
         debug('toggle rulers');
         oPageLiner.toggleRulers();
     }
-    // keyboard code `g`
-    else if (e.keyCode === 71) {
+    else if (sAction === 'toggle_lines') {
         debug('toggle guidelines');
         oPageLiner.toggleHelplines();
+    }
+    else if (sAction === 'add_center_lines') {
+        oPageLiner.addHelpLine(Math.round(window.innerWidth / 2), 0);
+        oPageLiner.addHelpLine(0, Math.round(window.innerHeight / 2 + window.pageYOffset));
+    }
+    else if (sAction === 'spiral_element') {
+        oPageLiner.startGoldenSpiralElementMode();
+    }
+    else if (sAction === 'spiral_area') {
+        oPageLiner.startGoldenSpiralAreaMode();
+    }
+    else if (sAction === 'spiral_rotate') {
+        oPageLiner.rotateGoldenSpiral(15);
+    }
+    else if (sAction === 'spiral_clear') {
+        oPageLiner.clearGoldenSpiral();
+    }
+    else if (sAction === 'grid_clear') {
+        oPageLiner.clearGeneratedGrid();
     }
 
     if ($oHelpLine === null) {
