@@ -284,11 +284,15 @@ body.pglnr-ext-spiral-mode-active {
 }
 
 .pglnr-ext-golden-spiral-delete {
+    all: unset;
     position: absolute;
-    right: -10px;
-    top: -10px;
+    right: 4px;
+    top: 4px;
     width: 18px;
     height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     border: 1px solid #7a2320;
     background: #d9534f;
@@ -300,6 +304,8 @@ body.pglnr-ext-spiral-mode-active {
     cursor: pointer;
     z-index: 2;
     padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 .pglnr-ext-golden-spiral-delete:hover {
@@ -307,11 +313,15 @@ body.pglnr-ext-spiral-mode-active {
 }
 
 .pglnr-ext-golden-spiral-rotate {
+    all: unset;
     position: absolute;
-    right: 12px;
-    top: -10px;
+    right: 26px;
+    top: 4px;
     width: 18px;
     height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     border: 1px solid #1e5e20;
     background: #4cae4c;
@@ -323,6 +333,8 @@ body.pglnr-ext-spiral-mode-active {
     cursor: pointer;
     z-index: 2;
     padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 .pglnr-ext-golden-spiral-rotate:hover {
