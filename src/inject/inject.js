@@ -1110,29 +1110,34 @@ oPageLiner.bindGoldenSpiralInteractions = function ($oWrap) {
 
     var self = this;
 
-    $oWrap.draggable({
-        containment: 'document',
-        cancel: '.ui-resizable-handle',
-        drag: function (event, ui) {
-            self.goldenSpiral.rect.left = Math.round(ui.position.left);
-            self.goldenSpiral.rect.top = Math.round(ui.position.top);
-        }
-    });
+    // jQuery UI might not be ready yet in some timing scenarios; avoid hard failures.
+    if (typeof $oWrap.draggable === 'function') {
+        $oWrap.draggable({
+            containment: 'document',
+            cancel: '.ui-resizable-handle',
+            drag: function (event, ui) {
+                self.goldenSpiral.rect.left = Math.round(ui.position.left);
+                self.goldenSpiral.rect.top = Math.round(ui.position.top);
+            }
+        });
+    }
 
-    $oWrap.resizable({
-        handles: 'n,e,s,w,ne,nw,se,sw',
-        minWidth: 24,
-        minHeight: 24,
-        resize: function (event, ui) {
-            self.goldenSpiral.rect = {
-                left: Math.round(ui.position.left),
-                top: Math.round(ui.position.top),
-                width: Math.round(ui.size.width),
-                height: Math.round(ui.size.height)
-            };
-            self.drawGoldenSpiral(self.goldenSpiral.rect, self.goldenSpiral.rotation || 0);
-        }
-    });
+    if (typeof $oWrap.resizable === 'function') {
+        $oWrap.resizable({
+            handles: 'n,e,s,w,ne,nw,se,sw',
+            minWidth: 24,
+            minHeight: 24,
+            resize: function (event, ui) {
+                self.goldenSpiral.rect = {
+                    left: Math.round(ui.position.left),
+                    top: Math.round(ui.position.top),
+                    width: Math.round(ui.size.width),
+                    height: Math.round(ui.size.height)
+                };
+                self.drawGoldenSpiral(self.goldenSpiral.rect, self.goldenSpiral.rotation || 0);
+            }
+        });
+    }
 };
 
 oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {

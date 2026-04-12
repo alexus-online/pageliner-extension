@@ -22,11 +22,20 @@ const HTML = `<!doctype html>
 </html>`;
 
 function isPathInsideWrap(wrap, path, eps = 2) {
+  const wLeft = wrap.left ?? wrap.x;
+  const wTop = wrap.top ?? wrap.y;
+  const wRight = wrap.right ?? ((wrap.x ?? 0) + (wrap.width ?? 0));
+  const wBottom = wrap.bottom ?? ((wrap.y ?? 0) + (wrap.height ?? 0));
+  const pLeft = path.left ?? path.x;
+  const pTop = path.top ?? path.y;
+  const pRight = path.right ?? ((path.x ?? 0) + (path.width ?? 0));
+  const pBottom = path.bottom ?? ((path.y ?? 0) + (path.height ?? 0));
+
   return (
-    path.left >= wrap.left - eps &&
-    path.top >= wrap.top - eps &&
-    path.right <= wrap.right + eps &&
-    path.bottom <= wrap.bottom + eps
+    pLeft >= wLeft - eps &&
+    pTop >= wTop - eps &&
+    pRight <= wRight + eps &&
+    pBottom <= wBottom + eps
   );
 }
 
@@ -45,7 +54,18 @@ test('golden spiral stays inside same box for 0/90/180/270', async () => {
     await fireShortcut(page, 'ALT+E');
     await page.hover('#box');
     await page.click('#box');
-    await page.waitForTimeout(350);
+    await expect.poll(async () => {
+      return page.evaluate(() => {
+        const wrap = document.querySelector('.pglnr-ext-golden-spiral');
+        const path = document.querySelector('.pglnr-ext-golden-spiral-path');
+        const hint = document.querySelector('.pglnr-ext-golden-spiral-hint');
+        if (!wrap || !path) return false;
+        const wr = wrap.getBoundingClientRect();
+        const pr = path.getBoundingClientRect();
+        const d = path.getAttribute('d') || '';
+        return wr.width > 100 && wr.height > 100 && pr.width > 100 && pr.height > 100 && d.length > 10 && !!(hint && hint.textContent);
+      });
+    }, { timeout: 8000 }).toBeTruthy();
 
     const spiralWrap = page.locator('.pglnr-ext-golden-spiral');
     const spiralPath = page.locator('.pglnr-ext-golden-spiral-path');
@@ -62,7 +82,8 @@ test('golden spiral stays inside same box for 0/90/180/270', async () => {
 
       expect(wrapRect).not.toBeNull();
       expect(pathRect).not.toBeNull();
-      expect(isPathInsideWrap(wrapRect, pathRect)).toBeTruthy();
+      const inside = isPathInsideWrap(wrapRect, pathRect);
+      expect(inside, JSON.stringify({ wrapRect, pathRect })).toBeTruthy();
 
       const text = await hint.textContent();
       states.push({ rotation: text || '', wrapRect, pathRect });
