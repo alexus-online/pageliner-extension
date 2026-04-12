@@ -800,11 +800,39 @@ oPageLiner.cancelGoldenSpiralMode = function () {
     $(document).off('.pglnrSpiralMode');
     $(document).off('.pglnrSpiralArea');
     $('.pglnr-ext-spiral-selection').remove();
+    $('.pglnr-ext-spiral-hover-overlay').remove();
     if (this.goldenSpiral.hoverTarget) {
         $(this.goldenSpiral.hoverTarget).removeClass('pglnr-ext-spiral-hover-target');
     }
     this.goldenSpiral.hoverTarget = null;
     this.goldenSpiral.mode = null;
+};
+
+oPageLiner.updateSpiralHoverOverlay = function (oTarget) {
+    var $oOverlay = $('.pglnr-ext-spiral-hover-overlay');
+
+    if (!oTarget || !oTarget.getBoundingClientRect) {
+        $oOverlay.remove();
+        return;
+    }
+
+    var oRect = oTarget.getBoundingClientRect();
+    if (oRect.width < 2 || oRect.height < 2) {
+        $oOverlay.remove();
+        return;
+    }
+
+    if (!$oOverlay.length) {
+        $oOverlay = $('<div class="pglnr-ext-spiral-hover-overlay"></div>');
+        $('body').append($oOverlay);
+    }
+
+    $oOverlay.css({
+        left: Math.round(oRect.left) + 'px',
+        top: Math.round(oRect.top) + 'px',
+        width: Math.round(oRect.width) + 'px',
+        height: Math.round(oRect.height) + 'px'
+    });
 };
 
 oPageLiner.clearGoldenSpiral = function () {
@@ -872,6 +900,7 @@ oPageLiner.startGoldenSpiralElementMode = function () {
             self.goldenSpiral.hoverTarget = oTarget;
             $(oTarget).addClass('pglnr-ext-spiral-hover-target');
         }
+        self.updateSpiralHoverOverlay(oTarget);
     });
 
     $(document).on('click.pglnrSpiralMode', function (e) {

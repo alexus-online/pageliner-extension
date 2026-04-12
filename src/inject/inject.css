@@ -222,6 +222,15 @@ body.pglnr-ext-spiral-mode-active {
     outline-offset: -1px !important;
 }
 
+.pglnr-ext-spiral-hover-overlay {
+    position: fixed;
+    z-index: 2147483503;
+    pointer-events: none;
+    border: 2px dashed rgba(242, 178, 0, 0.95);
+    background: rgba(242, 178, 0, 0.08);
+    box-sizing: border-box;
+}
+
 .pglnr-ext-golden-spiral {
     position: absolute;
     z-index: 2147483501;
