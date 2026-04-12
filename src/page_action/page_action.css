@@ -995,6 +995,15 @@ footer {
     padding: 16px;
     color: var(--pl-text);
     text-decoration: none;
+    transition: background-color 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease, transform 0.14s ease;
+}
+
+.top-action-row a:hover,
+.top-action-row a:focus {
+    background: linear-gradient(180deg, rgba(236, 244, 239, 0.98), rgba(229, 239, 233, 0.96));
+    border-color: rgba(29, 125, 82, 0.18);
+    box-shadow: 0 14px 28px rgba(19, 74, 49, 0.10);
+    transform: translateY(-1px);
 }
 
 .action-icon-wrap {
@@ -1487,11 +1496,47 @@ footer a.changelog:hover {
 
 #toggle-ruler.is-active,
 #toggle-helpline.is-active {
-    border-color: rgba(29, 125, 82, 0.24);
-    box-shadow: 0 12px 28px rgba(19, 74, 49, 0.12);
+    background: linear-gradient(180deg, rgba(222, 241, 230, 0.98), rgba(211, 234, 221, 0.96));
+    border-color: rgba(29, 125, 82, 0.34);
+    box-shadow: 0 14px 30px rgba(19, 74, 49, 0.14);
+}
+
+#toggle-ruler.is-active .action-title,
+#toggle-helpline.is-active .action-title {
+    color: #163b2a;
+}
+
+#toggle-ruler.is-active .action-subtitle,
+#toggle-helpline.is-active .action-subtitle {
+    color: #4f685c;
 }
 
 #toggle-ruler.is-active .action-icon-wrap,
 #toggle-helpline.is-active .action-icon-wrap {
-    background: linear-gradient(180deg, rgba(29, 125, 82, 0.24), rgba(29, 125, 82, 0.08));
+    background: linear-gradient(180deg, rgba(29, 125, 82, 0.28), rgba(29, 125, 82, 0.12));
+    color: #1a6d48;
+}
+
+body.pageliner-popup.theme-dark .top-action-row a:hover,
+body.pageliner-popup.theme-dark .top-action-row a:focus {
+    background: linear-gradient(180deg, rgba(33, 49, 40, 0.98), rgba(28, 42, 35, 0.98));
+    border-color: rgba(94, 209, 148, 0.18);
+    box-shadow: 0 16px 30px rgba(3, 8, 6, 0.28);
+}
+
+body.pageliner-popup.theme-dark #toggle-ruler.is-active,
+body.pageliner-popup.theme-dark #toggle-helpline.is-active {
+    background: linear-gradient(180deg, rgba(37, 61, 49, 0.98), rgba(30, 50, 40, 0.98));
+    border-color: rgba(94, 209, 148, 0.22);
+    box-shadow: 0 16px 32px rgba(3, 8, 6, 0.32);
+}
+
+body.pageliner-popup.theme-dark #toggle-ruler.is-active .action-title,
+body.pageliner-popup.theme-dark #toggle-helpline.is-active .action-title {
+    color: #f3fbf5;
+}
+
+body.pageliner-popup.theme-dark #toggle-ruler.is-active .action-subtitle,
+body.pageliner-popup.theme-dark #toggle-helpline.is-active .action-subtitle {
+    color: #b8d7c4;
 }
