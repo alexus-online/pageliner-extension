@@ -1089,6 +1089,32 @@ footer {
     text-decoration: none;
 }
 
+.add-helpline:hover,
+.add-helpline:focus,
+.quick-tools-card:hover .add-helpline,
+.quick-tools-card:focus-within .add-helpline {
+    color: inherit;
+    text-decoration: none;
+}
+
+.quick-tools-card:hover,
+.quick-tools-card:focus-within {
+    background:
+        linear-gradient(180deg, rgba(250, 252, 250, 0.98), rgba(242, 247, 243, 0.96));
+    border-color: rgba(29, 125, 82, 0.16);
+    box-shadow: 0 14px 28px rgba(19, 74, 49, 0.08);
+}
+
+.quick-tools-card:hover .card-eyebrow,
+.quick-tools-card:focus-within .card-eyebrow {
+    color: #70847a;
+}
+
+.quick-tools-card:hover .card-title,
+.quick-tools-card:focus-within .card-title {
+    color: #163b2a;
+}
+
 .page-actions .add-helpline .add-helpline-group {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1522,6 +1548,23 @@ body.pageliner-popup.theme-dark .top-action-row a:focus {
     background: linear-gradient(180deg, rgba(33, 49, 40, 0.98), rgba(28, 42, 35, 0.98));
     border-color: rgba(94, 209, 148, 0.18);
     box-shadow: 0 16px 30px rgba(3, 8, 6, 0.28);
+}
+
+body.pageliner-popup.theme-dark .quick-tools-card:hover,
+body.pageliner-popup.theme-dark .quick-tools-card:focus-within {
+    background: linear-gradient(180deg, rgba(31, 45, 37, 0.98), rgba(25, 37, 31, 0.98));
+    border-color: rgba(94, 209, 148, 0.14);
+    box-shadow: 0 16px 30px rgba(3, 8, 6, 0.28);
+}
+
+body.pageliner-popup.theme-dark .quick-tools-card:hover .card-eyebrow,
+body.pageliner-popup.theme-dark .quick-tools-card:focus-within .card-eyebrow {
+    color: #9fb7a8;
+}
+
+body.pageliner-popup.theme-dark .quick-tools-card:hover .card-title,
+body.pageliner-popup.theme-dark .quick-tools-card:focus-within .card-title {
+    color: #f1f8f3;
 }
 
 body.pageliner-popup.theme-dark #toggle-ruler.is-active,
