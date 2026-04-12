@@ -7,29 +7,56 @@
         <link rel="stylesheet" href="../../css/colorpicker.css"/>
         <link rel="stylesheet" href="page_action.css"/>
     </head>
-    <body>
+    <body class="pageliner-popup">
         <div id="wrapper">
-            <h1 class="page_action_headbar">
-                <span data-i18n="GLOBAL_APP_NAME"></span>
-            </h1>
+            <div class="page_action_headbar">
+                <div class="headbar-glow"></div>
+                <div class="headbar-inner">
+                    <div class="brand-badge">PL</div>
+                    <div class="brand-copy">
+                        <h1 class="brand-title"><span data-i18n="GLOBAL_APP_NAME"></span></h1>
+                        <div class="brand-subtitle">Precision overlays for layout, rhythm and composition</div>
+                    </div>
+                    <div class="brand-version">v<span data-i18n="VERSION"></span></div>
+                </div>
+            </div>
+
+            <div class="hero-strip">
+                <div class="hero-chip hero-chip-accent">Grid</div>
+                <div class="hero-chip">Spiral</div>
+                <div class="hero-chip">Guides</div>
+                <div class="hero-chip">Presets</div>
+            </div>
 
             <ul id="page-actions" class="nav nav-pills nav-stacked page-actions">
 
                 <!-- Toggle buttons -->
-                <li>
+                <li class="top-action-row">
                     <a href="#" class="toggle-ruler" id="toggle-ruler">
-                        <i class="glyphicon glyphicon-eye-open"></i> <span data-i18n="POPUP_TOGGLE_RULERS"></span>
+                        <span class="action-icon-wrap"><i class="glyphicon glyphicon-eye-open"></i></span>
+                        <span class="action-copy">
+                            <span class="action-title" data-i18n="POPUP_TOGGLE_RULERS"></span>
+                            <span class="action-subtitle">Viewport ruler overlay</span>
+                        </span>
                     </a>
-                </li>
-                <li>
                     <a href="#" class="toggle-helpline" id="toggle-helpline">
-                        <i class="glyphicon glyphicon-eye-open"></i> <span data-i18n="POPUP_TOGGLE_HELPLINES"></span>
+                        <span class="action-icon-wrap"><i class="glyphicon glyphicon-eye-open"></i></span>
+                        <span class="action-copy">
+                            <span class="action-title" data-i18n="POPUP_TOGGLE_HELPLINES"></span>
+                            <span class="action-subtitle">Show and hide all guides</span>
+                        </span>
                     </a>
                 </li>
 
                 <!-- Add helplines row + center + screenshot -->
-                <li>
+                <li class="surface-card quick-tools-card">
                     <a href="#" class="add-helpline">
+                        <div class="card-title-row">
+                            <div>
+                                <div class="card-eyebrow">Quick Tools</div>
+                                <div class="card-title">Add guides fast</div>
+                            </div>
+                        </div>
                         <div class="btn-group btn-group-xs add-helpline-group">
                             <button type="button" class="btn btn-primary" id="add-helpline-x" title="__MSG_POPUP_NEW_HELPLINE_X__">
                                 | <span data-i18n="POPUP_NEW_HELPLINE_X"></span>
@@ -49,15 +76,25 @@
                 </li>
 
                 <!-- Clear all -->
-                <li>
+                <li class="surface-card danger-card">
                     <a href="#" class="remove-helplines" id="remove-helplines">
-                        <i class="glyphicon glyphicon-remove"></i> <span data-i18n="POPUP_CLEAR_ALL_HELPLINES"></span>
+                        <span class="action-icon-wrap"><i class="glyphicon glyphicon-remove"></i></span>
+                        <span class="action-copy">
+                            <span class="action-title" data-i18n="POPUP_CLEAR_ALL_HELPLINES"></span>
+                            <span class="action-subtitle">Reset all current guide overlays</span>
+                        </span>
                     </a>
                 </li>
 
                 <!-- Golden spiral -->
-                <li class="section-li">
+                <li class="section-li surface-card featured-card">
                     <div class="section-body">
+                        <div class="card-title-row">
+                            <div>
+                                <div class="card-eyebrow">Composition</div>
+                                <div class="card-title">Golden Spiral</div>
+                            </div>
+                        </div>
                         <div class="spiral-action-row">
                             <button type="button" class="btn btn-default btn-xs" id="btn-spiral-element" title="Spirale auf angeklicktem DIV platzieren">🌀 DIV</button>
                             <button type="button" class="btn btn-default btn-xs" id="btn-spiral-area" title="Bereich aufziehen und Spirale platzieren">🌀 Fläche</button>
@@ -84,7 +121,7 @@
                 </li>
 
                 <!-- Grid Generator (collapsible) -->
-                <li class="section-li">
+                <li class="section-li surface-card">
                     <div class="section-toggle" id="grid-toggle">
                         <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_GRID_GENERATOR"></span>
                     </div>
@@ -175,7 +212,7 @@
                 </li>
 
                 <!-- Presets (collapsible) -->
-                <li class="section-li">
+                <li class="section-li surface-card">
                     <div class="section-toggle" id="presets-toggle">
                         <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_PRESETS_PROFILES"></span>
                     </div>
@@ -189,7 +226,7 @@
                 </li>
 
                 <!-- Export / Import -->
-                <li class="section-li">
+                <li class="section-li surface-card export-card">
                     <div class="export-import-row">
                         <button type="button" class="btn btn-default btn-xs" id="btn-export">&#x2B07; <span data-i18n="POPUP_EXPORT_JSON"></span></button>
                         <button type="button" class="btn btn-default btn-xs" id="btn-import">&#x2B06; <span data-i18n="POPUP_IMPORT_JSON"></span></button>
@@ -198,7 +235,7 @@
                 </li>
 
                 <!-- Settings (collapsible) -->
-                <li class="section-li">
+                <li class="section-li surface-card">
                     <div class="section-toggle" id="settings-toggle">
                         <span class="section-toggle-arrow">&#9658;</span> <span data-i18n="POPUP_SETTINGS"></span>
                     </div>

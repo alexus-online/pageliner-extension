@@ -752,14 +752,20 @@ $(function () {
     // -------------------------------------------------------
     // Helper: toggle ruler/helpline eye icons
     // -------------------------------------------------------
+    function setActionCardState(sSelector, blActive) {
+        $(sSelector).toggleClass('is-active', !!blActive);
+    }
+
     function toggleRulerButton(forceShow) {
         var $oIcon = $('#toggle-ruler').find('.glyphicon');
         forceShow = forceShow || false;
 
         if (!$oIcon.hasClass('glyphicon-eye-open') || forceShow) {
             $oIcon.removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+            setActionCardState('#toggle-ruler', true);
         } else {
             $oIcon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+            setActionCardState('#toggle-ruler', false);
         }
     }
 
@@ -769,8 +775,10 @@ $(function () {
 
         if (!$oIcon.hasClass('glyphicon-eye-open') || forceShow) {
             $oIcon.removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+            setActionCardState('#toggle-helpline', true);
         } else {
             $oIcon.removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+            setActionCardState('#toggle-helpline', false);
         }
     }
 
@@ -1005,6 +1013,8 @@ $(function () {
     }
 
     // Initialize
+    setActionCardState('#toggle-ruler', true);
+    setActionCardState('#toggle-helpline', true);
     refreshHelpLineListing();
     getGuiStatus();
     refreshPresetList();
