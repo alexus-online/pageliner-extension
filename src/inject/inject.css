@@ -283,66 +283,53 @@ body.pglnr-ext-spiral-mode-active {
     pointer-events: none;
 }
 
-.pglnr-ext-golden-spiral-delete {
-    all: unset;
+.pglnr-ext-golden-spiral-controls {
     position: absolute;
-    right: 4px;
     top: 4px;
-    width: 18px;
-    height: 18px;
+    right: 4px;
+    z-index: 6;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.65);
-    background: rgba(20, 25, 33, 0.92);
-    color: #f7f9fc;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 14px;
-    text-align: center;
-    cursor: pointer;
-    z-index: 5;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+    gap: 6px;
+    padding: 5px;
+    border-radius: 10px;
+    background: rgba(17, 22, 29, 0.92);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.pglnr-ext-golden-spiral-delete:hover {
-    background: rgba(200, 48, 44, 0.96);
+.pglnr-ext-golden-spiral-delete,
+.pglnr-ext-golden-spiral-rotate {
+    all: unset;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #f7f9fc;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
 
 .pglnr-ext-golden-spiral-rotate {
-    all: unset;
-    position: absolute;
-    right: 26px;
-    top: 4px;
-    width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.65);
-    background: rgba(20, 25, 33, 0.92);
-    color: #f7f9fc;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 14px;
-    text-align: center;
-    cursor: pointer;
-    z-index: 5;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+    background: rgba(45, 122, 56, 0.95);
 }
 
 .pglnr-ext-golden-spiral-rotate:hover {
-    background: rgba(68, 157, 68, 0.96);
+    background: rgba(57, 146, 69, 0.98);
+}
+
+.pglnr-ext-golden-spiral-delete {
+    background: rgba(178, 48, 44, 0.95);
+}
+
+.pglnr-ext-golden-spiral-delete:hover {
+    background: rgba(204, 58, 53, 0.98);
 }
 
 .pglnr-ext-spiral-selection {
