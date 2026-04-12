@@ -78,13 +78,7 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
-chrome.runtime.onInstalled.addListener(function (details) {
-    if (typeof details.previousVersion === 'undefined') {
-        setTimeout(function () {
-            chrome.tabs.create({url: chrome.runtime.getURL('src/pages/ChromeFirstRun.html')});
-        }, 200);
-    }
-
+chrome.runtime.onInstalled.addListener(function () {
     chrome.action.setBadgeText({text: 'NEW'});
     chrome.action.setBadgeBackgroundColor({color: '#e20700'});
 });
