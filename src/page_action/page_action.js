@@ -119,10 +119,10 @@ $(function () {
         {id: 'toggle_rulers', label: i18n('SHORTCUT_TOGGLE_RULERS')},
         {id: 'toggle_lines', label: i18n('SHORTCUT_TOGGLE_LINES')},
         {id: 'add_center_lines', label: i18n('POPUP_CENTER_LINES', 'Center Lines')},
-        {id: 'spiral_element', label: 'Spirale auf DIV'},
-        {id: 'spiral_area', label: 'Spirale auf Fläche'},
-        {id: 'spiral_rotate', label: 'Spirale drehen'},
-        {id: 'spiral_clear', label: 'Spirale löschen'},
+        {id: 'spiral_element', label: i18n('POPUP_SHORTCUT_SPIRAL_ELEMENT', 'Place spiral on DIV')},
+        {id: 'spiral_area', label: i18n('POPUP_SHORTCUT_SPIRAL_AREA', 'Place spiral on area')},
+        {id: 'spiral_rotate', label: i18n('POPUP_SHORTCUT_SPIRAL_ROTATE', 'Rotate spiral')},
+        {id: 'spiral_clear', label: i18n('POPUP_SHORTCUT_SPIRAL_CLEAR', 'Clear spiral')},
         {id: 'grid_clear', label: i18n('POPUP_GRID_CLEAR_OVERLAYS')}
     ];
     var oDefaultShortcuts = {
@@ -174,6 +174,24 @@ $(function () {
 
         if (sTranslation && sTranslation.length) {
             $(this).attr('placeholder', sTranslation);
+        }
+    });
+
+    $('[data-i18n-title]').each(function () {
+        var sIdent = this.getAttribute('data-i18n-title'),
+            sTranslation = chrome.i18n.getMessage(sIdent);
+
+        if (sTranslation && sTranslation.length) {
+            $(this).attr('title', sTranslation);
+        }
+    });
+
+    $('[data-i18n-html]').each(function () {
+        var sIdent = this.getAttribute('data-i18n-html'),
+            sTranslation = chrome.i18n.getMessage(sIdent);
+
+        if (sTranslation && sTranslation.length) {
+            $(this).html(sTranslation);
         }
     });
 

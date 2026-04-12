@@ -15,24 +15,24 @@
                     <div class="brand-badge">PL</div>
                     <div class="brand-copy">
                         <h1 class="brand-title"><span data-i18n="GLOBAL_APP_NAME"></span></h1>
-                        <div class="brand-subtitle">Precision overlays for layout, rhythm and composition</div>
+                        <div class="brand-subtitle" data-i18n="POPUP_BRAND_SUBTITLE"></div>
                     </div>
                     <div class="headbar-meta">
                         <div class="brand-version">v<span data-i18n="VERSION"></span></div>
                         <div class="theme-switcher" id="theme-switcher">
-                            <button type="button" class="theme-switch-btn" data-theme-mode="auto" title="Automatisch">Auto</button>
-                            <button type="button" class="theme-switch-btn" data-theme-mode="light" title="Hell">Light</button>
-                            <button type="button" class="theme-switch-btn" data-theme-mode="dark" title="Dunkel">Dark</button>
+                            <button type="button" class="theme-switch-btn" data-theme-mode="auto" data-i18n="POPUP_THEME_AUTO" data-i18n-title="POPUP_THEME_AUTO_TITLE"></button>
+                            <button type="button" class="theme-switch-btn" data-theme-mode="light" data-i18n="POPUP_THEME_LIGHT" data-i18n-title="POPUP_THEME_LIGHT_TITLE"></button>
+                            <button type="button" class="theme-switch-btn" data-theme-mode="dark" data-i18n="POPUP_THEME_DARK" data-i18n-title="POPUP_THEME_DARK_TITLE"></button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="hero-strip" role="tablist" aria-label="Popup sections">
-                <button type="button" class="hero-chip hero-chip-accent is-active" id="tab-grid-section" data-tab-target="grid-section" role="tab" aria-selected="true"><span class="hero-chip-icon">#</span><span>Grid</span></button>
-                <button type="button" class="hero-chip" id="tab-spiral-section" data-tab-target="spiral-section" role="tab" aria-selected="false"><span class="hero-chip-icon">@</span><span>Spiral</span></button>
-                <button type="button" class="hero-chip" id="tab-guides-section" data-tab-target="guides-section" role="tab" aria-selected="false"><span class="hero-chip-icon">+</span><span>Guides</span></button>
-                <button type="button" class="hero-chip" id="tab-presets-section" data-tab-target="presets-section" role="tab" aria-selected="false"><span class="hero-chip-icon">*</span><span>Presets</span></button>
+                <button type="button" class="hero-chip hero-chip-accent is-active" id="tab-grid-section" data-tab-target="grid-section" role="tab" aria-selected="true"><span class="hero-chip-icon">#</span><span data-i18n="POPUP_TAB_GRID"></span></button>
+                <button type="button" class="hero-chip" id="tab-spiral-section" data-tab-target="spiral-section" role="tab" aria-selected="false"><span class="hero-chip-icon">@</span><span data-i18n="POPUP_TAB_SPIRAL"></span></button>
+                <button type="button" class="hero-chip" id="tab-guides-section" data-tab-target="guides-section" role="tab" aria-selected="false"><span class="hero-chip-icon">+</span><span data-i18n="POPUP_TAB_GUIDES"></span></button>
+                <button type="button" class="hero-chip" id="tab-presets-section" data-tab-target="presets-section" role="tab" aria-selected="false"><span class="hero-chip-icon">*</span><span data-i18n="POPUP_TAB_PRESETS"></span></button>
             </div>
 
             <ul id="page-actions" class="nav nav-pills nav-stacked page-actions">
@@ -43,14 +43,14 @@
                         <span class="action-icon-wrap"><i class="glyphicon glyphicon-eye-open"></i></span>
                         <span class="action-copy">
                             <span class="action-title" data-i18n="POPUP_TOGGLE_RULERS"></span>
-                            <span class="action-subtitle">Viewport ruler overlay</span>
+                            <span class="action-subtitle" data-i18n="POPUP_SUBTITLE_RULERS"></span>
                         </span>
                     </a>
                     <a href="#" class="toggle-helpline" id="toggle-helpline">
                         <span class="action-icon-wrap"><i class="glyphicon glyphicon-eye-open"></i></span>
                         <span class="action-copy">
                             <span class="action-title" data-i18n="POPUP_TOGGLE_HELPLINES"></span>
-                            <span class="action-subtitle">Show and hide all guides</span>
+                            <span class="action-subtitle" data-i18n="POPUP_SUBTITLE_GUIDES"></span>
                         </span>
                     </a>
                 </li>
@@ -60,8 +60,8 @@
                     <a href="#" class="add-helpline">
                         <div class="card-title-row">
                             <div>
-                                <div class="card-eyebrow">Quick Tools</div>
-                                <div class="card-title">Add guides fast</div>
+                                <div class="card-eyebrow" data-i18n="POPUP_CARD_EYEBROW_QUICK_TOOLS"></div>
+                                <div class="card-title" data-i18n="POPUP_CARD_TITLE_ADD_GUIDES_FAST"></div>
                             </div>
                         </div>
                         <div class="btn-group btn-group-xs add-helpline-group">
@@ -88,7 +88,7 @@
                         <span class="action-icon-wrap"><i class="glyphicon glyphicon-remove"></i></span>
                         <span class="action-copy">
                             <span class="action-title" data-i18n="POPUP_CLEAR_ALL_HELPLINES"></span>
-                            <span class="action-subtitle">Reset all current guide overlays</span>
+                            <span class="action-subtitle" data-i18n="POPUP_SUBTITLE_CLEAR_GUIDES"></span>
                         </span>
                     </a>
                 </li>
@@ -98,26 +98,26 @@
                     <div class="section-body">
                         <div class="card-title-row">
                             <div>
-                                <div class="card-eyebrow">Composition</div>
-                                <div class="card-title">Golden Spiral</div>
+                                <div class="card-eyebrow" data-i18n="POPUP_CARD_EYEBROW_COMPOSITION"></div>
+                                <div class="card-title" data-i18n="POPUP_CARD_TITLE_GOLDEN_SPIRAL"></div>
                             </div>
                         </div>
                         <div class="spiral-action-row">
-                            <button type="button" class="btn btn-default btn-xs" id="btn-spiral-element" title="Spirale auf angeklicktem DIV platzieren">🌀 DIV</button>
-                            <button type="button" class="btn btn-default btn-xs" id="btn-spiral-area" title="Bereich aufziehen und Spirale platzieren">🌀 Fläche</button>
-                            <button type="button" class="btn btn-primary btn-xs" id="btn-spiral-rotate" title="Spirale um 90° drehen">+90°</button>
-                            <button type="button" class="btn btn-default btn-xs" id="btn-spiral-clear" title="Goldene Spirale löschen">Löschen</button>
+                            <button type="button" class="btn btn-default btn-xs" id="btn-spiral-element" data-i18n-title="POPUP_SPIRAL_ELEMENT_TITLE">🌀 <span data-i18n="POPUP_SPIRAL_ELEMENT"></span></button>
+                            <button type="button" class="btn btn-default btn-xs" id="btn-spiral-area" data-i18n-title="POPUP_SPIRAL_AREA_TITLE">🌀 <span data-i18n="POPUP_SPIRAL_AREA"></span></button>
+                            <button type="button" class="btn btn-primary btn-xs" id="btn-spiral-rotate" data-i18n-title="POPUP_SPIRAL_ROTATE_TITLE">+90°</button>
+                            <button type="button" class="btn btn-default btn-xs" id="btn-spiral-clear" data-i18n-title="POPUP_SPIRAL_CLEAR_TITLE" data-i18n="POPUP_SPIRAL_CLEAR"></button>
                         </div>
                         <div class="spiral-control-row">
-                            <label class="spiral-label">Farbe
+                            <label class="spiral-label"><span data-i18n="POPUP_SPIRAL_COLOR"></span>
                                 <input type="color" id="spiral-color" value="#f2b200" class="grid-color-input">
                             </label>
-                            <label class="spiral-label">Linie
+                            <label class="spiral-label"><span data-i18n="POPUP_SPIRAL_STROKE"></span>
                                 <input type="number" id="spiral-stroke" min="1" max="12" value="2" class="form-control input-sm spiral-input-sm">
                             </label>
                         </div>
                         <div class="spiral-control-row">
-                            <label class="spiral-label">Rotation
+                            <label class="spiral-label"><span data-i18n="POPUP_SPIRAL_ROTATION"></span>
                                 <input type="range" id="spiral-rotation-range" min="0" max="359" value="0" class="spiral-range">
                             </label>
                             <input type="number" id="spiral-rotation" min="0" max="359" value="0" class="form-control input-sm spiral-input-sm">
@@ -258,8 +258,8 @@
                             </label>
                         </div>
                         <div class="setting-row shortcut-setting-block">
-                            <div class="shortcut-heading">Shortcodes</div>
-                            <div class="shortcut-subline">Automatisch vergeben, aber frei änderbar. Format: <code>ALT+H</code>, <code>CTRL+SHIFT+G</code></div>
+                            <div class="shortcut-heading" data-i18n="POPUP_SHORTCUTS_HEADING"></div>
+                            <div class="shortcut-subline" data-i18n-html="POPUP_SHORTCUTS_SUBLINE"></div>
                             <div id="shortcut-manager"></div>
                         </div>
                     </div>

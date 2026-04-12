@@ -258,5 +258,141 @@
    "POPUP_IMPORT_PARSE_ERROR_PREFIX": {
       "description": "Import error prefix for parse failures.",
       "message": "Could not parse JSON"
+   },
+   "POPUP_BRAND_SUBTITLE": {
+      "description": "Popup brand subtitle.",
+      "message": "Precision overlays for layout, rhythm and composition"
+   },
+   "POPUP_THEME_AUTO": {
+      "description": "Auto theme mode label.",
+      "message": "Auto"
+   },
+   "POPUP_THEME_AUTO_TITLE": {
+      "description": "Auto theme mode tooltip.",
+      "message": "Automatic"
+   },
+   "POPUP_THEME_LIGHT": {
+      "description": "Light theme mode label.",
+      "message": "Light"
+   },
+   "POPUP_THEME_LIGHT_TITLE": {
+      "description": "Light theme mode tooltip.",
+      "message": "Light theme"
+   },
+   "POPUP_THEME_DARK": {
+      "description": "Dark theme mode label.",
+      "message": "Dark"
+   },
+   "POPUP_THEME_DARK_TITLE": {
+      "description": "Dark theme mode tooltip.",
+      "message": "Dark theme"
+   },
+   "POPUP_TAB_GRID": {
+      "description": "Grid tab label.",
+      "message": "Grid"
+   },
+   "POPUP_TAB_SPIRAL": {
+      "description": "Spiral tab label.",
+      "message": "Spiral"
+   },
+   "POPUP_TAB_GUIDES": {
+      "description": "Guides tab label.",
+      "message": "Guides"
+   },
+   "POPUP_TAB_PRESETS": {
+      "description": "Presets tab label.",
+      "message": "Presets"
+   },
+   "POPUP_SUBTITLE_RULERS": {
+      "description": "Ruler action subtitle.",
+      "message": "Viewport ruler overlay"
+   },
+   "POPUP_SUBTITLE_GUIDES": {
+      "description": "Guide action subtitle.",
+      "message": "Show and hide all guides"
+   },
+   "POPUP_CARD_EYEBROW_QUICK_TOOLS": {
+      "description": "Quick tools eyebrow label.",
+      "message": "Quick Tools"
+   },
+   "POPUP_CARD_TITLE_ADD_GUIDES_FAST": {
+      "description": "Quick tools card title.",
+      "message": "Add guides fast"
+   },
+   "POPUP_SUBTITLE_CLEAR_GUIDES": {
+      "description": "Clear guides subtitle.",
+      "message": "Reset all current guide overlays"
+   },
+   "POPUP_CARD_EYEBROW_COMPOSITION": {
+      "description": "Composition eyebrow label.",
+      "message": "Composition"
+   },
+   "POPUP_CARD_TITLE_GOLDEN_SPIRAL": {
+      "description": "Golden spiral title.",
+      "message": "Golden Spiral"
+   },
+   "POPUP_SPIRAL_ELEMENT": {
+      "description": "Spiral button label for element mode.",
+      "message": "DIV"
+   },
+   "POPUP_SPIRAL_ELEMENT_TITLE": {
+      "description": "Spiral element mode tooltip.",
+      "message": "Place spiral on clicked DIV"
+   },
+   "POPUP_SPIRAL_AREA": {
+      "description": "Spiral button label for area mode.",
+      "message": "Area"
+   },
+   "POPUP_SPIRAL_AREA_TITLE": {
+      "description": "Spiral area mode tooltip.",
+      "message": "Draw an area and place the spiral"
+   },
+   "POPUP_SPIRAL_ROTATE_TITLE": {
+      "description": "Spiral rotate tooltip.",
+      "message": "Rotate spiral by 90 degrees"
+   },
+   "POPUP_SPIRAL_CLEAR": {
+      "description": "Spiral clear button label.",
+      "message": "Clear"
+   },
+   "POPUP_SPIRAL_CLEAR_TITLE": {
+      "description": "Spiral clear tooltip.",
+      "message": "Delete golden spiral"
+   },
+   "POPUP_SPIRAL_COLOR": {
+      "description": "Spiral color label.",
+      "message": "Color"
+   },
+   "POPUP_SPIRAL_STROKE": {
+      "description": "Spiral stroke label.",
+      "message": "Stroke"
+   },
+   "POPUP_SPIRAL_ROTATION": {
+      "description": "Spiral rotation label.",
+      "message": "Rotation"
+   },
+   "POPUP_SHORTCUTS_HEADING": {
+      "description": "Shortcut settings heading.",
+      "message": "Shortcuts"
+   },
+   "POPUP_SHORTCUTS_SUBLINE": {
+      "description": "Shortcut settings explanation.",
+      "message": "Assigned automatically, but fully editable. Format: <code>ALT+H</code>, <code>CTRL+SHIFT+G</code>"
+   },
+   "POPUP_SHORTCUT_SPIRAL_ELEMENT": {
+      "description": "Shortcut label for spiral element mode.",
+      "message": "Place spiral on DIV"
+   },
+   "POPUP_SHORTCUT_SPIRAL_AREA": {
+      "description": "Shortcut label for spiral area mode.",
+      "message": "Place spiral on area"
+   },
+   "POPUP_SHORTCUT_SPIRAL_ROTATE": {
+      "description": "Shortcut label for spiral rotate.",
+      "message": "Rotate spiral"
+   },
+   "POPUP_SHORTCUT_SPIRAL_CLEAR": {
+      "description": "Shortcut label for spiral clear.",
+      "message": "Clear spiral"
    }
 }
