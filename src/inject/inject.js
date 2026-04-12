@@ -1025,18 +1025,16 @@ oPageLiner.getGoldenSpiralQuarterArcPath = function (cx, cy, r, aStart, aEnd) {
     return sPath;
 };
 
-oPageLiner.buildGoldenSpiralModel = function (iWidth, iHeight, iRotationDeg) {
+oPageLiner.buildGoldenSpiralModel = function (iWidth, iHeight) {
     var oRect = {x: 0, y: 0, w: iWidth, h: iHeight};
     var aSides = ['left', 'top', 'right', 'bottom'];
-    var iRot = ((parseInt(iRotationDeg, 10) || 0) % 360 + 360) % 360;
-    var iShift = (iRot % 90 === 0) ? (iRot / 90) : 0;
     var aSquares = [];
     var aArcParts = [];
 
     for (var i = 0; i < 28; i++) {
         if (oRect.w < 6 || oRect.h < 6) break;
 
-        var sSide = aSides[(i + iShift) % 4];
+        var sSide = aSides[i % 4];
         var s = Math.min(oRect.w, oRect.h);
         var sx = oRect.x;
         var sy = oRect.y;
@@ -1215,17 +1213,37 @@ oPageLiner.drawGoldenSpiral = function (oRect, iRotationDeg) {
     oHint.innerText = 'Goldene Spirale · ' + iRotation + '°';
 
     oSvg.setAttribute('viewBox', '0 0 ' + iWidth + ' ' + iHeight);
-    var blQuarterTurn = iRotation % 90 === 0;
-    oGroup.setAttribute(
-        'transform',
-        blQuarterTurn ? '' : ('rotate(' + iRotation + ' ' + (iWidth / 2).toFixed(2) + ' ' + (iHeight / 2).toFixed(2) + ')')
-    );
+    var iNormRotation = ((iRotation % 360) + 360) % 360;
+    var blQuarterTurn = iNormRotation % 90 === 0;
+    var iQuarter = blQuarterTurn ? (iNormRotation / 90) : -1;
+
+    var iModelWidth = iWidth;
+    var iModelHeight = iHeight;
+    var sTransform = '';
+
+    if (iQuarter === 1) {
+        // 90°: build on swapped dimensions, then rotate into target box.
+        iModelWidth = iHeight;
+        iModelHeight = iWidth;
+        sTransform = 'translate(' + iWidth + ' 0) rotate(90)';
+    } else if (iQuarter === 2) {
+        sTransform = 'translate(' + iWidth + ' ' + iHeight + ') rotate(180)';
+    } else if (iQuarter === 3) {
+        // 270°: build on swapped dimensions, then rotate into target box.
+        iModelWidth = iHeight;
+        iModelHeight = iWidth;
+        sTransform = 'translate(0 ' + iHeight + ') rotate(-90)';
+    } else if (!blQuarterTurn) {
+        sTransform = 'rotate(' + iRotation + ' ' + (iWidth / 2).toFixed(2) + ' ' + (iHeight / 2).toFixed(2) + ')';
+    }
+
+    oGroup.setAttribute('transform', sTransform);
 
     while (oGuideGroup.firstChild) {
         oGuideGroup.removeChild(oGuideGroup.firstChild);
     }
 
-    var oModel = this.buildGoldenSpiralModel(iWidth, iHeight, blQuarterTurn ? iRotation : 0);
+    var oModel = this.buildGoldenSpiralModel(iModelWidth, iModelHeight);
     oModel.squares.forEach(function (sq) {
         var oRectSvg = document.createElementNS(sSvgNS, 'rect');
         oRectSvg.setAttribute('class', 'pglnr-ext-golden-guide');
