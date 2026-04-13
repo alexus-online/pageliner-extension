@@ -1517,6 +1517,7 @@ footer {
     font-size: 12px;
     color: var(--pl-text-soft);
     line-height: 1.45;
+    justify-content: flex-end;
 }
 
 .footer-right {
