@@ -804,11 +804,40 @@ oPageLiner.cancelGoldenSpiralMode = function () {
     $(document).off('.pglnrSpiralArea');
     $('.pglnr-ext-spiral-selection').remove();
     $('.pglnr-ext-spiral-hover-overlay').remove();
+    $('.pglnr-ext-spiral-mode-controls').remove();
     if (this.goldenSpiral.hoverTarget) {
         $(this.goldenSpiral.hoverTarget).removeClass('pglnr-ext-spiral-hover-target');
     }
     this.goldenSpiral.hoverTarget = null;
     this.goldenSpiral.mode = null;
+};
+
+oPageLiner.showGoldenSpiralModeControls = function () {
+    var self = this;
+    var $oControls = $('.pglnr-ext-spiral-mode-controls');
+    var sModeLabel = this.goldenSpiral.mode === 'area' ? 'Flaeche ziehen' : 'DIV auswaehlen';
+
+    if (!$oControls.length) {
+        $oControls = $('<div class="pglnr-ext-spiral-mode-controls"></div>');
+
+        var $oBadge = $('<div class="pglnr-ext-spiral-mode-badge"></div>');
+        var $oTitle = $('<span class="pglnr-ext-spiral-mode-title"></span>');
+        var $oMeta = $('<span class="pglnr-ext-spiral-mode-meta"></span>');
+        $oBadge.append($oTitle, $oMeta);
+
+        var $oExitBtn = $('<button type="button" class="pglnr-ext-spiral-mode-exit" title="Spiral-Modus beenden">Modus beenden</button>');
+        $oExitBtn.on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            self.cancelGoldenSpiralMode();
+        });
+
+        $oControls.append($oBadge, $oExitBtn);
+        $('body').append($oControls);
+    }
+
+    $oControls.find('.pglnr-ext-spiral-mode-title').text('Goldene Spirale · ' + sModeLabel);
+    $oControls.find('.pglnr-ext-spiral-mode-meta').text('Esc zum Beenden');
 };
 
 oPageLiner.updateSpiralHoverOverlay = function (oTarget) {
@@ -884,6 +913,7 @@ oPageLiner.startGoldenSpiralElementMode = function () {
     self.goldenSpiral.mode = 'element';
     self.goldenSpiral.lastPlacementMode = 'element';
     $('body').addClass('pglnr-ext-spiral-mode-active');
+    self.showGoldenSpiralModeControls();
 
     $(document).on('keydown.pglnrSpiralMode', function (e) {
         if (e.key === 'Escape' || e.keyCode === 27) {
@@ -892,7 +922,7 @@ oPageLiner.startGoldenSpiralElementMode = function () {
     });
 
     $(document).on('mousemove.pglnrSpiralMode', function (e) {
-        var $oCurrent = $(e.target).closest('.pglnr-ext-golden-spiral, .ui-resizable-handle, .pglnr-ext-golden-spiral-delete');
+        var $oCurrent = $(e.target).closest('.pglnr-ext-golden-spiral, .ui-resizable-handle, .pglnr-ext-golden-spiral-delete, .pglnr-ext-spiral-mode-controls');
         if ($oCurrent.length) return;
 
         var oTargetDiv = $(e.target).closest('div')[0];
@@ -910,7 +940,7 @@ oPageLiner.startGoldenSpiralElementMode = function () {
     });
 
     $(document).on('click.pglnrSpiralMode', function (e) {
-        if ($(e.target).closest('.pglnr-ext-golden-spiral').length > 0) {
+        if ($(e.target).closest('.pglnr-ext-golden-spiral, .pglnr-ext-spiral-mode-controls').length > 0) {
             return;
         }
 
@@ -953,6 +983,7 @@ oPageLiner.startGoldenSpiralAreaMode = function () {
     self.goldenSpiral.mode = 'area';
     self.goldenSpiral.lastPlacementMode = 'area';
     $('body').addClass('pglnr-ext-spiral-mode-active');
+    self.showGoldenSpiralModeControls();
 
     $(document).on('keydown.pglnrSpiralMode', function (e) {
         if (e.key === 'Escape' || e.keyCode === 27) {
@@ -962,7 +993,7 @@ oPageLiner.startGoldenSpiralAreaMode = function () {
 
     $(document).on('mousedown.pglnrSpiralMode', function (e) {
         if (e.button !== 0) return;
-        if ($(e.target).closest('.pglnr-ext-golden-spiral').length > 0) return;
+        if ($(e.target).closest('.pglnr-ext-golden-spiral, .pglnr-ext-spiral-mode-controls').length > 0) return;
 
         e.preventDefault();
         e.stopPropagation();
